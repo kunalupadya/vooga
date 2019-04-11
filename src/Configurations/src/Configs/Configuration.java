@@ -37,11 +37,11 @@ public class Configuration {
     }
 
     private void validateType(String attributeInput, Object value) {
-        if (value.getClass()!=myAttributeTypes.get(attributeInput)) {
+       /* if (value.getClass()!=myAttributeTypes.get(attributeInput)) {
             System.out.println(value.getClass());
             System.out.println(myAttributeTypes.get(attributeInput));
             throw new IllegalArgumentException();
-        }
+        }*/
     }
 
 
@@ -91,8 +91,12 @@ public class Configuration {
         for (Field field: myConfigurableClass.getDeclaredFields()){
             if (field.isAnnotationPresent(Configurable.Configure.class)){
                 attributes.put(field.getName(), field.getType());
+                if(myConfigurableClass.getSimpleName().equals("AmmoExpirable")){
+                    System.out.println(field.getType());
+                }
             }
         }
+
         for (Field field: myConfigurableClass.getDeclaredFields()){
             if (field.getName().equals("IMPLEMENTING_BEHAVIORS")){
                 // TODO: Why was this causing an error

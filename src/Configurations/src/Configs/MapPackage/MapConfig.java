@@ -2,8 +2,10 @@ package Configs.MapPackage;
 
 import Configs.Configurable;
 import Configs.Configuration;
+import Configs.LevelPackage.Level;
 import Configs.MapPackage.Terrain;
 
+import java.util.Collection;
 import java.util.List;
 
 public class MapConfig implements Configurable {
@@ -37,6 +39,7 @@ public class MapConfig implements Configurable {
         configuration = new Configuration(this);
         //TODO FINISH
     }
+
 
     public List<Terrain> getTerrain() {
         return myTerrain;

@@ -3,9 +3,13 @@ package BackendExternal;
 import Configs.GamePackage.Game;
 import Configs.ImmutableImageView;
 import Configs.Info;
+import Configs.MapPackage.Terrain;
 import Configs.TransferImageView;
 import Data.GameLibrary;
+import javafx.scene.image.Image;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.EventObject;
 import java.util.List;
 import java.util.Map;
@@ -75,9 +79,19 @@ public class Logic {
                 .getMyMapConfig()
                 .getTerrain()
                 .stream()
-                .map(terrain -> terrain.getMapFeature().getImageView())
+                .map(terrain -> getImageView(terrain))
                 .collect(Collectors.toList());
 
+    }
+
+    private ImmutableImageView getImageView(Terrain t) {
+        try {
+            return new TransferImageView(new Image(new FileInputStream(t.getView().getImage())));
+        }
+        catch (FileNotFoundException e) {
+            System.out.println(e);
+        }
+        return null;
     }
 
     // View call this when the user presses play or a level is over

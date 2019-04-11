@@ -12,21 +12,15 @@ public class Level implements Configurable{
     private Game myGame;
 
     @Configure
-    @XStreamOmitField
     private String myLabel;
     @Configure
-    @XStreamOmitField
     private WaveConfig[] myWaveConfigs;
     @Configure
-    @XStreamOmitField
     private Arsenal myArsenal;
     @Configure
-    @XStreamOmitField
     private MapConfig myMap;
     @Configure
-    @XStreamOmitField
     private LevelBehavior[] levelBehaviors;
-    @XStreamOmitField
     private Configuration myConfiguration;
 
 

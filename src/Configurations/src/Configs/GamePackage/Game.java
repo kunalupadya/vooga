@@ -19,16 +19,12 @@ public class Game implements Updatable, EventHandlable, Configurable {
     private Configuration myConfiguration;
 
     @Configure
-    @XStreamOmitField
     private String myTitle;
     @Configure
-    @XStreamOmitField
     private String myDescription;
     @Configure
-    @XStreamOmitField
     private String myThumbnail;
     @Configure
-    @XStreamOmitField
     private Level[] levelList;
     /*@Configure
     private GameBehavior[] gameType;*/
@@ -72,6 +68,10 @@ public class Game implements Updatable, EventHandlable, Configurable {
         }
 
 
+    }
+
+    public Level[] getLevelList() {
+        return levelList;
     }
 
     public boolean isGameOver() {

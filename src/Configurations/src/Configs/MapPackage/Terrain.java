@@ -1,11 +1,12 @@
 package Configs.MapPackage;
 
 import Configs.*;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
 
-public class Terrain implements MapFeaturable, Configurable, Viewable{
+public class Terrain implements Configurable, Viewable{
     @Configure
     private String myLabel;
     @Configure
@@ -17,6 +18,14 @@ public class Terrain implements MapFeaturable, Configurable, Viewable{
     private double gridBlockWidth;
     @Configure
     private boolean isPath;
+    @Configure
+    private int gridYPos;
+    @Configure
+    private int gridXPos;
+
+
+
+
 //    @Configure
 //    private TerrainBehavior[] terrainBehaviors;
 
@@ -26,11 +35,20 @@ public class Terrain implements MapFeaturable, Configurable, Viewable{
 
     public Terrain(MapConfig mapConfig, String fileName, int gridYPos, int gridXPos, double height, double width, double gridBlockHeight, double gridBlockWidth, boolean isPath){
         view = new View(fileName,height, width);
-        myMapFeature = new MapFeature(gridXPos, gridYPos, 0, view, mapConfig.getGridHeight(), mapConfig.getGridWidth());
         this.gridBlockHeight = gridBlockHeight;
         this.gridBlockWidth = gridBlockWidth;
         this.isPath = isPath;
+        this.gridYPos = gridYPos;
+        this.gridXPos = gridXPos;
         myConfiguration = new Configuration(this);
+    }
+
+    public int getGridXPos() {
+        return gridXPos;
+    }
+
+    public int getGridYPos() {
+        return gridYPos;
     }
 
     @Override
@@ -38,10 +56,6 @@ public class Terrain implements MapFeaturable, Configurable, Viewable{
         return view;
     }
 
-    @Override
-    public MapFeature getMapFeature() {
-        return myMapFeature;
-    }
 
     @Override
     public Configuration getConfiguration() {

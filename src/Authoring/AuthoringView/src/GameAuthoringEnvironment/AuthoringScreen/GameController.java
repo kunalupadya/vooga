@@ -76,18 +76,18 @@ public class GameController {
                     //TODO DO Errorchecking/Refactor
                     @Override
                     public void handle(MouseEvent event) {
-                        System.out.println(value.equals(java.lang.String.class));
-
-                        if(value.equals(java.lang.Integer.class)){
+                        System.out.println(value.getName());
+                        System.out.println(value + "xxxxxxxxxxxxxxxxxxxx");
+                        if(value.getName().equals("int")){
                             myAttributesMap.put(key, Integer.parseInt(myTextField.getText()));
                         }
-                        else if(value.equals(java.lang.Long.class)){
+                        else if(value.getName().equals("long")){
                             myAttributesMap.put(key, Long.parseLong(myTextField.getText()));
                         }
-                        else if(value.equals(java.lang.Double.class)){
+                        else if(value.getName().equals("double")){
                             myAttributesMap.put(key, Double.parseDouble(myTextField.getText()));
                         }
-                        else if(value.equals(java.lang.Boolean.class)){
+                        else if(value.getName().equals("boolean")){
                             myAttributesMap.put(key, Boolean.parseBoolean(myTextField.getText()));
                         }
                         else{

@@ -41,7 +41,7 @@ public class ActiveLevel extends Level implements Updatable {
     private Cell[][] createMyGrid(){
         Cell[][] tempGrid = new Cell[getMyMapConfig().getGridHeight()][getMyMapConfig().getGridWidth()];
         for(Terrain t : getMyMapConfig().getTerrain()){
-            tempGrid[t.getMapFeature().getGridYPos()][t.getMapFeature().getGridXPos()].setMyTerrain(t);
+            tempGrid[t.getGridYPos()][t.getGridXPos()].setMyTerrain(t);
         }
         return null;
     }
@@ -149,7 +149,7 @@ public class ActiveLevel extends Level implements Updatable {
 
     //TODO: EventHandler for adding new weapon to map
     public TransferImageView generateNewWeapon(int ID, double pixelX, double pixelY){
-        WeaponConfig myWeaponConfig = getMyArsenal().getConfiguredWeapons()[ID];
+        WeaponConfig myWeaponConfig = getMyArsenal().getConfiguredWeapons()[ID-1];
         ActiveWeapon activeWeapon = new ActiveWeapon(myWeaponConfig, new MapFeature(pixelX, pixelY, 0, myWeaponConfig.getView(),gridHeight, gridWidth), this);
         activeWeapon.getMapFeature().setDisplayState(DisplayState.NEW);
         addToActiveWeapons(activeWeapon);

@@ -13,7 +13,7 @@ public class Movable extends WeaponBehavior{
     @Configure
     protected double movingSpeed;
     @Configure
-    protected List<Point> movingPattern;
+    protected Point[] movingPattern;
     private Configuration myConfiguration;
 
     public Movable(WeaponConfig weaponConfig){
