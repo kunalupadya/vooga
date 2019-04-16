@@ -4,13 +4,16 @@ import ActiveConfigs.Shooter;
 import Configs.ArsenalConfig.WeaponConfig;
 import Configs.Configurable;
 import Configs.Configuration;
+import Configs.ShooterConfig.ShooterConfig;
 
 public class Shootable extends WeaponBehavior{
 
     @Configure
     private String myLabel;
     @Configure
-    protected Shooter myShooter;
+    private ShooterConfig shooterConfig;
+
+    private Shooter myShooter;
 
     Configuration myConfiguration;
     private WeaponConfig weaponConfig;
