@@ -40,19 +40,19 @@ public abstract class Data {
         imageData = new ImageData();
     }
 
-    public UserData getUserData() {
+    protected UserData getUserData() {
         return userData;
     }
 
-    public GameData getGameData() {
+    protected GameData getGameData() {
         return gameData;
     }
 
-    public SessionData getSessionData() {
+    protected SessionData getSessionData() {
         return sessionData;
     }
     
-    public ImageData getImageData() {
+    protected ImageData getImageData() {
         return imageData;
     }
 
@@ -72,6 +72,7 @@ public abstract class Data {
             byte[] salt = userData.getSalt(username).getBytes();
            // String hashedPass =  new String(hashPassword(password, salt));
             currentUserID = userData.login(username, password);
+            System.out.println(currentUserID);
             if (currentUserID == -1){
                 return false;
             }
@@ -127,6 +128,11 @@ public abstract class Data {
         return getImageData().fetchImage(imageID);
     }
 
+    /**
+     * Retrieves specified image byte array from the database and converts it into a JavaFX image object
+     * @param imageID - integer value corresponding to the specific image in the database
+     * @return - Image object of specified image
+     */
     public static Image getImageStatic(int imageID){
         byte[] imageBytes = IMAGE_DATA.fetchImage(imageID);
         InputStream byteIS = new ByteArrayInputStream(imageBytes);

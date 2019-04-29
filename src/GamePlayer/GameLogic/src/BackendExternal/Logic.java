@@ -71,15 +71,15 @@ public class Logic {
     // No Input
     // Return: List of GameInfo objects
     // TODO: Remove this method call
-    public List<GameInfo> getGameOptions(){
-        return myGameLibrary.getImmutableGameList();
-    }
+//    public List<GameInfo> getGameOptions(){
+//        return myGameLibrary.getImmutableGameList();
+//    }
 
     /**
      * Polls the database to return the list of games that can be played by the user.
      * @return - List of GameInfo Objects containing basic information about created games
      */
-    public List<GameInfo> getGameOptions2(){
+    public List<GameInfo> getGameOptions(){
         return myPlayerData.getAuthoredGames();
     }
 
@@ -96,7 +96,7 @@ public class Logic {
      * Retrieves the selected games XML string from the database and deserializes it into the specific game object
      * @param selectedGame - One of the game info objects selected from the provided list
      */
-    public void createGameInstance2(GameInfo selectedGame){
+    public void createGameInstance(GameInfo selectedGame){
         XStream serializer = new XStream(new DomDriver());
         String gameXMLString = myPlayerData.getGameString(selectedGame);
         myGame =  (Game)serializer.fromXML(gameXMLString);
@@ -117,7 +117,7 @@ public class Logic {
     /**
      * Begins the game at the default state
      */
-    public int  startAtDefaultState(){
+    public int startAtDefaultState(){
         myGame.startGame(DEFAULT_START_LEVEL, PANE_WIDTH, PANE_HEIGHT);
         return DEFAULT_START_LEVEL + 1;
     }
@@ -147,11 +147,11 @@ public class Logic {
     // View calls this when user select a game to play
     // Input: Selected GameInfo Object
     // No Return Value
-    // TODO: Remove this method call
-    public void createGameInstance(GameInfo selectedGame, double paneWidth, double paneHeight) {
-        myGame = myGameLibrary.getGame(selectedGame);
-        myGame.startGame(DEFAULT_START_LEVEL, paneWidth, paneHeight);
-    }
+//    // TODO: Remove this method call
+//    public void createGameInstance(GameInfo selectedGame, double paneWidth, double paneHeight) {
+//        myGame = myGameLibrary.getGame(selectedGame);
+//        myGame.startGame(DEFAULT_START_LEVEL, paneWidth, paneHeight);
+//    }
 
     // View calls to get the current level of the game when moving between levels
     // No Input

@@ -75,6 +75,10 @@ public class CreateAccount extends Application {
                 myModel.createNewUser(newIDTf.getText(), pwTf.getText(), confirmPwTf.getText());
                 popupwindow.close();
             }
+            else{
+                Alert alert = new Alert(Alert.AlertType.WARNING,"Creating User Failed");
+                alert.showAndWait();
+            }
         }
         catch(Exception e){
             Alert alert= new Alert(Alert.AlertType.WARNING,e.getMessage());
