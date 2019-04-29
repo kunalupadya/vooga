@@ -1,7 +1,7 @@
 <Configs.GamePackage.Game>
   <myName>kunalnew</myName>
   <myDescription>meepmeep</myDescription>
-  <myThumbnail>25</myThumbnail>
+  <myThumbnailID>25</myThumbnailID>
   <levelList>
     <Configs.LevelPackage.Level>
       <myGame reference="../../.."/>

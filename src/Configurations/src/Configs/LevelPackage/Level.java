@@ -5,6 +5,7 @@ import Configs.ArsenalConfig.WeaponBehaviors.WeaponBehavior;
 import Configs.GamePackage.Game;
 import Configs.LevelPackage.LevelBehaviors.GlueWorld;
 import Configs.LevelPackage.LevelBehaviors.LevelBehavior;
+import Configs.LevelPackage.LevelBehaviors.Survival;
 import Configs.MapPackage.MapConfig;
 import Configs.Waves.Wave;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
@@ -77,8 +78,8 @@ public class Level implements Configurable{
         myGame = g;
     }
 
-    public boolean isGlueWorld() {
-        return Arrays.asList(levelBehaviors).stream().anyMatch(behavior -> behavior instanceof GlueWorld);
+    public boolean isSurvival() {
+        return Arrays.asList(levelBehaviors).stream().anyMatch(behavior -> behavior instanceof Survival);
     }
 
 
