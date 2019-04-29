@@ -5,6 +5,9 @@ import Configs.EnemyPackage.EnemyConfig;
 
 import java.util.List;
 
+/**
+ * A superclass that defines behaviors for enemies
+ */
 public abstract class EnemyBehavior implements Behavior<EnemyConfig>{
     public static final List<Class> IMPLEMENTING_BEHAVIORS = List.of(InvulnerableTo.class);
     private EnemyConfig myEnemyConfig;
