@@ -3,6 +3,7 @@ package GameAuthoringEnvironment.AuthoringScreen;
 import Configs.Configurable;
 import Configs.GamePackage.Game;
 import Configs.MapPackage.MapConfig;
+import GameAuthoringEnvironment.AuthoringComponents.AlertScreen;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -124,6 +125,7 @@ public class GameOutline extends Screen {
                     findMyClass(object, myGame);
                 } catch (NoSuchFieldException e) {
                     //TODO Error checking
+                    AlertScreen alert = new AlertScreen();
                 }
             }
         });

@@ -40,6 +40,8 @@ public class AuthoringData extends Data{
         String title = newGame.getGameTitle();
         int thumbnail = newGame.getGameThumbnailID();
         String description = newGame.getGameDescription();
+        System.out.println(thumbnail);
+        System.out.println(currentUserID);
 
         getGameData().addGame(currentUserID, description, gameByteArray, thumbnail, title);
     }

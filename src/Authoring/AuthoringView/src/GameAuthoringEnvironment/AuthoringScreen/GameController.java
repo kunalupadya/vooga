@@ -420,9 +420,10 @@ public class GameController {
             var object = cons.newInstance(myConfigurable);
             tempList.add(object);
 
+
         } catch (Exception  e) {
-            myAlertFactory.createAlert("This wasn't able to be added. Please try again.");
-            handleArrayAddnewButton(sourceView, value, myConfigurable, tempList);
+            //myAlertFactory.createAlert("This wasn't able to be added. Please try again.");
+            //handleArrayAddnewButton(sourceView, value, myConfigurable, tempList);
 
         }
     }

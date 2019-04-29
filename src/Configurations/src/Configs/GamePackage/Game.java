@@ -148,15 +148,13 @@ public class Game implements Updatable, Configurable {
         return myDescription;
     }
 
-    // TODO: Get rid of this method
-    public int getThumbnail(){
-        return myThumbnailID;
-    }
+//    // TODO: Get rid of this method
+//    public int getThumbnail(){
+//        return myThumbnailID;
+//    }
 
     public int getThumbnailID(){
-        // TODO: replace 0 with myThumbnailID
-        return 0;
-//        return myThumbnailID;
+        return myThumbnailID;
     }
 
     public double getPaneWidth() {

@@ -45,7 +45,10 @@ public class Cell implements Comparable{
     }
 
     public boolean isValidWeaponPlacement(boolean isPathWeapon) {
-        return myWeapon==null&&(isPathWeapon == myTerrain.isPath());
+        if (!isPathWeapon&&myTerrain.isPath()){
+            return false;
+        }
+        return myWeapon==null;
     }
 
     public int getWeaponCoverage() {
@@ -84,7 +87,7 @@ public class Cell implements Comparable{
         this.myEnemies.remove(enemy);
     }
 
-    public void setShortestDistanceHeuristic(int movementHeuristic) {
+    public void  setShortestDistanceHeuristic(int movementHeuristic) {
         this.shortestDistanceHeuristic = movementHeuristic;
     }
 

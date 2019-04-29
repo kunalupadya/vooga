@@ -49,18 +49,22 @@ public class UserData extends DBUtil {
         String selectionQuery =
                 "select userID " +
                 "from users " +
-                "where username = (?) and password = (?) limit 1";
+                "where username = (?) and password = (?)";
         try {
             PreparedStatement statement = getConnection().prepareStatement(selectionQuery);
             statement.setString(1, username);
             statement.setString(2, hashedPass);
             ResultSet results = statement.executeQuery();
             int userID = -1;
+            System.out.println(selectionQuery);
+            System.out.println(statement.toString());
             if(results.next()){
+                System.out.println(selectionQuery);
                 userID = results.getInt("userID");
             }
             results.close();
             statement.close();
+            System.out.println(userID);
             return userID;
         }
         catch (SQLException e){

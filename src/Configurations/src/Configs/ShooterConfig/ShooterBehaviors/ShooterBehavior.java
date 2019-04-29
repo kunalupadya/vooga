@@ -16,7 +16,7 @@ import java.util.List;
 public abstract class ShooterBehavior implements Behavior<Shooter> {
     public static final String DISPLAY_LABEL = "Shooter Behavior";
     private Shooter myShooter;
-    public static final List<Class> IMPLEMENTING_BEHAVIORS = List.of(Aiming.class, Radial.class);
+    public static final List<Class> IMPLEMENTING_BEHAVIORS = List.of(Aiming.class, Linear.class, Radial.class);
     int startRound=0;
 
     ShooterBehavior(Shooter shooter){
@@ -46,7 +46,7 @@ public abstract class ShooterBehavior implements Behavior<Shooter> {
         double projectileStartYPos = weaponY + height/2 - projectileConfig.getView().getHeight()/2;
         for(Double dir:direction) {
             ActiveProjectile activeProjectile = new ActiveProjectile(projectileConfig, shooter.getShooterRange(), myActiveLevel);
-            MapFeature projectileMapFeature = new MapFeature(projectileStartXPos, projectileStartYPos,dir, shooter.getProjectileConfig().getView(), myActiveLevel.getPaneWidth(), myActiveLevel.getPaneHeight(), myActiveLevel.getGridWidth(), myActiveLevel.getGridWidth(),activeProjectile);
+            MapFeature projectileMapFeature = new MapFeature(projectileStartXPos, projectileStartYPos,dir, shooter.getProjectileConfig().getView(), myActiveLevel.getPaneWidth(), myActiveLevel.getPaneHeight(), myActiveLevel.getGridWidth(), myActiveLevel.getGridHeight(),activeProjectile);
             activeProjectile.setMyMapFeature(projectileMapFeature);
             myActiveLevel.addToActiveProjectiles(activeProjectile);
             shooter.addToProjectilesFired();

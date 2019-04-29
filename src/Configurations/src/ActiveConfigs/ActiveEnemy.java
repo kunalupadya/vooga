@@ -125,40 +125,26 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
         double numMovements = getUnitSpeedPerSecond();
 
         for (int i = 0; i < numMovements; i++) {
-            MovementDirection movementDirection = determineMovementDirection(AIOptions.SHORTEST_PATH);
+            MovementDirection movementDirection = determineMovementDirection(getAiType());
             int newX = myMapFeature.getGridXPos()+movementDirection.getX();
             int newY = myMapFeature.getGridYPos()+movementDirection.getY();
+            int heuristicValue = getAiType().getGetter().apply(myActiveLevel.getGridCell(newX,newY));
+            if (heuristicValue ==0 ){
+                myActiveLevel.incrementEscapedEnemies();
+                killMe();
+            }
             prevLocations.addFirst(new Point(newX, newY));
             if (prevLocations.size()>5){
                 prevLocations.removeLast();
             }
             myMapFeature.setGridPos(newX, newY,movementDirection.getDirection());
         }
-        System.out.println("YMIN: " + (int)myMapFeature.returnBounds()[0] +
-                            "YMAX: " + (int)myMapFeature.returnBounds()[1] +
-                            "XMIN: " + (int)myMapFeature.returnBounds()[2] +
-                            "XMAX: " + (int)myMapFeature.returnBounds()[3]);
-
     }
 
 
 
     private MovementDirection determineMovementDirection(AIOptions aiTypes){
-        if (aiTypes == AIOptions.SHORTEST_PATH) {
-            return moveShortestDistance(cell -> cell.getShortestDistanceHeuristic());
-        }
-        if (aiTypes == AIOptions.SHORTEST_IGNORE_PATH) {
-            return moveShortestDistance(cell -> cell.getShortestDistanceHeuristicIgnorePath());
-        }
-        if (aiTypes == AIOptions.SHORTEST_IGNORE_PATH_AVOID_WEAPON) {
-            return moveShortestDistance(cell -> cell.getShortestDistanceHeuristicAvoidWeaponsIgnorePath());
-        }
-        if (aiTypes == AIOptions.SHORTEST_PATH_AVOID_WEAPON) {
-            return moveShortestDistance(cell -> cell.getShortestDistanceHeuristicAvoidWeapons());
-        }
-        else {
-            return moveShortestDistance(cell -> cell.getShortestDistanceHeuristic());
-        }
+        return moveShortestDistance(aiTypes.getGetter());
     }
 
     private MovementDirection moveShortestDistance(Function<Cell, Integer> cellConsumer) {

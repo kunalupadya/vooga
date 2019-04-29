@@ -95,6 +95,9 @@ public class ActiveLevel extends Level implements Updatable {
     public int getGridHeight() {
         return gridHeight;
     }
+    public void killEnemy(ActiveEnemy activeEnemy){
+        enemiesToDie.add(activeEnemy);
+    }
 
     public void addToEnemiesKilled(Collection<ActiveEnemy> aes){
         enemiesToDie.addAll(aes);
@@ -104,8 +107,14 @@ public class ActiveLevel extends Level implements Updatable {
     public void update(double ms, Updatable parent) {
         updateActive(ms, activeEnemies);
 //        System.out.println(activeProjectiles);
-        updateActive(ms, activeProjectiles);
         updateActive(ms, activeWeapons);
+        try {
+            updateActive(ms, activeProjectiles);
+        }
+        catch (ArrayIndexOutOfBoundsException e){
+            e.printStackTrace();
+
+        }
         myWaveSpawner.update(ms, this);
 
     }
@@ -117,7 +126,7 @@ public class ActiveLevel extends Level implements Updatable {
             ((Updatable)active).update(ms, this);
             if(active.getMapFeature().getDisplayState()==DisplayState.DIED) {
                 activeToRemove.add(active);
-            if(active instanceof ActiveEnemy) escapedEnemies++;
+//            if(active instanceof ActiveEnemy) escapedEnemies++;
             }
         });
         activeToRemove.stream().forEach(active -> imagesToBeRemoved.add(active.getMapFeature().getImageView()));
@@ -130,7 +139,9 @@ public class ActiveLevel extends Level implements Updatable {
 
 
     public List<ImmutableImageView> getViewsToBeRemoved() {
-        return imagesToBeRemoved;
+        List<ImmutableImageView> ret = new ArrayList<>(imagesToBeRemoved);
+        imagesToBeRemoved.clear();
+        return ret;
     }
 
     public List<ImmutableImageView> getViewsToBeAdded() {
@@ -192,7 +203,9 @@ public class ActiveLevel extends Level implements Updatable {
         }
     }
 
-
+    public void incrementEscapedEnemies() {
+        this.escapedEnemies++;
+    }
 
     public double getPaneHeight() {
         return paneHeight;
@@ -299,7 +312,7 @@ public class ActiveLevel extends Level implements Updatable {
     }
 
 
-    private boolean isCellValid(int x, int y){
+    public boolean isCellValid(int x, int y){
         if (x<0|x>=getMyMapConfig().getGridWidth()){
             return false;
         }

@@ -9,7 +9,7 @@ public class AlertScreen {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setAlertType(Alert.AlertType.WARNING);
         alert.setTitle("Warning");
-        alert.setContentText("Atrributtes not all filled out");
+        alert.setContentText("Attributes not all filled out");
         alert.showAndWait();
     }
 }
