@@ -30,7 +30,7 @@ public class TimeExpirable extends WeaponBehavior{
     @Override
     public void update(double ms, Updatable parent) {
         if(ms>=birthTime+timeAlive) {
-            ((ActiveWeapon) parent).getMapFeature().setDisplayState(DisplayState.DIED);
+            ((ActiveWeapon) parent).killMe();
         }
     }
 
