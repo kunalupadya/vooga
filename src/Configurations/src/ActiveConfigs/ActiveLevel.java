@@ -57,10 +57,11 @@ public class ActiveLevel extends Level implements Updatable {
     }
 
     private void initializeMovementHeuristics() {
-        for (AIOptions aiOption:AIOptions.values()) {
-            recalculateMovementHeuristic(aiOption);
-
-        }
+//        for (AIOptions aiOption:AIOptions.values()) {
+//            recalculateMovementHeuristic(aiOption);
+//
+//        }
+        recalculateMovementHeuristic(AIOptions.SHORTEST_PATH);
     }
 
     private Cell[][] createMyGrid(){
@@ -195,7 +196,7 @@ public class ActiveLevel extends Level implements Updatable {
             goalPositions.add(new Point(weaponMapFeature.getGridXPos(), weaponMapFeature.getGridYPos()));
             initializeMovementHeuristics();
         }
-        updateWeaponMovementHeuristics();
+//        updateWeaponMovementHeuristics();
     }
 
 
