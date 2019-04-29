@@ -8,6 +8,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 public class LogInGrid extends GridPane {
+    public static final int LOGIN_PADDING=25;
+    public static final int LOGIN_GAP=10;
+    public static final int TEXT_FIELD_POS=1;
     private TextField userTextField;
     private PasswordField password;
     public LogInGrid(){
@@ -15,14 +18,14 @@ public class LogInGrid extends GridPane {
     }
     private void logIn(){
         setId("login");
-        setPadding(new Insets(25, 25, 25, 25));
-        setHgap(10);
-        setVgap(10);
+        setPadding(new Insets(LOGIN_PADDING, LOGIN_PADDING, LOGIN_PADDING, LOGIN_PADDING));
+        setHgap(LOGIN_GAP);
+        setVgap(LOGIN_GAP);
         Label userName = new Label("User Name:");
         add(userName, 0, 1);
         userTextField = new TextField();
 
-        add(userTextField, 1, 1);
+        add(userTextField, TEXT_FIELD_POS, TEXT_FIELD_POS);
         Label pw = new Label("Password:");
         add(pw, 0, 2);
         password = new PasswordField();
