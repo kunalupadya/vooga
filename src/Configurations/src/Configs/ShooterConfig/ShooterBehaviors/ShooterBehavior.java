@@ -16,7 +16,7 @@ import java.util.List;
 public abstract class ShooterBehavior implements Behavior<Shooter> {
     public static final String DISPLAY_LABEL = "Shooter Behavior";
     private Shooter myShooter;
-    public static final List<Class> IMPLEMENTING_BEHAVIORS = List.of(Aiming.class, Radial.class);
+    public static final List<Class> IMPLEMENTING_BEHAVIORS = List.of(Aiming.class, Linear.class, Radial.class);
     int startRound=0;
 
     ShooterBehavior(Shooter shooter){
