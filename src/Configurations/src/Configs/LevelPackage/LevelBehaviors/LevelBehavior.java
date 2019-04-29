@@ -8,7 +8,7 @@ import java.util.List;
 public abstract class LevelBehavior implements Behavior<Level> {
 
     private Level myLevel;
-    public static final List<Class> IMPLEMENTING_BEHAVIORS = List.of();
+    public static final List<Class> IMPLEMENTING_BEHAVIORS = List.of(Deflation.class, Survival.class, GlueWorld.class);
     public static final String DISPLAY_LABEL = "Level Behavior";
 
     public LevelBehavior(Level level) {

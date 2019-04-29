@@ -1,6 +1,7 @@
 package Configs.Waves.WaveBehaviors;
 
 import ActiveConfigs.ActiveEnemy;
+import Configs.ArsenalConfig.WeaponBehaviors.HealthExpirable;
 import Configs.Behaviors.Behavior;
 import Configs.Waves.Wave;
 
@@ -10,7 +11,7 @@ import java.util.List;
 public abstract class WaveBehavior implements Behavior<Wave> {
     public static final String DISPLAY_LABEL = "Wave Behavior";
     Wave myWave;
-    public static final List<Class> IMPLEMENTING_BEHAVIORS = List.of();
+    public static final List<Class> IMPLEMENTING_BEHAVIORS = List.of(Random.class, HealthMultiplier.class, RewardMultiplier.class, SpeedMultiplier.class);
 
     public WaveBehavior(Wave wave){
         myWave = wave;

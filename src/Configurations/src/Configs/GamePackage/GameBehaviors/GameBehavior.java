@@ -8,7 +8,7 @@ import java.util.List;
 public abstract class GameBehavior implements Behavior<Game> {
     private Game myGame;
     public static final String DISPLAY_LABEL = "Game Behavior";
-    public static final List<Class> IMPLEMENTING_BEHAVIORS = List.of(Lives.class);
+    public static final List<Class> IMPLEMENTING_BEHAVIORS = List.of(Lives.class, TimedGame.class, TowerAttack.class);
 
 
     public GameBehavior(Game game){

@@ -16,10 +16,12 @@ public class TopMenuBar {
     private HBox TopMenuBar;
     private GameController gameController;
     private GameOutline myGameOutline;
+    private Model myModel;
 
     //TODO @Hyunjae : Set Style for these buttons
 
-    public TopMenuBar(GameOutline gameOutline){
+    public TopMenuBar(GameOutline gameOutline, Model model){
+        myModel = model;
         myGameOutline = gameOutline;
         TopMenuBar = new HBox();
         TopMenuBar.setSpacing(5);
@@ -54,8 +56,7 @@ public class TopMenuBar {
                 if(gameController == null){
                     createAlert();}
                 else{
-                Model model = new Model();
-                model.saveToXML(gameController.getMyGame());}
+                myModel.saveToXML(gameController.getMyGame());}
             }
         });
 

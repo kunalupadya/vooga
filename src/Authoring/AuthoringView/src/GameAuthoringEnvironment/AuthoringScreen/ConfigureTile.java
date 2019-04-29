@@ -20,7 +20,8 @@ import java.util.Map;
 
 public class ConfigureTile {
     ConfigureImage configureImage;
-
+    public static final int SCENE_BOUNDS=500;
+    public static final int VBOX_VAL=10;
     private ListView myListView;
     private List<TerrainTile> myTerrainTileList;
     private Map<String, Integer> typeToImageMap;
@@ -35,18 +36,18 @@ public class ConfigureTile {
         popUpWindow.initModality(Modality.APPLICATION_MODAL);
         popUpWindow.setTitle("Map Editor");
 
-        VBox allLayout = new VBox(10);
+        VBox allLayout = new VBox(VBOX_VAL);
 
         Label tileName = new Label("Name of Tile");
         TextField tf = new TextField();
-        VBox nameBox = new VBox(10);
+        VBox nameBox = new VBox(VBOX_VAL);
         nameBox.getChildren().addAll(tileName,tf);
 
         Label isPathLabel = new Label("Set as Path");
         RadioButton trueButton = new RadioButton("True");
         RadioButton falseButton = new RadioButton("False");
 
-        VBox pathRadio = new VBox(10);
+        VBox pathRadio = new VBox(VBOX_VAL);
         pathRadio.getChildren().addAll(isPathLabel, trueButton, falseButton);
 
         TextField imageTextField = new TextField();
@@ -59,7 +60,7 @@ public class ConfigureTile {
             }
         });
 
-        VBox imageBox = new VBox(10);
+        VBox imageBox = new VBox(VBOX_VAL);
         imageBox.getChildren().addAll(chooseImageButton, imageTextField);
 
 
@@ -92,7 +93,7 @@ public class ConfigureTile {
         allLayout.getChildren().addAll(nameBox,pathRadio,imageBox,submitButton);
 
 
-        Scene scene= new Scene(allLayout, 500, 500);
+        Scene scene= new Scene(allLayout, SCENE_BOUNDS, SCENE_BOUNDS);
         popUpWindow.setScene(scene);
         popUpWindow.showAndWait();
     }

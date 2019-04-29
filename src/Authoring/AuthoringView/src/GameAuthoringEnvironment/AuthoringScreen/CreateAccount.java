@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -68,14 +69,24 @@ public class CreateAccount extends Application {
     }
 
     private void handleMakeAccountButton(MouseEvent event){
-        if(pwTf.getText().equals(confirmPwTf.getText())){
-            //TODO USE regex to check the id, pw etc
-            myModel.createNewUser(newIDTf.getText(), pwTf.getText(), confirmPwTf.getText());
-            popupwindow.close();
+        try {
+            if (pwTf.getText().equals(confirmPwTf.getText())) {
+                //TODO USE regex to check the id, pw etc
+                myModel.createNewUser(newIDTf.getText(), pwTf.getText(), confirmPwTf.getText());
+                popupwindow.close();
+            }
+            else{
+                Alert alert = new Alert(Alert.AlertType.WARNING,"Creating User Failed");
+                alert.showAndWait();
+            }
         }
-        else{
-            //TODO Create Alert
+        catch(Exception e){
+            Alert alert= new Alert(Alert.AlertType.WARNING,e.getMessage());
+            alert.showAndWait();
         }
+//        else{
+//            //TODO Create Alert
+//        }
     }
 
 }
