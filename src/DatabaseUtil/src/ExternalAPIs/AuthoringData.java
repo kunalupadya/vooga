@@ -1,5 +1,7 @@
 package ExternalAPIs;
 
+import Queries.DataQueries.UserData;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -30,6 +32,8 @@ public class AuthoringData extends Data{
         return gameInfos;
     }
 
+
+
     /**
      * Converts gameXMLString to byte array, extracts information from GameInfo and calls method to add game to the database
      * @param gameXMLString - String containing XML File of the Game being saved
@@ -40,11 +44,10 @@ public class AuthoringData extends Data{
         String title = newGame.getGameTitle();
         int thumbnail = newGame.getGameThumbnailID();
         String description = newGame.getGameDescription();
-        System.out.println(thumbnail);
-        System.out.println(currentUserID);
-
         getGameData().addGame(currentUserID, description, gameByteArray, thumbnail, title);
     }
+
+
 
     /**
      * Returns a list of the image ids of the images saved in the database with the corresponding tag
