@@ -132,7 +132,7 @@ public class MapFeature {
         Game game = parent.getActiveLevel().getGame();
         int imageId = view.getImage();
         Image image;
-        System.out.println("HERE:" + imageId);
+//        System.out.println("HERE:" + imageId);
         if (game.hasImage(imageId)) image = game.getImage(imageId);
         else image = Data.getImageStatic(imageId);
         myImageView = new TransferImageView(image);
