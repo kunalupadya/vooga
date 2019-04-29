@@ -120,6 +120,7 @@ public abstract class Data {
      * @param imageID - integer value corresponding to the specific image in the database
      * @return - byte array of requested image
      */
+
     public byte[] getImage(int imageID){
         return getImageData().fetchImage(imageID);
     }

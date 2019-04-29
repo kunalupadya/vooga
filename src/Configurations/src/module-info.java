@@ -4,7 +4,6 @@ module Configurations {
     requires java.base;
 
     requires xstream;
-    requires DatabaseUtil;
 
     opens Configs to xstream;
 
