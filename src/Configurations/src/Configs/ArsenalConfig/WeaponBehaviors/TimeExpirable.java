@@ -15,6 +15,7 @@ public class TimeExpirable extends WeaponBehavior{
     public static final String DISPLAY_LABEL= "Time-Expirable (in ms)";
     @Configure
     private double timeAlive;
+    private double birthTime;
 
     @XStreamOmitField
     private transient Configuration myConfiguration;
@@ -22,11 +23,13 @@ public class TimeExpirable extends WeaponBehavior{
     public TimeExpirable(WeaponConfig weaponConfig){
         super(weaponConfig);
         myConfiguration = new Configuration(this);
+        this.birthTime = System.currentTimeMillis();
+
     }
 
     @Override
     public void update(double ms, Updatable parent) {
-        if(ms>=timeAlive) {
+        if(ms>=birthTime+timeAlive) {
             ((ActiveWeapon) parent).getMapFeature().setDisplayState(DisplayState.DIED);
         }
     }
