@@ -30,7 +30,7 @@ public class HealthExpirable extends WeaponBehavior {
     @Override
     public void update(double ms, Updatable parent) {
         if(damage>=amountOfHealth) {
-            ((ActiveWeapon) parent).getMapFeature().setDisplayState(DisplayState.DIED);
+            ((ActiveWeapon) parent).killMe();
         }
     }
 
