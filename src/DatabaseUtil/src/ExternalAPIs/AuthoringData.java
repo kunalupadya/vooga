@@ -30,6 +30,8 @@ public class AuthoringData extends Data{
         return gameInfos;
     }
 
+
+
     /**
      * Converts gameXMLString to byte array, extracts information from GameInfo and calls method to add game to the database
      * @param gameXMLString - String containing XML File of the Game being saved
@@ -39,8 +41,8 @@ public class AuthoringData extends Data{
         byte[] gameByteArray = gameXMLString.getBytes();
         String title = newGame.getGameTitle();
         int thumbnail = newGame.getGameThumbnailID();
+        System.out.println("HDJFKDFJ");
         String description = newGame.getGameDescription();
-
         getGameData().addGame(currentUserID, description, gameByteArray, thumbnail, title);
     }
 

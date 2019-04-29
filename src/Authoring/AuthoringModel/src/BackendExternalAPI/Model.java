@@ -40,6 +40,7 @@ public class Model {
         XStream mySerializer = new XStream(new DomDriver());
         String gameXMLString = mySerializer.toXML(newGame);
         GameInfo savingInfo = new GameInfo(newGame.getTitle(), newGame.getThumbnailID(), newGame.getDescription());
+        System.out.println("HEREREKL");
         myAuthoringData.saveGame(gameXMLString, savingInfo);
     }
 
