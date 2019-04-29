@@ -15,7 +15,7 @@ public abstract class WeaponBehavior implements Behavior<WeaponConfig> {
             HealthExpirable.class,
             Movable.class,
             PlaceableOnPath.class,
-            Shootable.class,
+            ShootableWeapon.class,
             TimeExpirable.class);
 
     WeaponBehavior(WeaponConfig weaponConfig){

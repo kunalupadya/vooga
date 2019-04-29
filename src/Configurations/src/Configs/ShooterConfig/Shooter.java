@@ -1,7 +1,7 @@
 package Configs.ShooterConfig;
 
 import Configs.*;
-import Configs.ArsenalConfig.WeaponBehaviors.Shootable;
+import Configs.EnemyPackage.EnemyBehaviors.ShootableEnemy;
 import Configs.ProjectilePackage.ProjectileConfig;
 import Configs.ShooterConfig.ShooterBehaviors.ShooterBehavior;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
@@ -35,13 +35,12 @@ public class Shooter implements Updatable , Configurable {
 
     public Shooter(Shooter shooter, Shootable shootable){
         shooterRange = shooter.shooterRange;
-        myShootable=shootable;
+        myShootable = shootable;
         projectileConfig = shooter.projectileConfig;
         rateOfFire = shooter.rateOfFire;
         shooterBehavior = (ShooterBehavior) shooter.shooterBehavior.copy();
         myName = shooter.myName;
     }
-
 
     public void addToProjectilesFired() {
         projectilesFired++;
