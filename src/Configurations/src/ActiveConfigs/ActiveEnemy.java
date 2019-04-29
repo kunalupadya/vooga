@@ -154,19 +154,33 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
         bestOption.add(0);
         int bestOptionHeuristic =  Integer.MAX_VALUE;
         for (int k = 0; k < 4; k++) {
-            int totalHeuristic;
-                    int i = getView().getHeight()/2;
-                    int j = getView().getWidth()/2;
-                    int x = myMapFeature.getGridXPos()+xAdditions[k]+getView().getWidth()/2;
-                    int y = myMapFeature.getGridYPos()+yAdditions[k]+getView().getHeight()/2;
-                    Point newxy = new Point(x,y);
-                    if (isCellValid(x,y)&& !prevLocations.contains(newxy)){
-                        Cell myCell = myActiveLevel.getGridCell(x,y);
-                            totalHeuristic = cellConsumer.apply(myCell);
+            int totalHeuristic = Integer.MAX_VALUE;
+            int i = getView().getHeight()/2;
+            int j = getView().getWidth()/2;
+            int x = myMapFeature.getGridXPos()+xAdditions[k]+getView().getWidth()/2;
+            int y = myMapFeature.getGridYPos()+yAdditions[k]+getView().getHeight()/2;
+
+//            for
+
+            int topleft = myMapFeature.getGridXPos()+xAdditions[k];
+            int topleftx = myMapFeature.getGridYPos()+yAdditions[k];
+
+            Point newxy = new Point(x,y);
+            if (isCellValid(x,y)&& !prevLocations.contains(newxy)){
+                int[] checkY = new int[]{0,0,getView().getHeight(), getView().getHeight()};
+                int[] checkX = new int[]{0,getView().getWidth(), 0, getView().getWidth()};
+                boolean valid = true;
+                for (int m=0; m<checkX.length;m++){
+//                checkCorners[m] = new Point(checkX[m], checkY[m]);
+                    if (!isCellValid(checkX[m], checkY[m])){
+                        valid = false;
                     }
-                    else {
-                        totalHeuristic = Integer.MAX_VALUE;
-                    }
+                }
+                if (valid) {
+                    Cell myCell = myActiveLevel.getGridCell(x, y);
+                    totalHeuristic = cellConsumer.apply(myCell);
+                }
+            }
             if (totalHeuristic<bestOptionHeuristic){
                 bestOption.clear();
                 bestOption.add(k);
