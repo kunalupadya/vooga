@@ -41,7 +41,6 @@ public class Model {
         String gameXMLString = mySerializer.toXML(newGame);
         System.out.println(myAuthoringData.getCurrentUserID());
         GameInfo savingInfo = new GameInfo(newGame.getTitle(), newGame.getThumbnailID(), newGame.getDescription());
-        System.out.println("HEREREKL");
         myAuthoringData.saveGame(gameXMLString, savingInfo);
     }
 
@@ -134,22 +133,22 @@ public class Model {
         return new Image(byteIS);
     }
 
-    // TODO: Remove Method call
-    private void updatePropertiesFile() throws IOException{
-        FileInputStream propertiesIS = new FileInputStream(PROPERTIES_FILE_PATH);
-        Properties myGameDetails = new Properties();
-        myGameDetails.load(propertiesIS);
-        myXMLFileName = myGame.getTitle() + XML_TAG;
-        String propertyValue = myGame.getThumbnail() + REGEX + myGame.getDescription() + REGEX + myXMLFileName;
-
-        //System.out.println(propertyValue);
-
-
-
-        myGameDetails.setProperty(myGame.getTitle(),propertyValue);
-        FileOutputStream propertiesOS = new FileOutputStream(PROPERTIES_FILE_PATH);
-        myGameDetails.store(propertiesOS, null);
-    }
+//    // TODO: Remove Method call
+//    private void updatePropertiesFile() throws IOException{
+//        FileInputStream propertiesIS = new FileInputStream(PROPERTIES_FILE_PATH);
+//        Properties myGameDetails = new Properties();
+//        myGameDetails.load(propertiesIS);
+//        myXMLFileName = myGame.getTitle() + XML_TAG;
+//        String propertyValue = myGame.getThumbnail() + REGEX + myGame.getDescription() + REGEX + myXMLFileName;
+//
+//        //System.out.println(propertyValue);
+//
+//
+//
+//        myGameDetails.setProperty(myGame.getTitle(),propertyValue);
+//        FileOutputStream propertiesOS = new FileOutputStream(PROPERTIES_FILE_PATH);
+//        myGameDetails.store(propertiesOS, null);
+//    }
 
     // TODO: Remove method call
     private void writeToXMLFile() throws IOException {

@@ -1,5 +1,6 @@
 package GameAuthoringEnvironment.AuthoringScreen;
 
+import BackendExternalAPI.Model;
 import Configs.GamePackage.Game;
 import GameAuthoringEnvironment.AuthoringComponents.*;
 import javafx.application.Application;
@@ -26,6 +27,7 @@ public class AuthoringVisualization extends Application {
     private GameOutline gameOutline;
     private static final KeyCombination keyCombinationCommandN = new KeyCodeCombination(KeyCode.ESCAPE);
     private Game myGame;
+    private Model myModel;
 
     @Override
     public void start(Stage stage){
@@ -33,7 +35,8 @@ public class AuthoringVisualization extends Application {
         stage.setTitle(Title);
         stage.show();
     }
-    public AuthoringVisualization(Game game){
+    public AuthoringVisualization(Game game, Model model){
+        myModel = model;
         myGame = game;
         myContainer = new VBox();
         setScene();
@@ -51,7 +54,7 @@ public class AuthoringVisualization extends Application {
         background.setId("image_backdrop");
         VBox myGameOutline = gameOutline.getModule();
         background.getChildren().add(myGameOutline);
-        TopMenuBar topMenuBar = new TopMenuBar(gameOutline);
+        TopMenuBar topMenuBar = new TopMenuBar(gameOutline, myModel);
         StackPane menu = new StackPane();
         StackPane colored = new StackPane();
         colored.setStyle("-fx-background-color: linear-gradient(rgb(90, 253, 255), rgb(98, 222, 230)); -fx-opacity: 0.4;");

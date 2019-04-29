@@ -47,6 +47,12 @@ public class ConfigurableMap extends Application {
 
     public static final int GRID_WIDTH = 32;
     public static final int GRID_HEIGHT = 20;
+    public static final int VBOX_SIZE = 10;
+    public static final int IMAGE_WIDTH=20;
+    public static final int IMAGE_HEIGHT=20;
+    public static final int ENEMY_ENTERING_ANGLE=90;
+    public static final int MAP_XPOS=450;
+    public static final int MAP_SPACING=50;
     //public static final int GRID_WIDTH = 32;
 //    public static final int GRID_HEIGHT = 20;
     Map<String,Boolean> typeToPath;
@@ -153,14 +159,14 @@ public class ConfigurableMap extends Application {
         VBox otherLayout = new VBox();
         VBox mapLayout = new VBox();
         mapLayout.setAlignment(Pos.CENTER);
-        mapLayout.setSpacing(50);
+        mapLayout.setSpacing(MAP_SPACING);
         VBox rightLayOut = new VBox();
 
         VBox mapVBox = new VBox();
         Button submitButton = addSubmit();
         mapVBox.getChildren().addAll(map, submitButton);
 
-        mapVBox.setLayoutX(450);
+        mapVBox.setLayoutX(MAP_XPOS);
         mapLayout.getChildren().add(mapVBox);
         rightLayOut.getChildren().addAll(enterViewBox, exitViewBox);
         rightLayOut.setPrefWidth(ScreenSize.getWidth()/3);
@@ -176,7 +182,7 @@ public class ConfigurableMap extends Application {
     public VBox createTileView(){
 
         //tileView.setPrefSize(tileViewWidth, tileViewHeight);
-        VBox myBox = new VBox(10);
+        VBox myBox = new VBox(VBOX_SIZE);
 
         Label messageLbl = new Label("Select tiles from the given list, click tile on map to change to selected tile type");
         //TODO Change this so that no specific tiles are made(and definitely not just my images)
@@ -209,8 +215,8 @@ public class ConfigurableMap extends Application {
 //                        }
 //                    }
 
-                    image.setFitHeight(20);
-                    image.setFitWidth(20);
+                    image.setFitHeight(IMAGE_HEIGHT);
+                    image.setFitWidth(IMAGE_WIDTH);
 //                        if (name.equals("Grass"))
 //                            image.setImage(new Image(new FileInputStream("resources/grass.jpg")));
 //                        else if (name.equals("Water"))
@@ -253,7 +259,7 @@ public class ConfigurableMap extends Application {
         return  myBox;
     }
     private VBox createNameBox(){
-        VBox myNameBox = new VBox(10);
+        VBox myNameBox = new VBox(VBOX_SIZE);
         Label mapLbl = new Label("Map Name");
         nameTf = new TextField();
         if(myAttributesMapConfig != null){
@@ -266,18 +272,24 @@ public class ConfigurableMap extends Application {
     }
 
     private VBox createEnterView(){
-        VBox myVbox = new VBox(10);
+        VBox myVbox = new VBox(VBOX_SIZE);
         Label enterPosLabel = new Label("Enter Positions");
         enterPosView = new ListView();
+//        for(Point p : enterPointsList){
+//            enterPosView.getItems().add("x:"+p.getX()+" y:"+p.getY());
+//        }
         enterPosView.getItems().addAll(enterPointsList);
         myVbox.getChildren().addAll(enterPosLabel, enterPosView);
         return myVbox;
     }
 
     private VBox createExitView(){
-        VBox myVbox = new VBox(10);
+        VBox myVbox = new VBox(VBOX_SIZE);
         Label exitPosLabel = new Label("Exit Positions");
         exitPosView = new ListView();
+//        for(Point p:exitPointsList){
+//            exitPosView.getItems().add("x:"+p.getX()+" "+"y:"+p.getY());
+//        }
         exitPosView.getItems().addAll(exitPointsList);
         myVbox.getChildren().addAll(exitPosLabel, exitPosView);
         return myVbox;
@@ -294,7 +306,8 @@ public class ConfigurableMap extends Application {
                 try {
                     fis = new FileInputStream("resources/" + myTerrain.getView().getImage());
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    AlertFactory alert = new AlertFactory();
+                    alert.createAlert("File Not Found!");
                 }
                 Image image = new Image(fis);
                 TerrainTile myTile = new TerrainTile(r, c, image,typeToImagePathMap,typeToPath);
@@ -343,7 +356,7 @@ public class ConfigurableMap extends Application {
                 passedMap.put("myTerrain",tileList);
                 passedMap.put("enemyEnteringGridPosList", enterPointsList);
                 passedMap.put("enemyExitGridPosList",exitPointsList);
-                passedMap.put("enemyEnteringDirection",90);
+                passedMap.put("enemyEnteringDirection",ENEMY_ENTERING_ANGLE);
 
 
                 m.getConfiguration().setAllAttributes(passedMap);

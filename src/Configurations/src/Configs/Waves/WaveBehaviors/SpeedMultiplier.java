@@ -39,7 +39,6 @@ public class SpeedMultiplier extends WaveBehavior{
 
     @Override
     public void apply(ActiveEnemy enemy) {
-//        enemy.addSpeedModifier(new SpeedModifier(speedAcceleration));
         enemy.multiplyUnitSpeedPerSecond(speedAcceleration);
     }
 

@@ -19,6 +19,7 @@ import javafx.util.Duration;
 import java.io.File;
 
 import static Player.GamePlay.GamePlayGUI.LEFT_RATIO;
+import static Player.GamePlay.GamePlayGUI.RIGHT_RATIO;
 import static Player.GamePlay.GamePlayLeft.GamePlayLeftSide.TOP_RATIO;
 
 
@@ -32,7 +33,7 @@ public class GamePlayMain extends Application {
     private double screenWidth = ScreenSize.getWidth();
     private double screenHeight = ScreenSize.getHeight();
     // Added by Brian
-    private Logic myLogic = new Logic(screenWidth, screenHeight);
+    private Logic myLogic = new Logic(screenWidth * LEFT_RATIO, screenHeight * TOP_RATIO);
     private Timeline animation;
     private GamePlayGUI myGameGUI;
     private Group root;
@@ -70,7 +71,7 @@ public class GamePlayMain extends Application {
         }
     }
     public void setGameInfo(GameInfo gameInfo){
-        myLogic.createGameInstance(gameInfo, screenWidth*LEFT_RATIO, screenHeight* TOP_RATIO);
+        myLogic.createGameInstance(gameInfo);
     }
     private void fastFoward(){
         animation.setRate(2.5);

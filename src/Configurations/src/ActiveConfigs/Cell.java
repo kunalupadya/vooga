@@ -87,7 +87,7 @@ public class Cell implements Comparable{
         this.myEnemies.remove(enemy);
     }
 
-    public void setShortestDistanceHeuristic(int movementHeuristic) {
+    public void  setShortestDistanceHeuristic(int movementHeuristic) {
         this.shortestDistanceHeuristic = movementHeuristic;
     }
 

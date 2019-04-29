@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -98,19 +99,29 @@ public class StartingScreen {
 
     private void handleLogin(MouseEvent event){
         //TODO Call APIs to confirm password
-        if(myModel.authenticateUser(idTf.getText(), pwTf.getText())){
-        Text instructions = new Text("Now Click New Game to Make a New Game or Click Import Game to Import a Existing Game");
-        instructions.setStyle("-fx-font-size: 10");
-        myContatiner.getChildren().removeAll(idTf, pwTf, loginButton, createIDButton, loginDescription);
-        myContatiner.getChildren().addAll(newGameButton, importGameButton, instructions);
-         }
-        else{
-            //TODO Alert error
+        try {
+            if (myModel.authenticateUser(idTf.getText(), pwTf.getText())) {
+                Text instructions = new Text("Now Click New Game to make a new Game or click import Game to import a existing game");
+                instructions.setStyle("-fx-font-size: 10");
+                myContatiner.getChildren().removeAll(idTf, pwTf, loginButton, createIDButton, loginDescription);
+                myContatiner.getChildren().addAll(newGameButton, importGameButton, instructions);
+            }
+            else{
+                Alert alert = new Alert(Alert.AlertType.WARNING,"Wrong Username or Password");
+                alert.showAndWait();
+            }
         }
+        catch(Exception e){
+            Alert alert = new Alert(Alert.AlertType.WARNING,e.getMessage());
+            alert.showAndWait();
+        }
+//        else{
+//            //TODO Alert error
+//        }
     }
 
     private void makeGame(Game game){
-        AuthoringVisualization authoringVisualization = new AuthoringVisualization(game);
+        AuthoringVisualization authoringVisualization = new AuthoringVisualization(game, myModel);
         authoringVisualization.start(new Stage());
         myStage.close();
     }
