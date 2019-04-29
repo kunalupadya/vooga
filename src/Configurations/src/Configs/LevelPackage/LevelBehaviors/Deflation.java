@@ -17,7 +17,7 @@ public class Deflation extends LevelBehavior{
     }
     @Override
     public Behavior copy() {
-        return null;
+        return new Deflation(getMyLevel());
     }
 
     @Override

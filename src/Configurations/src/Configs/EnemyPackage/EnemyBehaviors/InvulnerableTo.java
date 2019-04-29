@@ -2,6 +2,9 @@ package Configs.EnemyPackage.EnemyBehaviors;
 
 
 
+import ActiveConfigs.ActiveEnemy;
+import ActiveConfigs.ActiveLevel;
+import ActiveConfigs.Cell;
 import Configs.Behaviors.Behavior;
 import Configs.Configuration;
 import Configs.EnemyPackage.EnemyConfig;
@@ -11,7 +14,7 @@ import Configs.Updatable;
 public class InvulnerableTo extends EnemyBehavior{
     public static final String DISPLAY_LABEL = "InvulnerableTo";
     @Configure
-    ProjectileConfig[] projectilesThatCanAttackMe;
+    ProjectileConfig[] immuneToThese;
     private transient Configuration myConfiguration;
 
     InvulnerableTo(EnemyConfig enemyConfig){
@@ -21,7 +24,10 @@ public class InvulnerableTo extends EnemyBehavior{
 
     @Override
     public void update(double ms, Updatable parent) {
-        //TODO
+//        ActiveLevel al = ((ActiveEnemy) parent).getActiveLevel();
+//        for (Cell : ((ActiveEnemy) parent).getMapFeature().getMyCells()){
+//            if
+//        }
     }
     @Override
     public String getName() {
@@ -36,7 +42,7 @@ public class InvulnerableTo extends EnemyBehavior{
     @Override
     public Behavior copy() {
         InvulnerableTo ret = new InvulnerableTo(getMyEnemyConfig());
-        ret.projectilesThatCanAttackMe = projectilesThatCanAttackMe;
+        ret.immuneToThese = immuneToThese;
         return ret;
     }
 }
