@@ -1,5 +1,7 @@
 package ExternalAPIs;
 
+import Queries.DataQueries.UserData;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -41,10 +43,11 @@ public class AuthoringData extends Data{
         byte[] gameByteArray = gameXMLString.getBytes();
         String title = newGame.getGameTitle();
         int thumbnail = newGame.getGameThumbnailID();
-        System.out.println("HDJFKDFJ");
         String description = newGame.getGameDescription();
         getGameData().addGame(currentUserID, description, gameByteArray, thumbnail, title);
     }
+
+
 
     /**
      * Returns a list of the image ids of the images saved in the database with the corresponding tag

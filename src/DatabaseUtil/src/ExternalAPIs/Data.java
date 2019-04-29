@@ -48,6 +48,10 @@ public abstract class Data {
         return gameData;
     }
 
+    public int getCurrentUserID() {
+        return currentUserID;
+    }
+
     public SessionData getSessionData() {
         return sessionData;
     }
@@ -72,6 +76,7 @@ public abstract class Data {
             byte[] salt = userData.getSalt(username).getBytes();
            // String hashedPass =  new String(hashPassword(password, salt));
             currentUserID = userData.login(username, password);
+            System.out.println(currentUserID);
             if (currentUserID == -1){
                 return false;
             }
