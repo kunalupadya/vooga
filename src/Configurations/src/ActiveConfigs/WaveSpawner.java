@@ -19,12 +19,15 @@ public class WaveSpawner implements Updatable {
 
     @Override
     public void update(double ms, Updatable parent) {
+        ActiveLevel activeLevel = (ActiveLevel) parent;
         List<Wave> myWavesToRemove = new ArrayList<>();
         myWaves.stream().forEach(wave -> {
             if(wave.getTimeToReleaseInMs()<=ms) {
                 wave.update(ms, this);
             }
-            if(wave.isFinished()) myWavesToRemove.add(wave);
+            if(wave.isFinished())
+                if(!activeLevel.isSurvival()) myWavesToRemove.add(wave);
+                else wave.setTimeToReleaseInMs(ms+wave.getTimeToReleaseInMs());
         });
         myWavesToRemove.stream().forEach(wave ->
             myWaves.remove(wave)

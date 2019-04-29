@@ -35,7 +35,7 @@ public class HealthExpirable extends WeaponBehavior {
     }
 
     public void damage(int damage) {
-        this.damage-=damage;
+        this.damage+=damage;
     }
 
     @Override

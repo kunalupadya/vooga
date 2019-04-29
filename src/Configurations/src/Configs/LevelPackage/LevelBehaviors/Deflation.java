@@ -17,11 +17,12 @@ public class Deflation extends LevelBehavior{
     }
     @Override
     public Behavior copy() {
-        return null;
+        return new Deflation(getMyLevel());
     }
 
     @Override
     public void update(double ms, Updatable parent) {
+        //uneeded
 
     }
 

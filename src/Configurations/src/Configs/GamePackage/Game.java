@@ -31,9 +31,6 @@ public class Game implements Updatable, Configurable {
     private String myName;
     @Configure
     private String myDescription;
-    // TODO: Remove myThumbnail variable
-    /*@Configure
-    private String myThumbnail;*/
     @Configure
     private int myThumbnailID;
     @Configure

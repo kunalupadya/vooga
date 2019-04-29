@@ -28227,7 +28227,7 @@
             <myWeaponConfig reference="../../.."/>
             <ammoLimit>308</ammoLimit>
           </Configs.ArsenalConfig.WeaponBehaviors.AmmoExpirable>
-          <Configs.ArsenalConfig.WeaponBehaviors.Shootable>
+          <Configs.ArsenalConfig.WeaponBehaviors.ShootableWeapon>
             <myWeaponConfig reference="../../.."/>
             <myShooter>
               <myShootable reference="../.."/>
@@ -28250,7 +28250,7 @@
               <shooterRange>100.0</shooterRange>
             </myShooter>
             <weaponConfig reference="../../.."/>
-          </Configs.ArsenalConfig.WeaponBehaviors.Shootable>
+          </Configs.ArsenalConfig.WeaponBehaviors.ShootableWeapon>
         </behaviors>
         <view>
           <imagePath>thumbnail1.gif</imagePath>

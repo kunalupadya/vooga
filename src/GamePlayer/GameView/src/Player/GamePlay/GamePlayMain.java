@@ -72,6 +72,7 @@ public class GamePlayMain extends Application {
     }
     public void setGameInfo(GameInfo gameInfo){
         myLogic.createGameInstance(gameInfo);
+        myLogic.startAtDefaultState();
     }
     private void fastFoward(){
         animation.setRate(2.5);

@@ -79,6 +79,10 @@ public class Wave implements Updatable, Configurable {
         return enemies;
     }
 
+    public void setTimeToReleaseInMs(double ms) {
+        timeToReleaseInMs = ms;
+    }
+
     @Override
     public void update(double ms, Updatable parent) {
         if(startTimes == null) {

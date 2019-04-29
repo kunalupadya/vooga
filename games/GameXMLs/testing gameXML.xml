@@ -13,7 +13,7 @@
             <myWeaponConfig reference="../../.."/>
             <ammoLimit>36</ammoLimit>
           </Configs.ArsenalConfig.WeaponBehaviors.AmmoExpirable>
-          <Configs.ArsenalConfig.WeaponBehaviors.Shootable>
+          <Configs.ArsenalConfig.WeaponBehaviors.ShootableWeapon>
             <myWeaponConfig reference="../../.."/>
             <myShooter>
               <myShootable reference="../.."/>
@@ -36,7 +36,7 @@
               <shooterRange>40.0</shooterRange>
             </myShooter>
             <weaponConfig reference="../../.."/>
-          </Configs.ArsenalConfig.WeaponBehaviors.Shootable>
+          </Configs.ArsenalConfig.WeaponBehaviors.ShootableWeapon>
         </behaviors>
         <myArsenal reference="../../.."/>
         <weaponId>0</weaponId>

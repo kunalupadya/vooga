@@ -48,6 +48,10 @@ public abstract class Data {
         return gameData;
     }
 
+    public int getCurrentUserID() {
+        return currentUserID;
+    }
+
     protected SessionData getSessionData() {
         return sessionData;
     }
