@@ -96,7 +96,8 @@ public class GameSelection extends Application {
             Text title = new Text(gameInfo.getGameTitle());
             title.setId("gameTitle");
             gameLook.getChildren().add(title);
-            Image image = new Image(new FileInputStream(RESOURCES_PATH + gameInfo.getGameThumbnail()));
+            Image image = logic.getImage(gameInfo.getGameThumbnailID());
+          //  Image image = new Image(new FileInputStream(RESOURCES_PATH + gameInfo.getGameThumbnail()));
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(200);
             imageView.setFitHeight(200);
