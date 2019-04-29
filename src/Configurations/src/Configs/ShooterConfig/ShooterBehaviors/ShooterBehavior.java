@@ -44,7 +44,7 @@ public abstract class ShooterBehavior implements Behavior<Shooter> {
         double projectileStartXPos = weaponX + width/2 - projectileConfig.getView().getWidth()/2;
         double projectileStartYPos = weaponY + height/2 - projectileConfig.getView().getHeight()/2;
         for(Double dir:direction) {
-            ActiveProjectile activeProjectile = new ActiveProjectile(projectileConfig, shooter.getShooterRange(), myActiveLevel);
+            ActiveProjectile activeProjectile = new ActiveProjectile(projectileConfig, shooter.getShooterRange(), activeWeapon, myActiveLevel);
             MapFeature projectileMapFeature = new MapFeature(projectileStartXPos, projectileStartYPos,dir, shooter.getProjectileConfig().getView(), myActiveLevel.getPaneWidth(), myActiveLevel.getPaneHeight(), myActiveLevel.getGridWidth(), myActiveLevel.getGridHeight(),activeProjectile);
             activeProjectile.setMyMapFeature(projectileMapFeature);
             myActiveLevel.addToActiveProjectiles(activeProjectile);
