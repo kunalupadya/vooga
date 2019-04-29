@@ -11,13 +11,15 @@ public class ActiveProjectile extends ProjectileConfig implements Updatable, Map
     private double distanceLeft;
     private ActiveLevel myActiveLevel;
     private double previousMs=0;
+    private boolean team;
 
 
 
-    public ActiveProjectile(ProjectileConfig projectileConfig,double distanceLeft, ActiveLevel activeLevel){
+    public ActiveProjectile(ProjectileConfig projectileConfig,double distanceLeft, MapFeaturable whatShotTheProjectile, ActiveLevel activeLevel){
         super(projectileConfig);
         this.distanceLeft =distanceLeft;
         myActiveLevel = activeLevel;
+        this.team = whatShotTheProjectile instanceof ActiveWeapon;
     }
 
     @Override
@@ -52,37 +54,32 @@ public class ActiveProjectile extends ProjectileConfig implements Updatable, Map
      * check each cell that the projectile is on for enemies
      */
     private void checkForCollisions() {
-       // System.out.println("HERE" + myMapFeature.getMyCells().size());
-//        System.out.println("PROJECTILE YMIN: " + (int)myMapFeature.returnBounds()[0] +
-//                "YMAX: " + (int)myMapFeature.returnBounds()[1] +
-//                "XMIN: " + (int)myMapFeature.returnBounds()[2] +
-//                "XMAX: " + (int)myMapFeature.returnBounds()[3]);
         for (Cell c : myMapFeature.getMyCells()) {
-            //System.out.println(c.getMyEnemies().size());
-            if (c.getMyEnemies().size() > 0) {
-                //System.out.println(c.getMyEnemies().size());
+            if (team&&c.getMyEnemies().size() > 0) {
                 for (ActiveEnemy activeEnemy: c.getMyEnemies()) {
                     handleEnemyCollision(activeEnemy);
                 }
             }
+            if(!team&&c.getMyWeapon()!=null){
+                handleWeaponCollision(c.getMyWeapon());
+            }
         }
     }
 
-
+    private void handleWeaponCollision(ActiveWeapon aes){
+        if (myMapFeature.getImageView().intersects(aes.getMapFeature().getImageView().getBoundsInParent())) {
+            myActiveLevel.removeWeapon(aes);
+            myMapFeature.setDisplayState(DisplayState.DIED);
+        }
+    }
 
     private void handleEnemyCollision(ActiveEnemy aes){
-//        Iterator<ActiveEnemy> enemyIterator;
-//        for(enemyIterator = myCell.getMyEnemies().iterator(); enemyIterator.hasNext();)
-//        {
-//            ActiveEnemy e = enemyIterator.next();
-//                e.killMe();  //This removes student from the collection safely
-//        }
-        //List<ActiveEnemy> enemiesToKill = new ArrayList<>(myCell.getMyEnemies());
         if (myMapFeature.getImageView().intersects(aes.getMapFeature().getImageView().getBoundsInParent())) {
             myActiveLevel.killEnemy(aes);
             myMapFeature.setDisplayState(DisplayState.DIED);
         }
     }
+
     private void move(double ms){
         double velocityMs = getVelocityInSeconds()/1000;
         double distanceToTravel = (velocityMs*(ms-previousMs));

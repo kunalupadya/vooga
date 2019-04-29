@@ -1,5 +1,6 @@
 package ActiveConfigs;
 
+import Configs.MapFeaturable;
 import Configs.MapPackage.Terrain;
 
 import java.util.ArrayList;
@@ -59,6 +60,9 @@ public class Cell implements Comparable{
         this.weaponCoverage = weaponCoverage;
     }
 
+    public ActiveWeapon getMyWeapon() {
+        return myWeapon;
+    }
 
     public int getX(){
         return X;
