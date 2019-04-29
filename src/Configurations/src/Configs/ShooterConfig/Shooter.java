@@ -1,6 +1,7 @@
 package Configs.ShooterConfig;
 
 import Configs.*;
+import Configs.ArsenalConfig.WeaponBehaviors.ShootableWeapon;
 import Configs.EnemyPackage.EnemyBehaviors.ShootableEnemy;
 import Configs.ProjectilePackage.ProjectileConfig;
 import Configs.ShooterConfig.ShooterBehaviors.ShooterBehavior;
@@ -27,7 +28,15 @@ public class Shooter implements Updatable , Configurable {
     private transient Configuration myConfiguration;
     private int projectilesFired;
 
-    public Shooter(Shootable shootable){
+    public Shooter(ShootableEnemy shootable){
+        configure(shootable);
+    }
+
+    public Shooter(ShootableWeapon shootable){
+        configure(shootable);
+    }
+
+    public void configure(Shootable shootable){
         myShootable = shootable;
         myConfiguration = new Configuration(this);
         projectilesFired = 0;

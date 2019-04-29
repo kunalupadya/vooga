@@ -50,6 +50,7 @@ public class EnemyConfig implements Configurable, Viewable {
         view = enemyConfig.getView();
         myName = enemyConfig.getName();
         health = enemyConfig.health;
+        aiType = enemyConfig.aiType;
     }
 
     public Wave getMyWave() {

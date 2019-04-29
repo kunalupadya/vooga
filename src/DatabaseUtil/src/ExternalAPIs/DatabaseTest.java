@@ -1,6 +1,7 @@
 package ExternalAPIs;
 
 import ExternalAPIs.*;
+import Internal.Authentication;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -56,7 +57,7 @@ public class DatabaseTest extends Application {
 //        System.out.println();
 //        testGetXMLString();
 //        System.out.println();
-        testGetImage();
+//        testGetImage();
 //        System.out.println();
 //        testStoreBasicInfo();
 //        System.out.println();
@@ -72,6 +73,7 @@ public class DatabaseTest extends Application {
 //        System.out.println();
 //        testCompileLeaderBoard();
 //        System.out.println();
+        hashingTest();
 
         System.out.println("Done Tests");
 
@@ -115,20 +117,20 @@ public class DatabaseTest extends Application {
 
     // TODO: Test get authored games
 
-    private static void testGetAuthoredGames(){
-        System.out.println("Testing Get Authored Games:");
-
-        ArrayList<GameInfo> games = (ArrayList)myAuthoringData.getAuthoredGames();
-
-        for (GameInfo g : games){
-            System.out.println(g.getGameTitle());
-            System.out.println(g.getGameDescription());
-            System.out.println(g.getGameThumbnail());
-        }
-
-        System.out.println("End of Authored games");
-
-    }
+//    private static void testGetAuthoredGames(){
+//        System.out.println("Testing Get Authored Games:");
+//
+//        ArrayList<GameInfo> games = (ArrayList)myAuthoringData.getAuthoredGames();
+//
+//        for (GameInfo g : games){
+//            System.out.println(g.getGameTitle());
+//            System.out.println(g.getGameDescription());
+//            System.out.println(g.getGameThumbnail());
+//        }
+//
+//        System.out.println("End of Authored games");
+//
+//    }
 
     // TODO: Test Get Game XML String
 
@@ -285,6 +287,13 @@ public class DatabaseTest extends Application {
 
         System.out.println("Done compiling leaderboard");
 
+    }
+
+    private static void hashingTest(){
+        String password = "password";
+        byte[] salt = new byte[16];
+
+        Authentication.hashPassword(password, salt);
     }
 
 

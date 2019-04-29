@@ -23,6 +23,7 @@ public class Survival extends LevelBehavior{
 
     @Override
     public void update(double ms, Updatable parent) {
+        //unneeded
 
     }
 
