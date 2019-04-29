@@ -7761,7 +7761,7 @@
             <myWeaponConfig reference="../../.."/>
             <ammoLimit>36</ammoLimit>
           </Configs.ArsenalConfig.WeaponBehaviors.AmmoExpirable>
-          <Configs.ArsenalConfig.WeaponBehaviors.Shootable>
+          <Configs.ArsenalConfig.WeaponBehaviors.ShootableWeapon>
             <myWeaponConfig reference="../../.."/>
             <myShooter>
               <myShootable reference="../.."/>
@@ -7789,7 +7789,7 @@
               <projectilesFired>0</projectilesFired>
             </myShooter>
             <weaponConfig reference="../../.."/>
-          </Configs.ArsenalConfig.WeaponBehaviors.Shootable>
+          </Configs.ArsenalConfig.WeaponBehaviors.ShootableWeapon>
         </behaviors>
         <view>
           <imageId>28</imageId>
@@ -7807,7 +7807,7 @@
             <myWeaponConfig reference="../../.."/>
             <ammoLimit>72</ammoLimit>
           </Configs.ArsenalConfig.WeaponBehaviors.AmmoExpirable>
-          <Configs.ArsenalConfig.WeaponBehaviors.Shootable>
+          <Configs.ArsenalConfig.WeaponBehaviors.ShootableWeapon>
             <myWeaponConfig reference="../../.."/>
             <myShooter>
               <myShootable reference="../.."/>
@@ -7835,7 +7835,7 @@
               <projectilesFired>0</projectilesFired>
             </myShooter>
             <weaponConfig reference="../../.."/>
-          </Configs.ArsenalConfig.WeaponBehaviors.Shootable>
+          </Configs.ArsenalConfig.WeaponBehaviors.ShootableWeapon>
         </behaviors>
         <view>
           <imageId>29</imageId>

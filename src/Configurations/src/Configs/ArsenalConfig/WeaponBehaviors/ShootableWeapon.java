@@ -3,15 +3,17 @@ package Configs.ArsenalConfig.WeaponBehaviors;
 
 import ActiveConfigs.ActiveWeapon;
 import Configs.Behaviors.Behavior;
+import Configs.MapFeaturable;
+import Configs.Shootable;
 import Configs.ShooterConfig.Shooter;
 import Configs.ArsenalConfig.WeaponConfig;
 import Configs.Configuration;
 import Configs.Updatable;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class Shootable extends WeaponBehavior{
+public class ShootableWeapon extends WeaponBehavior implements Shootable {
 
-    public static final String DISPLAY_LABEL = "Shootable";
+    public static final String DISPLAY_LABEL = "ShootableEnemy";
     @Configure
     private Shooter myShooter;
 
@@ -21,7 +23,7 @@ public class Shootable extends WeaponBehavior{
     @XStreamOmitField
     private ActiveWeapon activeWeapon;
 
-    public Shootable(WeaponConfig weaponConfig){
+    public ShootableWeapon(WeaponConfig weaponConfig){
         super(weaponConfig);
         myConfiguration = new Configuration(this);
         this.weaponConfig = weaponConfig;
@@ -52,13 +54,14 @@ public class Shootable extends WeaponBehavior{
         return weaponConfig;
     }
 
-    public ActiveWeapon getActiveWeapon() {
+    @Override
+    public MapFeaturable getPossibleShooter() {
         return activeWeapon;
     }
 
     @Override
     public Behavior copy() {
-        Shootable ret = new Shootable(getWeaponConfig());
+        ShootableWeapon ret = new ShootableWeapon(getWeaponConfig());
         ret.myShooter = new Shooter(myShooter, ret);
         return ret;
     }

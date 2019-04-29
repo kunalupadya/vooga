@@ -120,7 +120,7 @@ public class ImportGame extends Application {
     }
 
     private void makeGame(Game game){
-        AuthoringVisualization authoringVisualization = new AuthoringVisualization(game);
+        AuthoringVisualization authoringVisualization = new AuthoringVisualization(game, model);
         authoringVisualization.start(new Stage());
         this.stage.close();
     }
