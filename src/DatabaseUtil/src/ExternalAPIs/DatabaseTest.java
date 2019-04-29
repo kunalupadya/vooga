@@ -117,20 +117,20 @@ public class DatabaseTest extends Application {
 
     // TODO: Test get authored games
 
-    private static void testGetAuthoredGames(){
-        System.out.println("Testing Get Authored Games:");
-
-        ArrayList<GameInfo> games = (ArrayList)myAuthoringData.getAuthoredGames();
-
-        for (GameInfo g : games){
-            System.out.println(g.getGameTitle());
-            System.out.println(g.getGameDescription());
-            System.out.println(g.getGameThumbnail());
-        }
-
-        System.out.println("End of Authored games");
-
-    }
+//    private static void testGetAuthoredGames(){
+//        System.out.println("Testing Get Authored Games:");
+//
+//        ArrayList<GameInfo> games = (ArrayList)myAuthoringData.getAuthoredGames();
+//
+//        for (GameInfo g : games){
+//            System.out.println(g.getGameTitle());
+//            System.out.println(g.getGameDescription());
+//            System.out.println(g.getGameThumbnail());
+//        }
+//
+//        System.out.println("End of Authored games");
+//
+//    }
 
     // TODO: Test Get Game XML String
 
