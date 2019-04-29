@@ -47,6 +47,10 @@ public class ActiveWeapon extends WeaponConfig implements Updatable, MapFeaturab
         return Arrays.asList(getBehaviors()).stream().anyMatch(behavior -> behavior instanceof HealthExpirable);
     }
 
+    public void killMe(){
+        getActiveLevel().removeWeapon(this);
+    }
+
 
     @Override
     public MapFeature getMapFeature() {

@@ -26,7 +26,7 @@ public class AmmoExpirable extends WeaponBehavior {
         try {
 //            System.out.println(((ActiveWeapon)parent).getShooter().getProjectilesFired());
             if (((ActiveWeapon)parent).getShooter().getProjectilesFired()>=ammoLimit) {
-                ((ActiveWeapon)parent).getMapFeature().setDisplayState(DisplayState.DIED);
+                ((ActiveWeapon)parent).killMe();
             }
         }
         catch (IllegalStateException e) {
