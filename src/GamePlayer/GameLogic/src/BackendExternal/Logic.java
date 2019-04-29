@@ -340,8 +340,14 @@ public class Logic {
 
         for(int col = x;col<x+width;col++) {
             for(int row = y;row<y+height;row++) {
-
-                if (!grid[col][row].isValidWeaponPlacement(weapon.isPathWeapon())) return false;
+//                System.out.println(col);
+//                System.out.println(row);
+                if (myGame.getActiveLevel().isCellValid(col, row)) {
+                    if (!grid[col][row].isValidWeaponPlacement(weapon.isPathWeapon())) return false;
+                }
+                else {
+                    return false;
+                }
             }
         }
         return true;

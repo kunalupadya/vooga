@@ -128,17 +128,16 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
             MovementDirection movementDirection = determineMovementDirection(AIOptions.SHORTEST_PATH);
             int newX = myMapFeature.getGridXPos()+movementDirection.getX();
             int newY = myMapFeature.getGridYPos()+movementDirection.getY();
+            if (myActiveLevel.getGridCell(newX,newY).getShortestDistanceHeuristic()==0){//TODO find a way to make this not hardcoded
+                myActiveLevel.incrementEscapedEnemies();
+                killMe();
+            }
             prevLocations.addFirst(new Point(newX, newY));
             if (prevLocations.size()>5){
                 prevLocations.removeLast();
             }
             myMapFeature.setGridPos(newX, newY,movementDirection.getDirection());
         }
-        System.out.println("YMIN: " + (int)myMapFeature.returnBounds()[0] +
-                            "YMAX: " + (int)myMapFeature.returnBounds()[1] +
-                            "XMIN: " + (int)myMapFeature.returnBounds()[2] +
-                            "XMAX: " + (int)myMapFeature.returnBounds()[3]);
-
     }
 
 

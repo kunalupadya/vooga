@@ -70,8 +70,8 @@ public abstract class Data {
         }
         try {
             byte[] salt = userData.getSalt(username).getBytes();
-            String hashedPass =  new String(hashPassword(password, salt));
-            currentUserID = userData.login(username, hashedPass);
+           // String hashedPass =  new String(hashPassword(password, salt));
+            currentUserID = userData.login(username, password);
             if (currentUserID == -1){
                 return false;
             }
@@ -95,8 +95,11 @@ public abstract class Data {
         passwordErrorChecking(password, passwordRepeated);
         byte[] salt = new byte[16];
         saltGenerator.nextBytes(salt);
+        System.out.println(username+" " +password);
         byte[] hashedPassword = hashPassword(password, salt);
-        currentUserID = userData.addUser(username, new String(hashedPassword), new String(salt));
+        //currentUserID = userData.addUser(username, new String(hashedPassword), new String(salt));
+        currentUserID = userData.addUser(username, password, new String(salt));
+
     }
 
     /**

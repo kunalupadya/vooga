@@ -61,15 +61,16 @@ public class ActiveProjectile extends ProjectileConfig implements Updatable, Map
             //System.out.println(c.getMyEnemies().size());
             if (c.getMyEnemies().size() > 0) {
                 //System.out.println(c.getMyEnemies().size());
-                handleEnemyCollision(c.getMyEnemies());
+                for (ActiveEnemy activeEnemy: c.getMyEnemies()) {
+                    handleEnemyCollision(activeEnemy);
+                }
             }
         }
     }
 
 
 
-    private void handleEnemyCollision(List<ActiveEnemy> aes){
-        myActiveLevel.addToEnemiesKilled(aes);
+    private void handleEnemyCollision(ActiveEnemy aes){
 //        Iterator<ActiveEnemy> enemyIterator;
 //        for(enemyIterator = myCell.getMyEnemies().iterator(); enemyIterator.hasNext();)
 //        {
@@ -77,9 +78,10 @@ public class ActiveProjectile extends ProjectileConfig implements Updatable, Map
 //                e.killMe();  //This removes student from the collection safely
 //        }
         //List<ActiveEnemy> enemiesToKill = new ArrayList<>(myCell.getMyEnemies());
-
-        myMapFeature.setDisplayState(DisplayState.DIED);
-
+        if (myMapFeature.getImageView().intersects(aes.getMapFeature().getImageView().getBoundsInParent())) {
+            myActiveLevel.killEnemy(aes);
+            myMapFeature.setDisplayState(DisplayState.DIED);
+        }
     }
     private void move(double ms){
         double velocityMs = getVelocityInSeconds()/1000;
