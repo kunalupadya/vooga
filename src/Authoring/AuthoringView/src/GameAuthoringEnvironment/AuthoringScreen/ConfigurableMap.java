@@ -269,6 +269,9 @@ public class ConfigurableMap extends Application {
         VBox myVbox = new VBox(10);
         Label enterPosLabel = new Label("Enter Positions");
         enterPosView = new ListView();
+//        for(Point p : enterPointsList){
+//            enterPosView.getItems().add("x:"+p.getX()+" y:"+p.getY());
+//        }
         enterPosView.getItems().addAll(enterPointsList);
         myVbox.getChildren().addAll(enterPosLabel, enterPosView);
         return myVbox;
@@ -278,6 +281,9 @@ public class ConfigurableMap extends Application {
         VBox myVbox = new VBox(10);
         Label exitPosLabel = new Label("Exit Positions");
         exitPosView = new ListView();
+//        for(Point p:exitPointsList){
+//            exitPosView.getItems().add("x:"+p.getX()+" "+"y:"+p.getY());
+//        }
         exitPosView.getItems().addAll(exitPointsList);
         myVbox.getChildren().addAll(exitPosLabel, exitPosView);
         return myVbox;
