@@ -4,6 +4,7 @@ import Configs.Configurable;
 import Configs.EnemyPackage.EnemyBehaviors.AIOptions;
 import Configs.GamePackage.Game;
 import Configs.MapPackage.MapConfig;
+import Configs.Shootable;
 import Configs.View;
 import ExternalAPIs.AuthoringData;
 import GameAuthoringEnvironment.AuthoringComponents.ConfigureImage;
@@ -96,7 +97,7 @@ public class GameController {
                 handleEnum(allButton, layout, myAttributesMap, key, value, definedAttributesMap, myConfigurable);
             }
             //handle special case: require image
-            else if(key.toLowerCase().contains("thumbnail") || key.toLowerCase().contains("imagepath")){
+            else if(key.toLowerCase().contains("thumbnail") || key.toLowerCase().contains("image")){
                 handleImageField(popupwindow, allButton, layout, myAttributesMap, key, value, definedAttributesMap, myConfigurable);
 
             }
@@ -468,6 +469,13 @@ public class GameController {
                             configureBehavior.start(new Stage());
                     }
                     //rest should follow this
+                    //TODO Shooter should be a special case
+                    /*else if(key.equals("myShooter")){
+                        Constructor<?> cons = clazz.getConstructor((Shootable) myConfigurable);
+                        var object = cons.newInstance(myConfigurable);
+                        createConfigurable((Configurable) object);
+                        myAttributesMap.put(key, object);
+                    }*/
                     else {
                         Constructor<?> cons = clazz.getConstructor(myConfigurable.getClass());
                         var object = cons.newInstance(myConfigurable);
@@ -476,12 +484,8 @@ public class GameController {
                     }
 
                 } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
+                    e.printStackTrace();
                     myAlertFactory.createAlert("Something went wrong! Please try again");
-                    try {
-                        handleSingleObject(myConfigurable, layout, myAttributesMap, key, value, definedAttributesMap);
-                    }catch (NoSuchFieldException ex){
-                        myAlertFactory.createAlert("There is no field like that. Your configuration was not successfully completed.");
-                    }
                 }
 
             }
