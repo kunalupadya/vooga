@@ -7,7 +7,7 @@ public class GameInfo {
     private int gameID;
     private int authorID;
     // TODO: Remove this variable
-    private String thumbnail;
+//    private String thumbnail;
     private int thumbnailID;
     private String title;
     private String description;
@@ -26,12 +26,12 @@ public class GameInfo {
         this.thumbnailID = thumbnailID;
     }
 
-    // TODO: Remove this constructor
-    public GameInfo(String title, String thumbnail, String description){
-        this.title = title;
-        this.description = description;
-        this.thumbnail = thumbnail;
-    }
+//    // TODO: Remove this constructor
+//    public GameInfo(String title, String thumbnail, String description){
+//        this.title = title;
+//        this.description = description;
+//        this.thumbnail = thumbnail;
+//    }
 
     public int getGameID() { return gameID; }
 
@@ -41,9 +41,9 @@ public class GameInfo {
 
     public int getGameThumbnailID() { return thumbnailID; }
 
-    public String getGameThumbnail(){
-        return thumbnail;
-    }
+//    public String getGameThumbnail(){
+//        return thumbnail;
+//    }
 
     public String getGameTitle() {
         return title;
