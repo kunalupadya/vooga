@@ -50,6 +50,7 @@ public class EnemyConfig implements Configurable, Viewable {
         view = enemyConfig.getView();
         myName = enemyConfig.getName();
         health = enemyConfig.health;
+        rewardForKilling = enemyConfig.rewardForKilling;
         aiType = enemyConfig.aiType;
     }
 
