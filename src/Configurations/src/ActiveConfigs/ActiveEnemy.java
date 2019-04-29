@@ -144,6 +144,7 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
 
 
     private MovementDirection determineMovementDirection(AIOptions aiTypes){
+        System.out.println(aiTypes);
         return moveShortestDistance(aiTypes.getGetter());
     }
 

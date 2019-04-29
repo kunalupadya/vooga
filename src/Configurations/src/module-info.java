@@ -27,5 +27,6 @@ module Configurations {
     exports Configs.ShooterConfig;
     exports Configs.ShooterConfig.ShooterBehaviors;
     exports ActiveConfigs;
+    exports Configs.ArsenalConfig.WeaponWaveBehaviors;
 
 }
