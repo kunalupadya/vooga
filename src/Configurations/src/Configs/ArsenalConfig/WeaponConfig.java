@@ -11,6 +11,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The template created by the authoringenvironment for how a weapon should behave
+ */
 
 public class WeaponConfig implements  Configurable, Viewable, Info {
     @XStreamOmitField
@@ -60,6 +63,11 @@ public class WeaponConfig implements  Configurable, Viewable, Info {
     @Override
     public double getHeight() {return view.getHeight();}
 
+    /**
+     *
+     * @return a shooter, if the weapon has one
+     * @throws IllegalStateException
+     */
     public Shooter getShooter() throws IllegalStateException {
         if (Arrays.asList(getBehaviors()).stream().anyMatch(behavior -> behavior instanceof ShootableWeapon)) {
             return ((ShootableWeapon) Arrays.asList(getBehaviors()).stream().filter(behavior -> behavior instanceof ShootableWeapon).collect(Collectors.toList()).get(0)).getShooter();
@@ -67,6 +75,10 @@ public class WeaponConfig implements  Configurable, Viewable, Info {
         else throw new IllegalStateException();
     }
 
+    /**
+     *
+     * @param weaponId gives a uniquely identifaible ID to be serialized
+     */
     public void setWeaponId(int weaponId) {
         this.weaponId = weaponId;
     }

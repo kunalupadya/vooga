@@ -11,7 +11,10 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import java.util.Arrays;
 import java.util.List;
-
+/**
+ * Behavior for weapons that causes the weapon to die after it has taken a certain amount of damage
+ *  * All methods inherited from superclass are commented there.
+ */
 public class HealthExpirable extends WeaponBehavior {
     public static final String DISPLAY_LABEL = "Health-Expirable";
     @Configure

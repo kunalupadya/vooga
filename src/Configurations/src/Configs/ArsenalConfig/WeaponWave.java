@@ -8,6 +8,9 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import java.util.Arrays;
 
+/**
+ * A list of weapons to be involved in one set of unlocks
+ */
 public class WeaponWave implements Updatable, Configurable {
     public static final String DISPLAY_LABEL = "Weapon Group";
     @Configure
@@ -35,14 +38,26 @@ public class WeaponWave implements Updatable, Configurable {
         }
     }
 
+    /**
+     *
+     * @return this instance variable
+     */
     public Arsenal getArsenal() {
         return myArsenal;
     }
 
+    /**
+     *
+     * @return this instance variable
+     */
     public boolean isUnlocked() {
         return unlocked;
     }
 
+    /**
+     *
+     * @return this instance variable
+     */
     public void unlock() {
         unlocked = true;
 
