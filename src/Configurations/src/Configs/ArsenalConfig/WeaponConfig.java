@@ -1,16 +1,13 @@
 package Configs.ArsenalConfig;
 
 import Configs.*;
-import Configs.ArsenalConfig.WeaponBehaviors.HealthExpirable;
 import Configs.ArsenalConfig.WeaponBehaviors.PlaceableOnPath;
-import Configs.ArsenalConfig.WeaponBehaviors.Shootable;
+import Configs.ArsenalConfig.WeaponBehaviors.ShootableWeapon;
 import Configs.ArsenalConfig.WeaponBehaviors.WeaponBehavior;
 import Configs.ShooterConfig.Shooter;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,8 +61,8 @@ public class WeaponConfig implements  Configurable, Viewable, Info {
     public double getHeight() {return view.getHeight();}
 
     public Shooter getShooter() throws IllegalStateException {
-        if (Arrays.asList(getBehaviors()).stream().anyMatch(behavior -> behavior instanceof Shootable)) {
-            return ((Shootable) Arrays.asList(getBehaviors()).stream().filter(behavior -> behavior instanceof Shootable).collect(Collectors.toList()).get(0)).getShooter();
+        if (Arrays.asList(getBehaviors()).stream().anyMatch(behavior -> behavior instanceof ShootableWeapon)) {
+            return ((ShootableWeapon) Arrays.asList(getBehaviors()).stream().filter(behavior -> behavior instanceof ShootableWeapon).collect(Collectors.toList()).get(0)).getShooter();
         }
         else throw new IllegalStateException();
     }

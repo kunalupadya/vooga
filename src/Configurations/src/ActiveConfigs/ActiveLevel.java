@@ -224,7 +224,9 @@ public class ActiveLevel extends Level implements Updatable {
         }
     }
     public void addGameCash(double amt){
-        if (Arrays.asList(getLevelBehaviors()).stream().anyMatch(behavior -> behavior instanceof Deflation)) getGame().addToCash(amt);
+        if (Arrays.asList(getLevelBehaviors()).stream().noneMatch(behavior -> behavior instanceof Deflation)) {
+            getGame().addToCash(amt);
+        }
     }
     public void addGameScore(int amt){
         getGame().addToScore(amt);
