@@ -12,7 +12,13 @@ class SettingsButton extends Button {
 
     private static final int MUSIC_OFF = 0;
 
-    private String icon = "settings.png";
+    private static final String icon = "settings.png";
+    private static final String SETTINGS_TITLE = "Game Settings";
+    private static final String SETTINGS_SUBTITLE = "Adjust Game Settings Below";
+    private static final String SOUND_LEVEL_PROMPT = "Sound Level";
+    private static final String OFF_PROMPT = "Sound Off";
+    private static final String ON_PROMPT = "Sound On";
+    private static final int PADDING = 10;
     private Image image = new Image(this.getClass().getClassLoader().getResourceAsStream(icon));
     private ImageView imageView = new ImageView(image);
     private MediaPlayer mediaPlayer;
@@ -34,15 +40,15 @@ class SettingsButton extends Button {
 
     private void displaySettings(){
         Dialog dialog = new Dialog();
-        dialog.setTitle("Game Settings");
-        dialog.setHeaderText("Adjust Game Settings Below");
+        dialog.setTitle(SETTINGS_TITLE);
+        dialog.setHeaderText(SETTINGS_SUBTITLE);
         DialogPane dialogPane = dialog.getDialogPane();
-        Button musicInput = new Button("Sound Off");
+        Button musicInput = new Button(OFF_PROMPT);
         musicInput.setOnAction(e -> switchSound(musicInput));
         Slider sound = new Slider(0,1,0.5);
         setupTicker(sound);
         sound.valueProperty().addListener((observable, oldValue, newValue) -> checkVolumeChange(newValue));
-        VBox settings = new VBox(20,musicInput, new Label("Sound Level"),  sound);
+        VBox settings = new VBox(PADDING,musicInput, new Label(SOUND_LEVEL_PROMPT),  sound);
         settings.setAlignment(Pos.CENTER);
         dialogPane.setContent(settings);
         dialog.show();
@@ -52,12 +58,12 @@ class SettingsButton extends Button {
 
     private void switchSound(Button music){
         if (soundOn){
-            music.setText("Sound On");
+            music.setText(ON_PROMPT);
             mediaPlayer.setVolume(MUSIC_OFF);
             soundOn = false;
         }
         else {
-            music.setText("Sound Off");
+            music.setText(OFF_PROMPT);
             mediaPlayer.setVolume(savedVolume);
             soundOn = true;
         }
@@ -66,7 +72,7 @@ class SettingsButton extends Button {
     private void setupTicker(Slider sound){
         sound.setShowTickLabels(true);
         sound.setShowTickMarks(true);
-        sound.setBlockIncrement(10);
+        sound.setBlockIncrement(PADDING);
         sound.setMajorTickUnit(0.25f);
         sound.setBlockIncrement(0.1f);
     }

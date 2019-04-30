@@ -13,9 +13,9 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 class SettingsPanel extends HBox {
-
+    private static final int PADDING = 10;
     SettingsPanel(double width, double height, SelectionInterface home, MediaPlayer mediaPlayer, Logic logic){
-        setSpacing(10);
+        setSpacing(PADDING);
         setPrefHeight(height);
         setPrefWidth(width);
         HomeButton homeButton = new HomeButton(width / 3, height);

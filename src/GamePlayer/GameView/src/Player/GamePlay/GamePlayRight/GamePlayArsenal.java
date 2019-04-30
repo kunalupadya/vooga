@@ -42,7 +42,7 @@ public class GamePlayArsenal extends VBox {
     public static final double ARSENAL_RATIO = 1.00;
     public static final double DISPLAY_SECOND_DELAY = 2;
     private static final double DEFAULT_OPACITY = 0.9;
-
+    private static final int IMAGE_SIZE = 100;
     private Logic myLogic;
     private ArrayList<Pair<ImageView, String>> viewList;
     private ListView arsenalDisplay;
@@ -202,8 +202,8 @@ public class GamePlayArsenal extends VBox {
         try {
             var image = new ImageView(myLogic.getImage(fileId));
             weaponMap.put(image.toString(), id);
-            image.setFitWidth(100);
-            image.setFitHeight(100);
+            image.setFitWidth(IMAGE_SIZE);
+            image.setFitHeight(IMAGE_SIZE);
             return new Pair<>(image, caption);
         }
         catch(Exception e){

@@ -14,6 +14,7 @@ import java.awt.*;
 public class GamePlayGUI extends HBox {
     public static final double LEFT_RATIO = 0.75;
     public static final double RIGHT_RATIO = 0.25;
+    private static final String HBOX_STYLE = "HUD";
     private GamePlayLeftSide myGameLeft;
     private GamePlayRightSide myGameRight;
 
@@ -21,7 +22,7 @@ public class GamePlayGUI extends HBox {
                 SelectionInterface home,
                 Group root,
                 MediaPlayer mediaPlayer){
-        setId("HUD");
+        setId(HBOX_STYLE);
         setPrefWidth(ScreenSize.getWidth());
         setPrefHeight(ScreenSize.getHeight());
         myGameLeft = new GamePlayLeftSide(ScreenSize.getWidth() * LEFT_RATIO, ScreenSize.getHeight(), logic, endLoop,
