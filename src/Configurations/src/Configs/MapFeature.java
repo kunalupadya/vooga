@@ -4,10 +4,8 @@ import ActiveConfigs.ActiveEnemy;
 import ActiveConfigs.ActiveProjectile;
 import ActiveConfigs.ActiveWeapon;
 import ActiveConfigs.Cell;
-import Configs.GamePackage.Game;
-import ExternalAPIs.AuthoringData;
-import ExternalAPIs.Data;
-
+//import ExternalAPIs.AuthoringData;
+//import ExternalAPIs.Data;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import javafx.scene.image.Image;
 
@@ -129,16 +127,14 @@ public class MapFeature {
     }
 
     private void setImage(View view) throws IllegalStateException {
-        Game game = parent.getActiveLevel().getGame();
-        int imageId = view.getImage();
-        Image image;
-        System.out.println("HERE:" + imageId);
-        if (game.hasImage(imageId)) image = game.getImage(imageId);
-        else image = Data.getImageStatic(imageId);
-        myImageView = new TransferImageView(image);
-        myImageView.setFitHeight(paneHeight/gridYSize*heightInGridUnits);
-        myImageView.setFitWidth(paneWidth/gridXSize* widthInGridUnits);
-
+        try {
+            myImageView = new TransferImageView(new Image(new FileInputStream("resources/"+view.getImage())));
+            myImageView.setFitHeight(paneHeight/gridYSize*heightInGridUnits);
+            myImageView.setFitWidth(paneWidth/gridXSize* widthInGridUnits);
+        }
+        catch (FileNotFoundException e) {
+            throw new IllegalStateException();
+        }
     }
 
 
@@ -307,9 +303,7 @@ public class MapFeature {
     }
 
     public void setDisplayState(DisplayState displayState) {
-        if(displayState == DisplayState.DIED) {
-            removeFromCell();
-        }
+        if(displayState == DisplayState.DIED) removeFromCell();
         this.displayState = displayState;
     }
 }

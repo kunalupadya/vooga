@@ -53,55 +53,40 @@ public class GamePlayArsenal extends VBox {
     private Map <String, Integer> weaponMap;
     private Effect defaultEffect;
     private double defaultOpacity;
-
-
-
-    //list of WeaponInfo objects which has ID and an imageview
     private Map<Integer, Info> myArsenal;
 
-    public GamePlayArsenal(double arsenalWidth, double arsenalHeight, Logic logic, GamePlayMap map, Group root) throws FileNotFoundException {
+    GamePlayArsenal(double arsenalWidth, double arsenalHeight, Logic logic, GamePlayMap map, Group root) {
         myLogic = logic;
         myMap = map;
         myRoot = root;
         arsenalDisplay = new ListView();
         arsenalDisplay.setPrefHeight(arsenalHeight * ARSENAL_RATIO);
         arsenalDisplay.setPrefWidth(arsenalWidth);
-
         myArsenal = logic.getMyArsenal();
         viewList = new ArrayList<>();
         weaponMap = new HashMap<>();
         defaultOpacity = myMap.getOpacity();
         setArsenalDisplay(myArsenal);
-
         arsenalDisplay.setPrefHeight(arsenalHeight * ARSENAL_RATIO);
         arsenalDisplay.setPrefWidth(arsenalWidth);
         getChildren().addAll(arsenalDisplay);
     }
 
-    public void recreateArsenal(){
-        setArsenalDisplay(myLogic.getMyArsenal());
-    }
-
     private void setArsenalDisplay(Map<Integer, Info> arsenal) {
-        try {
-            arsenalDisplay.setCellFactory(viewList -> new ImageCell());
-            for (Integer id: arsenal.keySet()) {
-//                System.out.println(new ImageView(myLogic.getImage(arsenal.get(id).getImage())));
-                System.out.println("ID: " + id);
-                arsenalDisplay.getItems().add(loadImageWithCaption(myArsenal.get(id).getImage(),
-                        myArsenal.get(id).getName(), weaponMap, id));
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        arsenalDisplay.setCellFactory(viewList -> new ImageCell());
+        for (Integer id: arsenal.keySet()) {
+            arsenalDisplay.getItems().add(loadImageWithCaption(myArsenal.get(id).getImage(),
+                    myArsenal.get(id).getName(), weaponMap, id));
         }
-
         arsenalDisplay.setOnDragDetected(mouseEvent -> dragDetected(mouseEvent));
         myMap.setOnDragOver(event -> dragOver(event));
         myMap.setOnDragEntered(event -> dragEntered(event));
         myMap.setOnDragExited(event -> dragExited(event));
         myMap.setOnDragDropped(event -> dragDropped(event));
+    }
 
+    void recreateArsenal(){
+        setArsenalDisplay(myLogic.getMyArsenal());
     }
 
     private void displayNotEnoughCash(String message){
@@ -117,8 +102,6 @@ public class GamePlayArsenal extends VBox {
     }
 
     private void dragDropped(DragEvent event){
-//        System.out.println("Drag Dropped");
-//        System.out.println(weaponMap);
         Dragboard db = event.getDragboard();
         boolean success = false;
         if (db.hasString()) {
@@ -136,7 +119,6 @@ public class GamePlayArsenal extends VBox {
         event.consume();
     }
 
-
     private void dragExited(DragEvent event){
         myMap.setOpacity(defaultOpacity);
         getChildren().removeAll();
@@ -153,7 +135,6 @@ public class GamePlayArsenal extends VBox {
     }
 
     private void dragOver(DragEvent event){
-        //System.out.println("drag over");
         movingImage.setTranslateX(event.getX());
         movingImage.setTranslateY(event.getY());
         if (event.getGestureSource() != myMap ) {
@@ -162,10 +143,7 @@ public class GamePlayArsenal extends VBox {
             lighting.setSpecularConstant(0.0);
             lighting.setSpecularExponent(0.0);
             lighting.setSurfaceScale(0.0);
-//            System.out.println(weaponMap);
-//            System.out.println(myLogic.checkPlacementLocation(weaponMap.get(selectedImage.toString()), event.getX(), event.getY(), 0));
             if (myLogic.checkPlacementLocation(weaponMap.get(selectedImage.toString()), event.getX(), event.getY(), 0)) {
-//                System.out.println(weaponMap);
                 lighting.setLight(new Light.Distant(45, 45, Color.GREEN));
             }
             else{
@@ -182,25 +160,10 @@ public class GamePlayArsenal extends VBox {
         Dragboard db = selectedImage.startDragAndDrop(TransferMode.ANY);
         defaultEffect = selectedImage.getEffect();
         var imageCopy = selectedImage.getImage();
-        PixelReader pixelReader = imageCopy.getPixelReader();
-        int width = (int)imageCopy.getWidth();
-        int height = (int)imageCopy.getHeight();
-
-        WritableImage writableImage = new WritableImage(width, height);
-        PixelWriter pixelWriter = writableImage.getPixelWriter();
-
-        for (int y = 0; y < height; y++){
-            for (int x = 0; x < width; x++){
-                Color color = pixelReader.getColor(x, y);
-                pixelWriter.setColor(x, y, color);
-            }
-        }
-
         movingImage = new ImageView();
-        movingImage.setImage(writableImage);
+        movingImage.setImage(copyImage(imageCopy));
         movingImage.setFitWidth(myMap.getGridSize());
         movingImage.setFitHeight(myMap.getGridSize());
-
         myRoot.getChildren().add(movingImage);
         ClipboardContent content = new ClipboardContent();
         content.putString(selectedImage.toString());
@@ -208,37 +171,43 @@ public class GamePlayArsenal extends VBox {
         mouseEvent.consume();
     }
 
+    private WritableImage copyImage(Image imageCopy){
+        PixelReader pixelReader = imageCopy.getPixelReader();
+        int width = (int)imageCopy.getWidth();
+        int height = (int)imageCopy.getHeight();
+        WritableImage writableImage = new WritableImage(width, height);
+        PixelWriter pixelWriter = writableImage.getPixelWriter();
+        for (int y = 0; y < height; y++){
+            for (int x = 0; x < width; x++){
+                Color color = pixelReader.getColor(x, y);
+                pixelWriter.setColor(x, y, color);
+            }
+        }
+        return writableImage;
+    }
+
     private static class ImageCell extends ListCell<Pair<ImageView, String>> {
         @Override
         public void updateItem(Pair<ImageView, String> item, boolean empty) {
             super.updateItem(item, empty);
             if(!empty) {
-//                System.out.println("Item:" + item);
                 setGraphic(item.getKey());
                 Tooltip.install(this, new Tooltip(item.getValue()));
             }
         }
     }
 
-    //TODO: change filename param to INT
     private Pair<ImageView, String> loadImageWithCaption(int fileId, String caption, Map <String,
             Integer> weaponMap, Integer id) {
         try {
-            //TODO: USE BELOW WHEN INFO IS CHANGED
-            System.out.println(fileId);
             var image = new ImageView(myLogic.getImage(fileId));
-            System.out.println("**********");
-            System.out.println(image);
             weaponMap.put(image.toString(), id);
             image.setFitWidth(100);
             image.setFitHeight(100);
-            Pair pair = new Pair<>(image, caption);
-            return pair;
-//            return new Pair<>(image, caption);
+            return new Pair<>(image, caption);
         }
         catch(Exception e){
-            System.out.println(e);
-            //This shouldn't ever happen
+            myRoot.getChildren().add(new Text(e.getMessage()));
         }
         return null;
     }

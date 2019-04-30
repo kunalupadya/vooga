@@ -1,18 +1,13 @@
 package Player.GamePlay.GamePlayLeft;
 
 import BackendExternal.Logic;
-import Configs.ImmutableImageView;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-
-import java.util.ArrayList;
 
 public class GamePlaySettingsBar extends StackPane {
 
@@ -73,15 +68,14 @@ public class GamePlaySettingsBar extends StackPane {
     private void createLabels(double imageHeight){
         HBox textHBox = new HBox();
         textHBox.setAlignment(Pos.CENTER);
-        liveScore = new Text("100");
-        numLives = new Text("100");
-        myMoney = new Text("100");
-        myLevel = new Text("100");
+        liveScore = new Text("" + DEFAULT_SCORE);
+        numLives = new Text("" + DEFAULT_SCORE);
+        myMoney = new Text("" + DEFAULT_SCORE);
+        myLevel = new Text("" + DEFAULT_SCORE);
         StackPane score = createLabelVBox(scoreImage, imageHeight, liveScore);
         StackPane level = createLabelVBox(levelImage, imageHeight, myLevel);
         StackPane money = createLabelVBox(moneyImage, imageHeight, myMoney);
         StackPane lives = createLabelVBox(livesImage, imageHeight, numLives);
-
         textHBox.getChildren().addAll(score, level, money, lives);
         textHBox.setSpacing(padding);
         textHBox.setMaxWidth(width);
@@ -104,13 +98,17 @@ public class GamePlaySettingsBar extends StackPane {
         return vBox;
     }
 
+    /**
+     * This method is used to update the user score and cash balance. It is called in every loop to fetch the updated
+     * data from the backend.
+     */
     public void updateVariables(){
         liveScore.setText(Double.toString(myLogic.getScore()));
 //        numLives.setText("Lives: " + myLogic.getLives());
         myMoney.setText(Double.toString(myLogic.getCash()));
     }
 
-    public void updateLevel(int currLevel){
+    void updateLevel(int currLevel){
         myLevel.setText(Integer.toString(currLevel));
     }
 

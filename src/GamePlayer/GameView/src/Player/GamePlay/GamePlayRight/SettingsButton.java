@@ -8,7 +8,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Window;
 
-public class SettingsButton extends Button {
+class SettingsButton extends Button {
 
     private static final int MUSIC_OFF = 0;
 
@@ -32,7 +32,7 @@ public class SettingsButton extends Button {
         setOnAction(e -> displaySettings());
     }
 
-    private Dialog displaySettings(){
+    private void displaySettings(){
         Dialog dialog = new Dialog();
         dialog.setTitle("Game Settings");
         dialog.setHeaderText("Adjust Game Settings Below");
@@ -48,7 +48,6 @@ public class SettingsButton extends Button {
         dialog.show();
         Window window = dialog.getDialogPane().getScene().getWindow();
         window.setOnCloseRequest(event -> window.hide());
-        return dialog;
     }
 
     private void switchSound(Button music){

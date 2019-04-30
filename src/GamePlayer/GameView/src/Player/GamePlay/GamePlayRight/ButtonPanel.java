@@ -10,19 +10,18 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
 
-public class ButtonPanel extends VBox {
+class ButtonPanel extends VBox {
 
     private PlayButton myPlayButton;
     private FastFowardButton myFastFowardButton;
     private SettingsPanel mySettingsPanel;
 
-    public ButtonPanel(double width, double height, ButtonInterface method, ButtonInterface fastFoward,
-                       SelectionInterface home, MediaPlayer mediaPlayer, Logic logic){
+    ButtonPanel(double width, double height, ButtonInterface method, ButtonInterface fastFoward,
+                SelectionInterface home, MediaPlayer mediaPlayer, Logic logic){
         setPrefHeight(height);
         setPadding(new Insets(2, 2, 30, 2));
         setSpacing(0);
         setMaxHeight(height);
-//        setId("HUD");
         setAlignment(Pos.CENTER);
         myPlayButton = new PlayButton(width, height* 0.4);
         myFastFowardButton = new FastFowardButton(width, height * 0.4);

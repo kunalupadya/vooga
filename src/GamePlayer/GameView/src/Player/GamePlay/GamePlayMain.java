@@ -106,7 +106,7 @@ public class GamePlayMain extends Application {
         }
     }
 
-    public void endLoop(){
+    private void endLoop(){
         gameOver = true;
     }
 
