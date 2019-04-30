@@ -51,9 +51,9 @@ public class MapFeature {
         setImage(view);
         this.heightInGridUnits = view.getHeight();
         this.widthInGridUnits = view.getWidth();
+        hypotenuse = Math.sqrt(Math.pow(widthInGridUnits/2, 2) + Math.pow(heightInGridUnits/2, 2));
         setGridPos(gridXPos,gridYPos,displayDirection);
         displayState = DisplayState.NEW;
-        hypotenuse = Math.sqrt(Math.pow(widthInGridUnits/2, 2) + Math.pow(heightInGridUnits/2, 2));
 
     }
 
@@ -66,9 +66,9 @@ public class MapFeature {
         this.gridXSize = gridXSize;
         this.gridYSize = gridYSize;
         displayState = DisplayState.NEW;
+        hypotenuse = Math.sqrt(Math.pow(widthInGridUnits/2, 2) + Math.pow(heightInGridUnits/2, 2));
         setImage(view);
         setGridPos(gridXPos, gridYPos, displayDirection);
-        hypotenuse = Math.sqrt(Math.pow(widthInGridUnits/2, 2) + Math.pow(heightInGridUnits/2, 2));
     }
 
     /**
@@ -94,9 +94,9 @@ public class MapFeature {
         this.gridYPos = gridYPos;
         this.gridXPos = gridXPos;
         this.parent = parent;
+        hypotenuse = Math.sqrt(Math.pow(widthInGridUnits/2, 2) + Math.pow(heightInGridUnits/2, 2));
         setImage(view);
         setGridPos(gridXPos, gridYPos, displayDirection);
-        hypotenuse = Math.sqrt(Math.pow(widthInGridUnits/2, 2) + Math.pow(heightInGridUnits/2, 2));
     }
 
 
@@ -148,9 +148,9 @@ public class MapFeature {
         this.gridXPos = (int) (pixelXPos*(gridXSize/paneWidth));
         this.gridYPos = (int) (pixelYPos*(gridYSize/paneHeight));
         this.parent = parent;
+        hypotenuse = Math.sqrt(Math.pow(widthInGridUnits/2, 2) + Math.pow(heightInGridUnits/2, 2));
         setImage(view);
         setPixelPos(pixelXPos,pixelYPos,direction);
-        hypotenuse = Math.sqrt(Math.pow(widthInGridUnits/2, 2) + Math.pow(heightInGridUnits/2, 2));
     }
 
     private void setImage(View view) throws IllegalStateException {
