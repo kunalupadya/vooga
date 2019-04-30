@@ -153,6 +153,21 @@ public class MapFeature {
         hypotenuse = Math.sqrt(Math.pow(widthInGridUnits/2, 2) + Math.pow(heightInGridUnits/2, 2));
     }
 
+    private void setImage(View view) throws IllegalStateException {
+        Game game = parent.getActiveLevel().getGame();
+        int imageId = view.getImage();
+        Image image;
+        if (game.hasImage(imageId)) {
+            image = game.getImage(imageId);
+        }
+        else {
+            image = Data.getImageStatic(imageId);
+            game.addImage(imageId, image);
+        }
+        myImageView = new TransferImageView(image);
+        myImageView.setFitHeight(paneHeight/gridYSize*heightInGridUnits);
+        myImageView.setFitWidth(paneWidth/gridXSize* widthInGridUnits);
+    }
     /**
      * cleans and updates displaystate based on what the state is
      * @param displayState

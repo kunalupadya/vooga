@@ -9,8 +9,10 @@ public class View implements Configurable {
     public static final String DISPLAY_LABEL = "Image";
     @Configure
     private int imageId;
+    @Slider(min=5, max = 90)
     @Configure
     private int width;
+    @Slider(min=5, max = 90)
     @Configure
     private int height;
     private Configurable myConfigurable;
