@@ -3,9 +3,11 @@ package GameAuthoringEnvironment.AuthoringComponents;
 import BackendExternalAPI.Model;
 import Configs.Configurable;
 import ExternalAPIs.AuthoringData;
+import ExternalAPIs.ImageLoader;
 import GameAuthoringEnvironment.AuthoringScreen.GameController;
 import GameAuthoringEnvironment.AuthoringScreen.ImageBox;
 import GameAuthoringEnvironment.AuthoringScreen.ScreenSize;
+import GameAuthoringEnvironment.AuthoringScreen.UploadImage;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -109,9 +111,17 @@ public class ConfigureImage {
         VBox right = new VBox();
         right.setAlignment(Pos.CENTER);
         Button finished = new Button("Finish");
+        Button uploadeImage = new Button("Upload Your Own Image");
+        uploadeImage.setOnMouseClicked((new EventHandler<MouseEvent>() {
+            //TODO DO Errorchecking/Refactor
+            @Override
+            public void handle(MouseEvent event) {
+                UploadImage uploadImage = new UploadImage();
+            }
+        }));
         finished.setOnAction(e->finish());
         promptSide.getChildren().add(finished);
-        right.getChildren().addAll(promptSide, finished);
+        right.getChildren().addAll(promptSide, finished, uploadeImage);
         hBox.getChildren().addAll(sp, right);
         Scene scene= new Scene(hBox, 800, 800);
         popUpWindow.setScene(scene);
