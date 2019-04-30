@@ -149,19 +149,29 @@ public class GameSelection extends Application {
         gameStart.setAlignment(Pos.CENTER);
         Rectangle bkg = createBackdrop(gameStart.getPrefWidth()/2, gameStart.getPrefWidth()/2);
         gameStart.getChildren().add(bkg);
+
+
         Text title = new Text(gameInfo.getGameTitle());
         title.setFont(Font.font(FONT_VERANDA, FontWeight.BOLD, 50));
         title.setTranslateY(-100);
+
+
         Text subtitle = new Text(gameInfo.getGameDescription());
         subtitle.setFont(Font.font(FONT_VERANDA, FontPosture.ITALIC, 20));
         subtitle.setTranslateY(-70);
+
+
         gameStart.getChildren().add(title);
         gameStart.getChildren().add(subtitle);
         gameStart.applyCss();
         gameStart.layout();
+
+
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(100);
         imageView.setFitHeight(100);
+
+
         gameStart.getChildren().add(imageView);
         Button play = new Button("Play");
         play.setTranslateX(0);
