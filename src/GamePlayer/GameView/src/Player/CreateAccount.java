@@ -8,6 +8,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 public class CreateAccount extends GridPane {
+    private static final int PADDING = 25;
+    private static final String USERNAME = "Username: ";
+    private static final String PASSWORD = "Password: ";
+    private static final String CONFIRM_PASSWORD = "Confirm Password: ";
+
     private TextField userTextField;
     private PasswordField passwordField;
     private PasswordField passwordCheck;
@@ -17,18 +22,18 @@ public class CreateAccount extends GridPane {
     }
     private void logInWithPasswordCheck(){
         setId("login");
-        setPadding(new Insets(25, 25, 25, 25));
-        final Label userName = new Label("User Name:");
+        setPadding(new Insets(PADDING, PADDING, PADDING, PADDING));
+        final Label userName = new Label(USERNAME);
         add(userName, 1, 1);
         userTextField = new TextField();
         add(userTextField, 2, 1);
 
-        Label pw = new Label("Password:");
+        Label pw = new Label(PASSWORD);
         add(pw, 1, 2);
         passwordField = new PasswordField();
         add(passwordField , 2, 2);
 
-        Label pwConfirm = new Label("Confirm Password:");
+        Label pwConfirm = new Label(CONFIRM_PASSWORD);
         add(pwConfirm, 1, 3);
         passwordCheck = new PasswordField();
         add(passwordCheck, 2, 3);
