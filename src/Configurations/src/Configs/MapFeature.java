@@ -6,6 +6,7 @@ import ActiveConfigs.ActiveWeapon;
 import ActiveConfigs.Cell;
 //import ExternalAPIs.AuthoringData;
 //import ExternalAPIs.Data;
+import Configs.GamePackage.Game;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import javafx.scene.image.Image;
 
@@ -152,16 +153,16 @@ public class MapFeature {
     }
 
     private void setImage(View view) throws IllegalStateException {
-<<<<<<< HEAD
-        try {
-            myImageView = new TransferImageView(new Image(new FileInputStream("resources/"+view.getImage())));
-            myImageView.setFitHeight(paneHeight/gridYSize*heightInGridUnits);
-            myImageView.setFitWidth(paneWidth/gridXSize* widthInGridUnits);
-        }
-        catch (FileNotFoundException e) {
-            throw new IllegalStateException();
-        }
-=======
+//<<<<<<< HEAD
+//        try {
+//            myImageView = new TransferImageView(new Image(new FileInputStream("resources/"+view.getImage())));
+//            myImageView.setFitHeight(paneHeight/gridYSize*heightInGridUnits);
+//            myImageView.setFitWidth(paneWidth/gridXSize* widthInGridUnits);
+//        }
+//        catch (FileNotFoundException e) {
+//            throw new IllegalStateException();
+//        }
+//=======
         Game game = parent.getActiveLevel().getGame();
         int imageId = view.getImage();
         Image image;
