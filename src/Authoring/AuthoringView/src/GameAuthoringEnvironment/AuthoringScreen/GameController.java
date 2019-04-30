@@ -271,10 +271,9 @@ public class GameController {
                 public void handle(MouseEvent event) {
                     try {
                         Class<?> cl = Class.forName(value.getComponentType().getName());
-                        configureBehavior(cl, myConfigurable, myAttributesMap, key, true);
+                        configureBehavior(cl, myConfigurable, myAttributesMap, key, tempList, true);
                     } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
                         myAlertFactory.createAlert("Behavior configured incorrectly. Try that again.");
-                        handleConfigurableArray(myConfigurable, allButton, layout, myAttributesMap, key, value, definedAttributesMap);
                     }
                 }
             }));
@@ -347,10 +346,10 @@ public class GameController {
         }
     }
 
-    private void configureBehavior(Class<?> cl, Configurable myConfigurable, Map<String, Object> myAttributesMap, String key, boolean b) throws NoSuchFieldException, IllegalAccessException {
+    private void configureBehavior(Class<?> cl, Configurable myConfigurable, Map<String, Object> myAttributesMap, String key, List<Object> tempList, boolean b) throws NoSuchFieldException, IllegalAccessException {
         Field myField = cl.getDeclaredField("IMPLEMENTING_BEHAVIORS");
         List<Class> behaviorList = (List<Class>) myField.get(null);
-        ConfigureBehavior configureBehavior = new ConfigureBehavior(myGameController, myConfigurable, myAttributesMap, behaviorList, key, cl, b);
+        ConfigureBehavior configureBehavior = new ConfigureBehavior(myGameController, myConfigurable, myAttributesMap, behaviorList, key, cl, tempList, b);
         configureBehavior.start(new Stage());
     }
 
@@ -364,20 +363,27 @@ public class GameController {
         try {
             Class c = Class.forName(value.getComponentType().getName());
             Object[] ob = (Object[]) Array.newInstance(c, tempList.size());
+            System.out.println(value.getComponentType());
+            System.out.println(value.getComponentType().getSimpleName().contains("behavior"));
+            if(value.getComponentType().getSimpleName().toLowerCase().contains("behavior")){
+                for(int a=0; a<tempList.size() ; a++) {
+                    Object[] ob1 = (Object[]) tempList.get(0);
+                    ob[a] = ob1[a];
+                }
+            }else{
             for(int a=0; a<tempList.size() ; a++){
                 ob[a] = tempList.get(a);
-            }
+            }}
             myAttributesMap.put(key, ob);
-            List<Object> newObjects = new ArrayList<>(Arrays.asList(ob));
+           /* List<Object> newObjects = new ArrayList<>(Arrays.asList(ob));
             if(configuredObjects.get(key) != null){
                 configuredObjects.get(key).addAll(newObjects);
             }else{
                 configuredObjects.put(key, newObjects);
-            }
+            }*/
         }
         catch (ClassNotFoundException e){
             myAlertFactory.createAlert("This array has illegal classes. Please configure it again.");
-            handleArrayConfirmButton(value, tempList, myAttributesMap, key);
         }
     }
 
@@ -385,7 +391,7 @@ public class GameController {
         try {
             Class<?> cl = Class.forName(value.getComponentType().getName());
             if(cl.getSimpleName().contains("Behavior")){
-                configureBehavior(cl, myConfigurable, myAttributesMap, key, true);
+                configureBehavior(cl, myConfigurable, myAttributesMap, key, tempList, true);
             }
             else{
                 createConfigurable((Configurable) tempList.get(sourceView.getSelectionModel().getSelectedIndex()));
@@ -393,9 +399,6 @@ public class GameController {
 
         } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException| IndexOutOfBoundsException e) {
             myAlertFactory.createAlert("Please try again! Something went wrong during your configuration ");
-            handleArraySourceView(value, myConfigurable, myAttributesMap, tempList, sourceView, key);
-            System.out.println(e);
-
         }
     }
 
@@ -451,7 +454,8 @@ public class GameController {
                     //Speical case : Behavior is different since drag and drop is required
                     } else if(clazz.getSimpleName().toLowerCase().contains("behavior")){
                         //multiple behaviors allowed
-                        configureBehavior(clazz, myConfigurable, myAttributesMap, key, false);
+                        List<Object> emptyList = new ArrayList<>();
+                        configureBehavior(clazz, myConfigurable, myAttributesMap, key, emptyList,false);
                     }
                     //rest should follow this
                     else {
@@ -462,7 +466,6 @@ public class GameController {
                     }
 
                 } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
-                    e.printStackTrace();
                     myAlertFactory.createAlert("Something went wrong! Please try again");
                 }
 
@@ -510,7 +513,6 @@ public class GameController {
         nameAndTfBar.setAlignment(Pos.CENTER);
         nameAndTfBar.getChildren().addAll(DISPLAY_LABEL, myTextField, chooseImageButton, confirmButton);
         chooseImageButton.setOnMouseClicked((new EventHandler<MouseEvent>() {
-            //TODO(Louis) Change this so that image is called in from the server
             @Override
             public void handle(MouseEvent event) {
                 ConfigureImage configureImage = new ConfigureImage(myTextField, imageType);
