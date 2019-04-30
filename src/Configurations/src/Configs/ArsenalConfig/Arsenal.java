@@ -62,16 +62,9 @@ public class Arsenal implements Configurable, Updatable {
         return myConfiguration;
     }
 
-    public Map<Integer, Info> getAllWeaponConfigOptions() {
-        Map<Integer, Info> ret = new HashMap<>();
-        for(int i = 0; i< unlockedWeapons.size(); i++) {
-            ret.put(i, unlockedWeapons.get(i));
-        }
-        return Collections.unmodifiableMap(ret);
-    }
 
     //note: ID is the index of the weapon+1
-    public Map<Integer, Info> getAllNewWeaponConfigOptions() {
+    public Map<Integer, Info> getAllWeaponConfigOptions() {
 
         //System.out.println(Arrays.asList(unlockedWeapons));
 
@@ -80,6 +73,9 @@ public class Arsenal implements Configurable, Updatable {
             newUnlockedWeapons.addAll(Arrays.asList(defaultWeapons));
         }
         Map<Integer, Info> weaponInfoMap = new HashMap<>();
+        for(int i = 0; i< unlockedWeapons.size(); i++) {
+            weaponInfoMap.put(i, unlockedWeapons.get(i));
+        }
         for(int i = 0; i< newUnlockedWeapons.size(); i++) {
             weaponInfoMap.put(unlockedWeapons.size()+i, newUnlockedWeapons.get(i));
             newUnlockedWeapons.get(i).setWeaponId(unlockedWeapons.size()+i+1);

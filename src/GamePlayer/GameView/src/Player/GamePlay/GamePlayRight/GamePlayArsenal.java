@@ -85,9 +85,10 @@ public class GamePlayArsenal extends VBox {
     private void setArsenalDisplay(Map<Integer, Info> arsenal) {
         try {
             arsenalDisplay.setCellFactory(viewList -> new ImageCell());
+            arsenalDisplay.getItems().removeAll();
             for (Integer id: arsenal.keySet()) {
 //                System.out.println(new ImageView(myLogic.getImage(arsenal.get(id).getImage())));
-                System.out.println("ID: " + id);
+//                System.out.println("ID: " + id);
                 arsenalDisplay.getItems().add(loadImageWithCaption(myArsenal.get(id).getImage(),
                         myArsenal.get(id).getName(), weaponMap, id));
 

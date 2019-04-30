@@ -7,6 +7,7 @@ import Configs.ArsenalConfig.WeaponBehaviors.WeaponBehavior;
 import Configs.EnemyPackage.EnemyConfig;
 import Configs.LevelPackage.Level;
 import Configs.Waves.WaveBehaviors.WaveBehavior;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import java.awt.Point;
 import java.util.Arrays;
@@ -34,6 +35,7 @@ public class Wave implements Updatable, Configurable {
 
     private double[] startTimes;
     private int currentEnemyIndex = 0;
+//    @XStreamOmitField
     private boolean isFinished = false;
 
     public Wave(Level level) {
