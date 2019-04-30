@@ -31,8 +31,10 @@ import java.io.File;
 
 public class LoadingSplashScreen extends Application{
 
-    private final String WELCOME_MUSIC = "resources/gameMusic.mp3";
-    private final String TITLE_IMAGE = "title.png";
+    private static final String WELCOME_MUSIC = "resources/gameMusic.mp3";
+    private static final String TITLE_IMAGE = "title.png";
+    private static final int BUTTON_Y_POS = 150;
+    private static final int BUTTON_X_POS = 0;
     private StackPane root;
     private ImageView title;
     private Stage stage;
@@ -43,7 +45,7 @@ public class LoadingSplashScreen extends Application{
     private LogInGrid logInGrid;
     private CreateAccount createAccountGrid;
     private Logic logic;
-    private Text errorMessage;
+
     @Override
     public void start(Stage primaryStage) {
         stage = primaryStage;
@@ -51,20 +53,28 @@ public class LoadingSplashScreen extends Application{
         background = new StackPane();
         root = new StackPane();
         background.getChildren().add(root);
+        addElementsToRoot();
+        Button start = createStartButton("shiny-yelow", "Start", BUTTON_X_POS, BUTTON_Y_POS);
+        start.setOnAction(e -> transitionToLogIn(start));
+        root.getChildren().add(start);
+
+        stage.setX(ScreenSize.getWidth());
+        stage.setY(ScreenSize.getHeight());
+        var scene = createScene();
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+    private void addElementsToRoot(){
         root.setId("pane");
         root.applyCss();
         root.layout();
-        stage.setX(ScreenSize.getWidth());
-        stage.setY(ScreenSize.getHeight());
-        var scene = new Scene(background, ScreenSize.getWidth(), ScreenSize.getHeight());
-        scene.getStylesheets().add("style.css");
-        primaryStage.setScene(scene);
-        primaryStage.show();
         root.getChildren().add(createWelcomeMusic());
         root.getChildren().add(createLogoBackground());
-        Button start = createStartButton("shiny-yelow", "Start", 0, 150);
-        start.setOnAction(e -> transitionToLogIn(start));
-        root.getChildren().add(start);
+    }
+    private Scene createScene(){
+        var scene = new Scene(background, ScreenSize.getWidth(), ScreenSize.getHeight());
+        scene.getStylesheets().add("style.css");
+        return scene;
     }
 
     private MediaView createWelcomeMusic(){
