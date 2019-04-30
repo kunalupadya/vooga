@@ -53,10 +53,6 @@ public class GamePlayArsenal extends VBox {
     private Map <String, Integer> weaponMap;
     private Effect defaultEffect;
     private double defaultOpacity;
-
-
-
-    //list of WeaponInfo objects which has ID and an imageview
     private Map<Integer, Info> myArsenal;
 
     public GamePlayArsenal(double arsenalWidth, double arsenalHeight, Logic logic, GamePlayMap map, Group root) {
@@ -199,7 +195,6 @@ public class GamePlayArsenal extends VBox {
         public void updateItem(Pair<ImageView, String> item, boolean empty) {
             super.updateItem(item, empty);
             if(!empty) {
-//                System.out.println("Item:" + item);
                 setGraphic(item.getKey());
                 Tooltip.install(this, new Tooltip(item.getValue()));
             }
