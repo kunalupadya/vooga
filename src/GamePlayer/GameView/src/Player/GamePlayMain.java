@@ -1,7 +1,9 @@
-package Player.GamePlay;
+package Player;
 
 import BackendExternal.Logic;
+import Configs.GamePackage.Game;
 import ExternalAPIs.GameInfo;
+import Player.GamePlay.GamePlayGUI;
 import Player.ScreenSize;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -26,7 +28,7 @@ import static Player.GamePlay.GamePlayLeft.GamePlayLeftSide.TOP_RATIO;
 public class GamePlayMain extends Application {
     private String Title = "VoogaSalad Game";
     private String GAME_MUSIC = "resources/gameMusic.mp3";
-    public static int FRAMES_PER_SECOND = 10;
+    public static int FRAMES_PER_SECOND = 3;
     public static int MILLISECOND_DELAY = 1000/FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0/FRAMES_PER_SECOND;
     private static final Paint backgroundColor = Color.NAVY;
@@ -74,6 +76,12 @@ public class GamePlayMain extends Application {
         myLogic.createGameInstance(gameInfo);
         myLogic.startAtDefaultState();
     }
+
+    public void setGameFromAuthoring(Game game){
+        myLogic.setGameFromAuthoring(game);
+        myLogic.startAtDefaultState();
+    }
+
     private void fastFoward(){
         animation.setRate(2.5);
     }

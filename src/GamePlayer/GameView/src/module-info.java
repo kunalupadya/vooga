@@ -11,4 +11,5 @@ module GameView {
     requires DatabaseUtil;
 
     exports Player;
+
 }

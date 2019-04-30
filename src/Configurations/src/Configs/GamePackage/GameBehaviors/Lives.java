@@ -7,6 +7,9 @@ import Configs.GamePackage.GameStatus;
 import Configs.Updatable;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+/**
+ * game mode that ends when a certain amount of enemies get through
+ */
 public class Lives extends GameBehavior{
     public static final String DISPLAY_LABEL = "Lives";
     @Configure

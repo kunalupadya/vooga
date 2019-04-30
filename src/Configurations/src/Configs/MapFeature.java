@@ -153,6 +153,21 @@ public class MapFeature {
         hypotenuse = Math.sqrt(Math.pow(widthInGridUnits/2, 2) + Math.pow(heightInGridUnits/2, 2));
     }
 
+    private void setImage(View view) throws IllegalStateException {
+        Game game = parent.getActiveLevel().getGame();
+        int imageId = view.getImage();
+        Image image;
+        if (game.hasImage(imageId)) {
+            image = game.getImage(imageId);
+        }
+        else {
+            image = Data.getImageStatic(imageId);
+            game.addImage(imageId, image);
+        }
+        myImageView = new TransferImageView(image);
+        myImageView.setFitHeight(paneHeight/gridYSize*heightInGridUnits);
+        myImageView.setFitWidth(paneWidth/gridXSize* widthInGridUnits);
+    }
     /**
      * cleans and updates displaystate based on what the state is
      * @param displayState
@@ -257,18 +272,6 @@ public class MapFeature {
         myImageView.setRotate(direction);
     }
 
-    private void setImage(View view) throws IllegalStateException {
-        Game game = parent.getActiveLevel().getGame();
-        int imageId = view.getImage();
-        Image image;
-//        System.out.println("HERE:" + imageId);
-        if (game.hasImage(imageId)) image = game.getImage(imageId);
-        else image = Data.getImageStatic(imageId);
-        myImageView = new TransferImageView(image);
-        myImageView.setFitHeight(paneHeight/gridYSize*heightInGridUnits);
-        myImageView.setFitWidth(paneWidth/gridXSize* widthInGridUnits);
-
-    }
 
     /**
      * Allows for the movement of an object based on a new grid position and pointing location
@@ -365,7 +368,9 @@ public class MapFeature {
     private void setPixelPos(double pixelXPos, double pixelYPos, double direction) {
         updateSafeBoxBounds();
         removeFromCell();
-        if(isOutOfBoundsPixel(pixelXPos,pixelYPos)) displayState = DisplayState.DIED;
+        if(isOutOfBoundsPixel(pixelXPos,pixelYPos)) {
+            displayState = DisplayState.DIED;
+        }
         else {
             this.pixelYPos = pixelYPos;
             this.pixelXPos = pixelXPos;

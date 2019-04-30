@@ -101,11 +101,12 @@ public class GameController {
                 handleImageField(popupwindow, allButton, layout, myAttributesMap, key, value, definedAttributesMap, myConfigurable);
 
             }
-            //handle string and primitives except boolean
+            //handle string
             else if(value.equals(String.class)){
                 handleString(allButton, layout, myAttributesMap, key, value, definedAttributesMap);
             }
 
+            //handle primitives
             else if(value.isPrimitive()){
                 handlePrimitives(allButton, layout, myAttributesMap, key, value, definedAttributesMap, myConfigurable);
             }
@@ -204,36 +205,26 @@ public class GameController {
             //TODO DO Errorchecking/Refactor
             @Override
             public void handle(MouseEvent event) {
+                double myValue;
                 if(nameAndTfBar.getChildren().contains(mySlider)){
-                if(value.getName().equals("int")){
-                    Integer a = (int)mySlider.getValue();
-                    myAttributesMap.put(key, a.intValue());
-                }
-                else if(value.getName().equals("long")){
-                    Long b = (long)mySlider.getValue();
-                    myAttributesMap.put(key, b.longValue());
-                }
+                    myValue = mySlider.getValue();}
                 else{
-                    Double c = (double)mySlider.getValue();
-                    myAttributesMap.put(key, c.doubleValue());
-                    }
-                }
-                else{
-                    if(value.getName().equals("int")){
-                        Integer a = Integer.parseInt(myTextField.getText());
-                        myAttributesMap.put(key, a.intValue());
-                    }
-                    else if(value.getName().equals("long")){
-                        Long b = Long.parseLong(myTextField.getText());
-                        myAttributesMap.put(key, b.longValue());
-                    }
-                    else{
-                        Double c =Double.parseDouble(myTextField.getText());
-                        myAttributesMap.put(key, c.doubleValue());
+                    myValue = Double.parseDouble(myTextField.getText());
                     }
 
+                if(value.getName().equals("int")){
+                    int a = (int) myValue;
+                    myAttributesMap.put(key, a);
                 }
-            }
+                else if(value.getName().equals("long")){
+                    long b = (long)myValue;
+                    myAttributesMap.put(key, b);
+                }
+                else{
+                    myAttributesMap.put(key, myValue);
+                    }
+                }
+
         }));
         allButton.add(confirmButton);
         layout.getChildren().addAll(nameAndTfBar);
@@ -244,12 +235,8 @@ public class GameController {
     private void handleString(List<Button> allButton, VBox layout, Map<String, Object> myAttributesMap, String key, Class value, Map<String, Object> definedAttributesMap) {
         //TODO get the label string from the properties file
         Label DISPLAY_LABEL = getLabel(key);
-        TextField myTextField = new TextField();
-        if (definedAttributesMap.keySet().contains(key)) {
-            myTextField.setText(definedAttributesMap.get(key).toString());
-        }
+        TextField myTextField = getTextField(key, definedAttributesMap);
         Button confirmButton = new Button("Confirm");
-
         var nameAndTfBar = new HBox();
         nameAndTfBar.getChildren().addAll(DISPLAY_LABEL, myTextField, confirmButton);
         confirmButton.setOnMouseClicked((new EventHandler<MouseEvent>() {
@@ -284,10 +271,7 @@ public class GameController {
                 public void handle(MouseEvent event) {
                     try {
                         Class<?> cl = Class.forName(value.getComponentType().getName());
-                        Field myField = cl.getDeclaredField("IMPLEMENTING_BEHAVIORS");
-                        List<Class> behaviorList = (List<Class>) myField.get(null);
-                        ConfigureBehavior configureBehavior = new ConfigureBehavior(myGameController, myConfigurable, myAttributesMap, behaviorList, key, cl, true);
-                        configureBehavior.start(new Stage());
+                        configureBehavior(cl, myConfigurable, myAttributesMap, key, true);
                     } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
                         myAlertFactory.createAlert("Behavior configured incorrectly. Try that again.");
                         handleConfigurableArray(myConfigurable, allButton, layout, myAttributesMap, key, value, definedAttributesMap);
@@ -363,6 +347,13 @@ public class GameController {
         }
     }
 
+    private void configureBehavior(Class<?> cl, Configurable myConfigurable, Map<String, Object> myAttributesMap, String key, boolean b) throws NoSuchFieldException, IllegalAccessException {
+        Field myField = cl.getDeclaredField("IMPLEMENTING_BEHAVIORS");
+        List<Class> behaviorList = (List<Class>) myField.get(null);
+        ConfigureBehavior configureBehavior = new ConfigureBehavior(myGameController, myConfigurable, myAttributesMap, behaviorList, key, cl, b);
+        configureBehavior.start(new Stage());
+    }
+
     private void handleArrayRemoveButton(ListView sourceView, List<Object> tempList) {
         int index = sourceView.getSelectionModel().getSelectedIndex();
         sourceView.getItems().remove(index);
@@ -394,16 +385,13 @@ public class GameController {
         try {
             Class<?> cl = Class.forName(value.getComponentType().getName());
             if(cl.getSimpleName().contains("Behavior")){
-                Field myField = cl.getDeclaredField("IMPLEMENTING_BEHAVIORS");
-                List<Class> behaviorList = (List<Class>) myField.get(null);
-                ConfigureBehavior configureBehavior = new ConfigureBehavior(myGameController, myConfigurable, myAttributesMap, behaviorList, key, cl, true);
-                configureBehavior.start(new Stage());
+                configureBehavior(cl, myConfigurable, myAttributesMap, key, true);
             }
             else{
                 createConfigurable((Configurable) tempList.get(sourceView.getSelectionModel().getSelectedIndex()));
             }
 
-        } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
+        } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException| IndexOutOfBoundsException e) {
             myAlertFactory.createAlert("Please try again! Something went wrong during your configuration ");
             handleArraySourceView(value, myConfigurable, myAttributesMap, tempList, sourceView, key);
             System.out.println(e);
@@ -463,19 +451,9 @@ public class GameController {
                     //Speical case : Behavior is different since drag and drop is required
                     } else if(clazz.getSimpleName().toLowerCase().contains("behavior")){
                         //multiple behaviors allowed
-                            Field myField = clazz.getDeclaredField("IMPLEMENTING_BEHAVIORS");
-                            List<Class> behaviorList = (List<Class>) myField.get(null);
-                            ConfigureBehavior configureBehavior = new ConfigureBehavior(myGameController, myConfigurable, myAttributesMap, behaviorList, key, clazz, false);
-                            configureBehavior.start(new Stage());
+                        configureBehavior(clazz, myConfigurable, myAttributesMap, key, false);
                     }
                     //rest should follow this
-                    //TODO Shooter should be a special case
-                    /*else if(key.equals("myShooter")){
-                        Constructor<?> cons = clazz.getConstructor((Shootable) myConfigurable);
-                        var object = cons.newInstance(myConfigurable);
-                        createConfigurable((Configurable) object);
-                        myAttributesMap.put(key, object);
-                    }*/
                     else {
                         Constructor<?> cons = clazz.getConstructor(myConfigurable.getClass());
                         var object = cons.newInstance(myConfigurable);
@@ -524,10 +502,7 @@ public class GameController {
         }
 
         Label DISPLAY_LABEL = getLabel(key);
-        TextField myTextField = new TextField();
-        if (definedAttributesMap.keySet().contains(key)) {
-            myTextField.setText(definedAttributesMap.get(key).toString());
-        }
+        TextField myTextField = getTextField(key, definedAttributesMap);
         Button chooseImageButton = new Button("Choose Image");
         Button confirmButton = new Button("Confirm");
 
@@ -551,6 +526,14 @@ public class GameController {
 
         allButton.add(confirmButton);
         layout.getChildren().addAll(nameAndTfBar);
+    }
+
+    private TextField getTextField(String key, Map<String, Object> definedAttributesMap) {
+        TextField myTextField = new TextField();
+        if (definedAttributesMap.keySet().contains(key)) {
+            myTextField.setText(definedAttributesMap.get(key).toString());
+        }
+        return myTextField;
     }
 
     private void handleBooleanField(List<Button> allButton, VBox layout, Map<String, Object> myAttributesMap, String key, Map<String, Object> definedAttributesMap) {

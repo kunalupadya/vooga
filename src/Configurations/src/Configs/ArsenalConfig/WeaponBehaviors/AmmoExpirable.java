@@ -8,6 +8,10 @@ import Configs.DisplayState;
 import Configs.Updatable;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+/**
+ * Behavior for weapons that causes the weapon to die after it has shot a certain number of times
+ *  * All methods inherited from superclass are commented there.
+ */
 public class AmmoExpirable extends WeaponBehavior {
     public static final String DISPLAY_LABEL = "Ammo-Expirable";
     @Configure

@@ -10,7 +10,10 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import java.util.List;
 import java.util.Optional;
-
+/**
+ * Behavior for weapons that causes the weapon to be placed on the path
+ *  * All methods inherited from superclass are commented there.
+ */
 public class PlaceableOnPath extends WeaponBehavior {
     public static final String DISPLAY_LABEL = "Placeable On Path";
     @Slider(min = 50,max = 10000)
