@@ -16,7 +16,7 @@ public abstract class ShooterBehavior implements Behavior<Shooter> {
     public static final String DISPLAY_LABEL = "Shooter Behavior";
     private Shooter myShooter;
     public static final List<Class> IMPLEMENTING_BEHAVIORS = List.of(Aiming.class, Linear.class, Radial.class);
-    int startRound=0;
+    int startRound=-1;
 
     ShooterBehavior(Shooter shooter){
         myShooter = shooter;
@@ -51,8 +51,4 @@ public abstract class ShooterBehavior implements Behavior<Shooter> {
             shooter.addToProjectilesFired();
         }
     }
-
-
-
-
 }

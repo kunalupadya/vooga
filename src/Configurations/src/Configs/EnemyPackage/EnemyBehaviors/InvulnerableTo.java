@@ -1,6 +1,8 @@
 package Configs.EnemyPackage.EnemyBehaviors;
 
-
+/**
+ * allows enemy to be impervious to certain weapons (NOT IMLEMENTED
+ */
 
 import ActiveConfigs.ActiveEnemy;
 import ActiveConfigs.ActiveLevel;
@@ -17,7 +19,7 @@ public class InvulnerableTo extends EnemyBehavior{
     ProjectileConfig[] immuneToThese;
     private transient Configuration myConfiguration;
 
-    InvulnerableTo(EnemyConfig enemyConfig){
+    public InvulnerableTo(EnemyConfig enemyConfig){
         super(enemyConfig);
         myConfiguration = new Configuration(this);
     }
