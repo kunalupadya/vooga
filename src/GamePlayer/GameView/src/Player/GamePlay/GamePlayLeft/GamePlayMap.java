@@ -26,8 +26,8 @@ public class GamePlayMap extends Pane{
     private GamePlaySettingsBar myData;
 
 
-    public GamePlayMap(double width, double height, Logic logic, EndLoopInterface endLoop,
-                       SelectionInterface stage, GamePlaySettingsBar data) {
+    GamePlayMap(double width, double height, Logic logic, EndLoopInterface endLoop,
+                SelectionInterface stage, GamePlaySettingsBar data) {
         myData = data;
         homeStage = stage;
         endGame = endLoop;
@@ -44,6 +44,11 @@ public class GamePlayMap extends Pane{
         mapRoot.prefHeight(height);
     }
 
+    /**
+     * This method is the main update method of the game loop. It constantly checks the game status and utilizes
+     * various switch cases to execute the desired outcome of any game status, or just continues with the game.
+     * @param elapsedTime The update frequency that we use.
+     */
     public void update(double elapsedTime){
         gameStatus = myLogic.getGameStatus();
         switch (gameStatus){
@@ -69,6 +74,9 @@ public class GamePlayMap extends Pane{
         }
     }
 
+    /**
+     * @return Returns the size of the grid so the draggable objects can be appropriately sized when they are dragged.
+     */
     public double getGridSize(){
         return terrainList.get(0).getAsNode().getBoundsInParent().getWidth();
     }

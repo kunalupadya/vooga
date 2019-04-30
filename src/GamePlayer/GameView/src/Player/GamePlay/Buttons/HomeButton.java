@@ -3,8 +3,10 @@ package Player.GamePlay.Buttons;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 
+/**
+ * @author Bryant Huang, Mark Kang
+ */
 public class HomeButton extends Button {
     private String icon = "home.png";
     private Image image = new Image(this.getClass().getClassLoader().getResourceAsStream(icon));

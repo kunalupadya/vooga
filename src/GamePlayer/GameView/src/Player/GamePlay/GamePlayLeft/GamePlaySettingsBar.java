@@ -1,18 +1,13 @@
 package Player.GamePlay.GamePlayLeft;
 
 import BackendExternal.Logic;
-import Configs.ImmutableImageView;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-
-import java.util.ArrayList;
 
 public class GamePlaySettingsBar extends StackPane {
 
@@ -103,13 +98,17 @@ public class GamePlaySettingsBar extends StackPane {
         return vBox;
     }
 
+    /**
+     * This method is used to update the user score and cash balance. It is called in every loop to fetch the updated
+     * data from the backend.
+     */
     public void updateVariables(){
         liveScore.setText(Double.toString(myLogic.getScore()));
 //        numLives.setText("Lives: " + myLogic.getLives());
         myMoney.setText(Double.toString(myLogic.getCash()));
     }
 
-    public void updateLevel(int currLevel){
+    void updateLevel(int currLevel){
         myLevel.setText(Integer.toString(currLevel));
     }
 

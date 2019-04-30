@@ -5,7 +5,6 @@ import Player.GamePlay.SelectionInterface;
 import Player.ScreenSize;
 import Player.SetUp.GameSelection;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -18,9 +17,9 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-public class QuitConfirmation extends Stage{
+class QuitConfirmation extends Stage{
 
-    public QuitConfirmation(SelectionInterface quit, MediaPlayer media, Logic logic){
+    QuitConfirmation(SelectionInterface quit, MediaPlayer media, Logic logic){
         StackPane root = new StackPane();
         root.setId("quit");
         Scene scene = new Scene(root, ScreenSize.getWidth()/3, ScreenSize.getHeight()/3);

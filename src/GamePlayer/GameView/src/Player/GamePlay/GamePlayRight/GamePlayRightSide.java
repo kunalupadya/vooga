@@ -10,8 +10,8 @@ import javafx.scene.media.MediaPlayer;
 
 public class GamePlayRightSide extends VBox {
 
-    public static final double ARSENAL_RATIO = 0.8;
-    public static final double BUTTON_RATIO = 0.2;
+    private static final double ARSENAL_RATIO = 0.8;
+    private static final double BUTTON_RATIO = 0.2;
     private GamePlayArsenal myGameArsenal;
     private ButtonPanel myButtonPanel;
     private MediaPlayer mediaPlayer;
@@ -25,6 +25,11 @@ public class GamePlayRightSide extends VBox {
         myGameArsenal = new GamePlayArsenal(width, height * ARSENAL_RATIO, logic, myMap, root);
         this.getChildren().addAll(myGameArsenal, createButtonPanel(width, height, play, fastForward, home, logic));
     }
+
+
+    /**
+     * This method updates the arsenal upon each game loop to determine which weapons are still valid to be used.
+     */
     public void update(){
         myGameArsenal.recreateArsenal();
     }

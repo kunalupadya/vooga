@@ -11,16 +11,16 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 
-public class GamePlayGUI extends HBox {
-    public static final double LEFT_RATIO = 0.75;
-    public static final double RIGHT_RATIO = 0.25;
-    public GamePlayLeftSide myGameLeft;
-    public GamePlayRightSide myGameRight;
+class GamePlayGUI extends HBox {
+    static final double LEFT_RATIO = 0.75;
+    static final double RIGHT_RATIO = 0.25;
+    private GamePlayLeftSide myGameLeft;
+    private GamePlayRightSide myGameRight;
 
-    public GamePlayGUI(Logic logic, ButtonInterface play, ButtonInterface fastFoward, EndLoopInterface endLoop,
-                       SelectionInterface home,
-                       Group root,
-                       MediaPlayer mediaPlayer){
+    GamePlayGUI(Logic logic, ButtonInterface play, ButtonInterface fastFoward, EndLoopInterface endLoop,
+                SelectionInterface home,
+                Group root,
+                MediaPlayer mediaPlayer){
         setId("HUD");
         setPrefWidth(ScreenSize.getWidth());
         setPrefHeight(ScreenSize.getHeight());
@@ -32,7 +32,7 @@ public class GamePlayGUI extends HBox {
         this.getChildren().addAll(myGameLeft,myGameRight);
     }
 
-    public void update(double mili){
+    void update(double mili){
         myGameLeft.myMap.update(mili);
         myGameLeft.mySettings.updateVariables();
         myGameRight.update();

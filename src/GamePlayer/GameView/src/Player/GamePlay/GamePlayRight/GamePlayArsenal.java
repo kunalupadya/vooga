@@ -55,27 +55,21 @@ public class GamePlayArsenal extends VBox {
     private double defaultOpacity;
     private Map<Integer, Info> myArsenal;
 
-    public GamePlayArsenal(double arsenalWidth, double arsenalHeight, Logic logic, GamePlayMap map, Group root) {
+    GamePlayArsenal(double arsenalWidth, double arsenalHeight, Logic logic, GamePlayMap map, Group root) {
         myLogic = logic;
         myMap = map;
         myRoot = root;
         arsenalDisplay = new ListView();
         arsenalDisplay.setPrefHeight(arsenalHeight * ARSENAL_RATIO);
         arsenalDisplay.setPrefWidth(arsenalWidth);
-
         myArsenal = logic.getMyArsenal();
         viewList = new ArrayList<>();
         weaponMap = new HashMap<>();
         defaultOpacity = myMap.getOpacity();
         setArsenalDisplay(myArsenal);
-
         arsenalDisplay.setPrefHeight(arsenalHeight * ARSENAL_RATIO);
         arsenalDisplay.setPrefWidth(arsenalWidth);
         getChildren().addAll(arsenalDisplay);
-    }
-
-    public void recreateArsenal(){
-        setArsenalDisplay(myLogic.getMyArsenal());
     }
 
     private void setArsenalDisplay(Map<Integer, Info> arsenal) {
@@ -89,7 +83,10 @@ public class GamePlayArsenal extends VBox {
         myMap.setOnDragEntered(event -> dragEntered(event));
         myMap.setOnDragExited(event -> dragExited(event));
         myMap.setOnDragDropped(event -> dragDropped(event));
+    }
 
+    void recreateArsenal(){
+        setArsenalDisplay(myLogic.getMyArsenal());
     }
 
     private void displayNotEnoughCash(String message){
@@ -121,7 +118,6 @@ public class GamePlayArsenal extends VBox {
         event.setDropCompleted(success);
         event.consume();
     }
-
 
     private void dragExited(DragEvent event){
         myMap.setOpacity(defaultOpacity);
