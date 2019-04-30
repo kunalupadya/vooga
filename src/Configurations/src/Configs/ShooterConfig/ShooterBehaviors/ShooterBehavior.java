@@ -51,8 +51,4 @@ public abstract class ShooterBehavior implements Behavior<Shooter> {
             shooter.addToProjectilesFired();
         }
     }
-
-
-
-
 }

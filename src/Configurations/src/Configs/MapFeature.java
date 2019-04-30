@@ -368,7 +368,9 @@ public class MapFeature {
     private void setPixelPos(double pixelXPos, double pixelYPos, double direction) {
         updateSafeBoxBounds();
         removeFromCell();
-        if(isOutOfBoundsPixel(pixelXPos,pixelYPos)) displayState = DisplayState.DIED;
+        if(isOutOfBoundsPixel(pixelXPos,pixelYPos)) {
+            displayState = DisplayState.DIED;
+        }
         else {
             this.pixelYPos = pixelYPos;
             this.pixelXPos = pixelXPos;

@@ -2,7 +2,7 @@ package Player.SetUp;
 
 import BackendExternal.Logic;
 import ExternalAPIs.GameInfo;
-import Player.GamePlay.GamePlayMain;
+import Player.GamePlayMain;
 import Player.ScreenSize;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -12,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -23,7 +22,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
 

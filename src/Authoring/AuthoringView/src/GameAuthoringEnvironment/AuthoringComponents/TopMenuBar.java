@@ -3,13 +3,14 @@ package GameAuthoringEnvironment.AuthoringComponents;
 import BackendExternalAPI.Model;
 import GameAuthoringEnvironment.AuthoringScreen.GameController;
 import GameAuthoringEnvironment.AuthoringScreen.GameOutline;
+import Player.GamePlayMain;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 public class TopMenuBar {
 
@@ -68,6 +69,16 @@ public class TopMenuBar {
             }
         });
 
+        Button runButton = new Button("Run");
+        runButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                GamePlayMain gamePlayMain = new GamePlayMain();
+                gamePlayMain.setGameFromAuthoring(gameController.getMyGame());
+                gamePlayMain.start(new Stage());
+            }
+        });
+
         Button settingsButton = new Button("Settings");
         settingsButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
@@ -86,7 +97,7 @@ public class TopMenuBar {
             }
         });
 
-        TopMenuBar.getChildren().addAll(newGameButton, saveButton, exportButton, loadButton, refreshButton);
+        TopMenuBar.getChildren().addAll(newGameButton, saveButton, exportButton, loadButton, runButton, refreshButton);
     }
 
     private void createAlert() {

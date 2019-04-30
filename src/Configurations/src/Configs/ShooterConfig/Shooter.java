@@ -19,6 +19,7 @@ public class Shooter implements Updatable , Configurable {
     private double rateOfFire;
     @Configure
     private ProjectileConfig projectileConfig;
+    @Slider(min=50, max = 1500)
     @Configure
     private double shooterRange;
     @Configure
