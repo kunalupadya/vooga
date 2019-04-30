@@ -35,8 +35,8 @@ public class Wave implements Updatable, Configurable {
 
     private double[] startTimes;
     private int currentEnemyIndex = 0;
-//    @XStreamOmitField
-    private boolean isFinished = false;
+    @XStreamOmitField
+    private transient boolean isFinished = false;
 
     public Wave(Level level) {
         myLevel = level;
