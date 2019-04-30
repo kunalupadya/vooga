@@ -102,6 +102,10 @@ public class Logic {
         myGame =  (Game)serializer.fromXML(gameXMLString);
     }
 
+    public void setGameFromAuthoring(Game game){
+        myGame = game;
+    }
+
     /**
      * Begins the game at the state that the current user left off at when they previously played
      */
@@ -216,7 +220,7 @@ public class Logic {
      * @return - map of int weapon ID and Info instance
      */
     public Map<Integer, Info> getMyArsenal(){
-        return myGame.getArsenal().getAllNewWeaponConfigOptions();
+        return myGame.getArsenal().getAllWeaponConfigOptions();
     }
 
     // View calls this when a weapon is placed onto the map

@@ -1,7 +1,9 @@
-package Player.GamePlay;
+package Player;
 
 import BackendExternal.Logic;
+import Configs.GamePackage.Game;
 import ExternalAPIs.GameInfo;
+import Player.GamePlay.GamePlayGUI;
 import Player.ScreenSize;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -74,6 +76,12 @@ public class GamePlayMain extends Application {
         myLogic.createGameInstance(gameInfo);
         myLogic.startAtDefaultState();
     }
+
+    public void setGameFromAuthoring(Game game){
+        myLogic.setGameFromAuthoring(game);
+        myLogic.startAtDefaultState();
+    }
+
     private void fastFoward(){
         animation.setRate(2.5);
     }

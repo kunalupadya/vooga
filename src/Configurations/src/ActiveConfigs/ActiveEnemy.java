@@ -103,7 +103,8 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
         //get x, y from myMapFeature and do logic using the map within the activeLevel
 //        if
         //dont forget to update state to PRESENT or DIED in myMapFeature
-
+        Arrays.stream(getMyBehaviors())
+                .forEach(b -> b.update(ms, this));
         effectiveSpeed = getUnitSpeedPerSecond();
         List<SpeedModifier> speedModifiersToRemove = new ArrayList<>();
         for (SpeedModifier speedModifier: speedModifiers){
