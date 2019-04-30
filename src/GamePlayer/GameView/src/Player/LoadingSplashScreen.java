@@ -33,8 +33,13 @@ public class LoadingSplashScreen extends Application{
 
     private static final String WELCOME_MUSIC = "resources/gameMusic.mp3";
     private static final String TITLE_IMAGE = "title.png";
+    private static final String CSS_FILE = "style.css";
     private static final int BUTTON_Y_POS = 150;
     private static final int BUTTON_X_POS = 0;
+    private static final int LOGO_WIDTH = 500;
+    private static final int LOGO_HEIGHT = 300;
+    private static final int LOGO_Y_POS = -50;
+    private static final double TRANSITION_TIME = 0.8;
     private StackPane root;
     private ImageView title;
     private Stage stage;
@@ -73,7 +78,7 @@ public class LoadingSplashScreen extends Application{
     }
     private Scene createScene(){
         var scene = new Scene(background, ScreenSize.getWidth(), ScreenSize.getHeight());
-        scene.getStylesheets().add("style.css");
+        scene.getStylesheets().add(CSS_FILE);
         return scene;
     }
 
@@ -87,9 +92,9 @@ public class LoadingSplashScreen extends Application{
     private ImageView createLogoBackground(){
         Image image = new Image(this.getClass().getClassLoader().getResourceAsStream(TITLE_IMAGE));
         title = new ImageView(image);
-        title.setFitWidth(500);
-        title.setFitHeight(300);
-        title.setTranslateY(-50);
+        title.setFitWidth(LOGO_WIDTH);
+        title.setFitHeight(LOGO_HEIGHT);
+        title.setTranslateY(LOGO_Y_POS);
         return title;
     }
     private Button createStartButton(String id, String title, int x, int y){
@@ -102,12 +107,12 @@ public class LoadingSplashScreen extends Application{
 
     private void transitionToLogIn(Button button){
         root.getChildren().remove(button);
-        ScaleTransition st = new ScaleTransition(Duration.seconds(0.8), title);
+        ScaleTransition st = new ScaleTransition(Duration.seconds(TRANSITION_TIME), title);
         st.setByX(-0.6f);
         st.setByY(-0.6f);
         st.setCycleCount(1);
         int xPos = (int)Math.round(title.getX() + title.getBoundsInLocal().getWidth()/2);
-        PathTransition bannerTransition = generatePathTransition(generatePath(xPos, 0, -100), title);
+        PathTransition bannerTransition = generatePathTransition(generatePath(xPos, 0, LOGO_Y_POS * 2), title);
         ParallelTransition parallelTransition = new ParallelTransition();
         parallelTransition.getChildren().addAll(st,bannerTransition);
         parallelTransition.play();
@@ -186,17 +191,14 @@ public class LoadingSplashScreen extends Application{
     private PathTransition generatePathTransition(Path path, Node node)
     {
         PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.seconds(0.8));
+        pathTransition.setDuration(Duration.seconds(TRANSITION_TIME));
         pathTransition.setPath(path);
         pathTransition.setCycleCount(1);
         pathTransition.setNode(node);
         return pathTransition;
     }
     private void availableGames(){
-        Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(1),
-                        new KeyValue(mediaPlayer.volumeProperty(), 0)));
-        timeline.play();
+        fadeOutMusic();
         this.stage.close();
         LogInPreloader logInPreloader = new LogInPreloader();
         logInPreloader.start(new Stage());
@@ -206,6 +208,13 @@ public class LoadingSplashScreen extends Application{
             gameSelection.start(new Stage());
         });
     }
+    private void fadeOutMusic(){
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(TRANSITION_TIME),
+                        new KeyValue(mediaPlayer.volumeProperty(), 0)));
+        timeline.play();
+    }
+
     private void startGame(VBox vBox){
 
         try {
