@@ -70,12 +70,12 @@ public class Arsenal implements Configurable, Updatable {
 //        return Collections.unmodifiableMap(ret);
 //    }
 
-    //note: ID is the index of the weapon+1
     public void setUnlockedWeaponsToNew(){
         newUnlockedWeapons = unlockedWeapons;
         unlockedWeapons = new ArrayList<>();
     }
 
+    //note: ID is the index of the weapon+1
     public Map<Integer, Info> getAllNewWeaponConfigOptions() {
 
         //System.out.println(Arrays.asList(unlockedWeapons));
