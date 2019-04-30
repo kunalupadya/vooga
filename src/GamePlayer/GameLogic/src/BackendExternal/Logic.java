@@ -102,6 +102,10 @@ public class Logic {
         myGame =  (Game)serializer.fromXML(gameXMLString);
     }
 
+    public void setGameFromAuthoring(Game game){
+        myGame = game;
+    }
+
     /**
      * Begins the game at the state that the current user left off at when they previously played
      */
