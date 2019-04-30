@@ -26,12 +26,11 @@ import static Player.GamePlay.GamePlayLeft.GamePlayLeftSide.TOP_RATIO;
 public class GamePlayMain extends Application {
     private String Title = "VoogaSalad Game";
     private String GAME_MUSIC = "resources/gameMusic.mp3";
-    private static int FRAMES_PER_SECOND = 10;
-    private static int MILLISECOND_DELAY = 1000/FRAMES_PER_SECOND;
-    private static int NORMAL_RATE = 1;
-    private static double FAST_RATE = 2.5;
+    private static final int FRAMES_PER_SECOND = 10;
+    private static final int MILLISECOND_DELAY = 1000/FRAMES_PER_SECOND;
+    private static final int NORMAL_RATE = 1;
+    private static final double FAST_RATE = 2.5;
     public static final double SECOND_DELAY = 1.0/FRAMES_PER_SECOND;
-
     private static final Paint backgroundColor = Color.NAVY;
     private double screenWidth = ScreenSize.getWidth();
     private double screenHeight = ScreenSize.getHeight();
