@@ -190,8 +190,6 @@ public class GameSelection extends Application {
         logInPreloader.setTransitionEvent(e->transitionToScreen(gameInfo));
     }
     private void transitionToScreen(GameInfo gameInfo){
-        logic.startAtDefaultState();
-
         GamePlayMain gamePlayMain = new GamePlayMain();
         gamePlayMain.setGameInfo(gameInfo);
         gamePlayMain.start(new Stage());

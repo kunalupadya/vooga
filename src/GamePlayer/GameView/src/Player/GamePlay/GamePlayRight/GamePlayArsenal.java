@@ -220,25 +220,17 @@ public class GamePlayArsenal extends VBox {
         }
     }
 
-    //TODO: change filename param to INT
     private Pair<ImageView, String> loadImageWithCaption(int fileId, String caption, Map <String,
             Integer> weaponMap, Integer id) {
         try {
-            //TODO: USE BELOW WHEN INFO IS CHANGED
-            System.out.println(fileId);
             var image = new ImageView(myLogic.getImage(fileId));
-            System.out.println("**********");
-            System.out.println(image);
             weaponMap.put(image.toString(), id);
             image.setFitWidth(100);
             image.setFitHeight(100);
-            Pair pair = new Pair<>(image, caption);
-            return pair;
-//            return new Pair<>(image, caption);
+            return new Pair<>(image, caption);
         }
         catch(Exception e){
-            System.out.println(e);
-            //This shouldn't ever happen
+            myRoot.getChildren().add(new Text(e.getMessage()));
         }
         return null;
     }

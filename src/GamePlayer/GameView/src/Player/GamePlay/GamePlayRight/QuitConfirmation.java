@@ -25,7 +25,6 @@ public class QuitConfirmation extends Stage{
         root.setId("quit");
         Scene scene = new Scene(root, ScreenSize.getWidth()/3, ScreenSize.getHeight()/3);
         scene.getStylesheets().add("style.css");
-        //TODO: CHANGE FONT OF THIS
         Text text = new Text("Are you sure you \n want to quit?");
         text.setTextAlignment(TextAlignment.CENTER);
         text.setFont(Font.font("Veranda", FontWeight.BOLD, 30));

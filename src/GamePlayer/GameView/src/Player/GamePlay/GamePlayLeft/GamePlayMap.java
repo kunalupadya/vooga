@@ -35,8 +35,6 @@ public class GamePlayMap extends Pane{
         mapRoot=new Group();
         applyCss();
         layout();
-        System.out.println(width/height);
-
         terrainList = myLogic.getLevelTerrain(width, height);
         setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
         terrainList.stream().forEach(img -> getChildren().add(img.getAsNode()));
