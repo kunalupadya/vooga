@@ -44,32 +44,28 @@ public class GamePlayMain extends Application {
     private Stage primaryStage;
     @Override
     public void start(Stage stage){
-        try {
-            primaryStage = stage;
-            root = new Group();
-            primaryStage.setX(screenWidth);
-            primaryStage.setY(screenHeight);
-            var startScreen = new Scene(root, screenWidth, screenHeight,backgroundColor);
-            startScreen.getStylesheets().add("gameplay.css");
-            MediaView music = createWelcomeMusic();
-            root.getChildren().add(music);
-            myGameGUI = new GamePlayGUI(myLogic, () -> startLoop(), () -> fastFoward(), () -> endLoop(),
-                    () -> closeStage(),
-                    root,
-                    mediaPlayer);
-            root.getChildren().add(myGameGUI);
-            frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), event -> step());
-            animation = new Timeline();
-            animation.setCycleCount(Timeline.INDEFINITE);
-            animation.getKeyFrames().add(frame);
-            primaryStage.setScene(startScreen);
-            primaryStage.setTitle(Title);
-            primaryStage.show();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        primaryStage = stage;
+        root = new Group();
+        primaryStage.setX(screenWidth);
+        primaryStage.setY(screenHeight);
+        var startScreen = new Scene(root, screenWidth, screenHeight,backgroundColor);
+        startScreen.getStylesheets().add("gameplay.css");
+        MediaView music = createWelcomeMusic();
+        root.getChildren().add(music);
+        myGameGUI = new GamePlayGUI(myLogic, () -> startLoop(), () -> fastFoward(), () -> endLoop(),
+                () -> closeStage(),
+                root,
+                mediaPlayer);
+        root.getChildren().add(myGameGUI);
+        frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), event -> step());
+        animation = new Timeline();
+        animation.setCycleCount(Timeline.INDEFINITE);
+        animation.getKeyFrames().add(frame);
+        primaryStage.setScene(startScreen);
+        primaryStage.setTitle(Title);
+        primaryStage.show();
     }
+
     public void setLogic(Logic logic){
         this.myLogic = logic;
     }
