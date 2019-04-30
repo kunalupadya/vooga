@@ -13,15 +13,17 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class LeaderBoard extends Application {
-    private Stage stage;
+    private static final String LEADERBOARD = "Leaderboard";
+    private static final double SCENE_RATIO = 0.5;
+    private static final int PADDING = 10;
+    private static final int NUMBER_ENTRIES = 5;
     private Logic logic;
     @Override
     public void start(Stage stage){
-        this.stage = stage;
         VBox vBox = new VBox();
-        var scene = new Scene(vBox, ScreenSize.getWidth()/2, ScreenSize.getHeight()/2);
+        var scene = new Scene(vBox, ScreenSize.getWidth() * SCENE_RATIO, ScreenSize.getHeight() * SCENE_RATIO);
         ScrollPane scrollPane = createLeaderBoard();
-        Label label = new Label("Leaderboard");
+        Label label = new Label(LEADERBOARD);
         vBox.getChildren().addAll(label, scrollPane);
         stage.setScene(scene);
         stage.show();
@@ -34,9 +36,9 @@ public class LeaderBoard extends Application {
 
     private ScrollPane createLeaderBoard(){
         VBox scores = new VBox();
-        for(LeaderBoardEntry leaderBoardEntry: logic.getLeaderBoardEntries(5)){
+        for(LeaderBoardEntry leaderBoardEntry: logic.getLeaderBoardEntries(NUMBER_ENTRIES)){
             HBox hBox = new HBox();
-            hBox.setSpacing(10);
+            hBox.setSpacing(PADDING);
             Text username = new Text(leaderBoardEntry.getUserName());
             Text score = new Text(Integer.toString(leaderBoardEntry.getScore()));
             Text rank = new Text(Integer.toString(leaderBoardEntry.getRank()));

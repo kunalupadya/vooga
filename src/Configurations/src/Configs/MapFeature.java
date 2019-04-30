@@ -7,6 +7,9 @@ import ActiveConfigs.Cell;
 //import ExternalAPIs.AuthoringData;
 //import ExternalAPIs.Data;
 import Configs.GamePackage.Game;
+import Configs.GamePackage.Game;
+import ExternalAPIs.AuthoringData;
+import ExternalAPIs.Data;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import javafx.scene.image.Image;
 
@@ -101,26 +104,26 @@ public class MapFeature {
 
     @Deprecated
     public MapFeature( double pixelXPos, double pixelYPos, double direction, View view){
-            this.heightInGridUnits = view.getHeight();
-            this.widthInGridUnits = view.getWidth();
-            setImage(view);
-            setPixelPos(pixelXPos, pixelYPos, direction);
-            displayState = DisplayState.NEW;
-        }
+        this.heightInGridUnits = view.getHeight();
+        this.widthInGridUnits = view.getWidth();
+        setImage(view);
+        setPixelPos(pixelXPos, pixelYPos, direction);
+        displayState = DisplayState.NEW;
+    }
 
     @Deprecated
     public MapFeature( double pixelXPos, double pixelYPos, double direction, View view,double paneWidth,
-        double paneHeight, int gridXSize, int gridYSize){
-            this.heightInGridUnits = view.getHeight();
-            this.widthInGridUnits = view.getWidth();
-            displayState = DisplayState.NEW;
-            this.paneWidth = paneWidth;
-            this.paneHeight = paneHeight;
-            this.gridXSize = gridXSize;
-            this.gridYSize = gridYSize;
-            setImage(view);
-            setPixelPos(pixelXPos, pixelYPos, direction);
-        }
+                       double paneHeight, int gridXSize, int gridYSize){
+        this.heightInGridUnits = view.getHeight();
+        this.widthInGridUnits = view.getWidth();
+        displayState = DisplayState.NEW;
+        this.paneWidth = paneWidth;
+        this.paneHeight = paneHeight;
+        this.gridXSize = gridXSize;
+        this.gridYSize = gridYSize;
+        setImage(view);
+        setPixelPos(pixelXPos, pixelYPos, direction);
+    }
 
 
 
@@ -364,11 +367,6 @@ public class MapFeature {
         }
     }
 
-//<<<<<<< HEAD
-//    public void setDisplayState(DisplayState displayState) {
-//        if(displayState == DisplayState.DIED) removeFromCell();
-//        this.displayState = displayState;
-//=======
     private void setPixelPos(double pixelXPos, double pixelYPos, double direction) {
         updateSafeBoxBounds();
         removeFromCell();
@@ -401,6 +399,5 @@ public class MapFeature {
 //        }
         }
         myCells.clear();
-//>>>>>>> 6cce1699b2be8987a6b4215831ca399f8849c6e7
     }
 }

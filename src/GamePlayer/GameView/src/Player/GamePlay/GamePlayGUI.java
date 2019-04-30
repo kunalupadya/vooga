@@ -11,13 +11,13 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 
-class GamePlayGUI extends HBox {
-    static final double LEFT_RATIO = 0.75;
-    static final double RIGHT_RATIO = 0.25;
+public class GamePlayGUI extends HBox {
+    public static final double LEFT_RATIO = 0.75;
+    public static final double RIGHT_RATIO = 0.25;
     private GamePlayLeftSide myGameLeft;
     private GamePlayRightSide myGameRight;
 
-    GamePlayGUI(Logic logic, ButtonInterface play, ButtonInterface fastFoward, EndLoopInterface endLoop,
+    public GamePlayGUI(Logic logic, ButtonInterface play, ButtonInterface fastFoward, EndLoopInterface endLoop,
                 SelectionInterface home,
                 Group root,
                 MediaPlayer mediaPlayer){
@@ -32,7 +32,7 @@ class GamePlayGUI extends HBox {
         this.getChildren().addAll(myGameLeft,myGameRight);
     }
 
-    void update(double mili){
+    public void update(double mili){
         myGameLeft.myMap.update(mili);
         myGameLeft.mySettings.updateVariables();
         myGameRight.update();

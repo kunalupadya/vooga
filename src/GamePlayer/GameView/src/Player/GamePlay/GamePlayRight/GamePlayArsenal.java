@@ -73,7 +73,6 @@ public class GamePlayArsenal extends VBox {
     }
 
     private void setArsenalDisplay(Map<Integer, Info> arsenal) {
-//<<<<<<< HEAD
         arsenalDisplay.setCellFactory(viewList -> new ImageCell());
         for (Integer id: arsenal.keySet()) {
             arsenalDisplay.getItems().add(loadImageWithCaption(myArsenal.get(id).getImage(),

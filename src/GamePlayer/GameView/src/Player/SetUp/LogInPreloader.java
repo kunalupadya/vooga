@@ -26,8 +26,8 @@ public class LogInPreloader extends Application {
     private StackPane root;
     private String title;
     private Rectangle loading;
-        Stage stage;
-        Text text = new Text("Loading ...");
+    private Stage stage;
+    private Text text = new Text("Loading ...");
         @Override
         public void start(Stage primaryStage){
             stage = primaryStage;

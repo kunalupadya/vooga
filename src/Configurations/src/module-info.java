@@ -2,7 +2,6 @@ module Configurations {
     requires java.desktop;
     requires javafx.graphics;
     requires java.base;
-
     requires xstream;
     requires DatabaseUtil;
 
