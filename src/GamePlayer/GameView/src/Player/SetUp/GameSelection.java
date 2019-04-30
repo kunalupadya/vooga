@@ -39,9 +39,8 @@ public class GameSelection extends Application {
     private Logic logic;
     private StackPane gameStart;
     private StackPane totalBackground;
-    public GameSelection(){
-        super();
-    }
+
+
     public GameSelection(Logic logic){
         super();
         this.logic = logic;
@@ -72,17 +71,14 @@ public class GameSelection extends Application {
         scene.getStylesheets().add("style.css");
         primaryStage.setScene(scene);
         primaryStage.show();
-        try {
-            createGameSelectionScreen();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        createGameSelectionScreen();
+
     }
     private List<GameInfo> uploadAvailableGames(){
         return logic.getGameOptions();
     }
 
-    private void createGameSelectionScreen() throws FileNotFoundException {
+    private void createGameSelectionScreen(){
         VBox vBox = new VBox();
         vBox.setPrefWidth(width/3-10);
         vBox.setAlignment(Pos.CENTER);
@@ -97,7 +93,6 @@ public class GameSelection extends Application {
             title.setId("gameTitle");
             gameLook.getChildren().add(title);
             Image image = logic.getImage(gameInfo.getGameThumbnailID());
-          //  Image image = new Image(new FileInputStream(RESOURCES_PATH + gameInfo.getGameThumbnail()));
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(200);
             imageView.setFitHeight(200);
@@ -154,19 +149,12 @@ public class GameSelection extends Application {
 
     private void displaySavedOptions(GameInfo gameInfo){
         root.setStyle("-fx-opacity: 0.9; -fx-background-color: black;");
-        Rectangle rect = new Rectangle();
-        rect.setArcWidth(20);
-        rect.setArcHeight(20);
-        rect.setWidth(400);
-        rect.setHeight(150);
-        rect.getStyleClass().add("my-rect");
+        Rectangle rect = createSavedPromptRect();
         Text choice = new Text("Would you like to start from your saved progress?");
-        Button fromSaved = new Button("Yes");
-        fromSaved.setId("smallerButton");
-        fromSaved.setOnAction(e->startFromSaved(gameInfo));
-        Button fromStart = new Button("No, start over");
-        fromStart.setId("smallerButton");
-        fromStart.setOnAction(e->startGame(gameInfo, false));
+        Button fromSaved = createSavedButton(gameInfo);
+        Button fromStart = createStartOverButton(gameInfo);
+
+
         HBox hbox = new HBox();
         hbox.setSpacing(5);
         hbox.getChildren().addAll(fromSaved, fromStart);
@@ -176,6 +164,27 @@ public class GameSelection extends Application {
         hbox.setTranslateY(50);
         totalBackground.getChildren().add(rect);
         totalBackground.getChildren().addAll(choice,hbox);
+    }
+    private Rectangle createSavedPromptRect(){
+        Rectangle rect = new Rectangle();
+        rect.setArcWidth(20);
+        rect.setArcHeight(20);
+        rect.setWidth(400);
+        rect.setHeight(150);
+        rect.getStyleClass().add("my-rect");
+        return rect;
+    }
+    private Button createSavedButton(GameInfo gameInfo){
+        Button fromSaved = new Button("Yes");
+        fromSaved.setId("smallerButton");
+        fromSaved.setOnAction(e->startFromSaved(gameInfo));
+        return fromSaved;
+    }
+    private Button createStartOverButton(GameInfo gameInfo){
+        Button fromStart = new Button("No, start over");
+        fromStart.setId("smallerButton");
+        fromStart.setOnAction(e->startGame(gameInfo, false));
+        return fromStart;
     }
 
     private void startFromSaved(GameInfo gameInfo){

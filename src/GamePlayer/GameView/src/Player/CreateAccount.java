@@ -12,7 +12,7 @@ public class CreateAccount extends GridPane {
     private static final String USERNAME = "Username: ";
     private static final String PASSWORD = "Password: ";
     private static final String CONFIRM_PASSWORD = "Confirm Password: ";
-
+    private static final String LOG_IN_STYLE = "login";
     private TextField userTextField;
     private PasswordField passwordField;
     private PasswordField passwordCheck;
@@ -21,7 +21,7 @@ public class CreateAccount extends GridPane {
         logInWithPasswordCheck();
     }
     private void logInWithPasswordCheck(){
-        setId("login");
+        setId(LOG_IN_STYLE);
         setPadding(new Insets(PADDING, PADDING, PADDING, PADDING));
         final Label userName = new Label(USERNAME);
         add(userName, 1, 1);

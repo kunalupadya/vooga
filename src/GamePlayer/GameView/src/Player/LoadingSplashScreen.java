@@ -45,6 +45,7 @@ public class LoadingSplashScreen extends Application{
     private static final String RECTANGLE_ID = "my-rect";
     private static final String PANE_ID = "pane";
     private static final String LOADING_PROMPT = "We're loading your \n available games!!!";
+    private static final String DARK_STYLE = "-fx-opacity: 0.6; -fx-background-color: black;";
     private static final int BUTTON_Y_POS = 150;
     private static final int BUTTON_X_POS = 0;
     private static final int LOGO_WIDTH = 500;
@@ -58,6 +59,7 @@ public class LoadingSplashScreen extends Application{
     private static final double SIZE_TRANSITION = -0.6f;
     private static final int ANIMATION_CYCLE = 1;
     private static final int BACK_LOGO_SIZE = 30;
+    private static final int PADDING = 10;
     private StackPane root;
     private ImageView title;
     private Stage stage;
@@ -137,7 +139,7 @@ public class LoadingSplashScreen extends Application{
     }
     private void createSignInSettings(boolean repeat){
         if(!repeat) {
-            root.setStyle("-fx-opacity: 0.6; -fx-background-color: black;");
+            root.setStyle(DARK_STYLE);
             rect = new Rectangle();
             rect.setArcWidth(ARC);
             rect.setArcHeight(ARC);
@@ -164,7 +166,7 @@ public class LoadingSplashScreen extends Application{
     }
     private HBox addloginButtonPanel(VBox vbox){
         HBox hBox = new HBox();
-        hBox.setSpacing(10);
+        hBox.setSpacing(PADDING);
         Button login = new Button(LOG_IN_PROMPT);
         login.setId(GREEN_BUTTON_ID);
         login.setOnAction(e-> startGame(vbox));
