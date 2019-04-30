@@ -57,12 +57,21 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
         }
     }
 
-
+    /**
+     * creates an active enemy
+     * @param enemyConfig the enemyconfig "template" that this is created from
+     * @param activeLevel the current active level
+     */
     public ActiveEnemy(EnemyConfig enemyConfig,ActiveLevel activeLevel) {
         super(enemyConfig);
         myActiveLevel = activeLevel;
     }
 
+    /**
+     *
+     * @param mapFeature the mapFeature with which to initialize the implementing object with during constructor
+     */
+    @Override
     public void setMyMapFeature(MapFeature mapFeature) {
         this.myMapFeature = mapFeature;
     }

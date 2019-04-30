@@ -160,6 +160,9 @@ public class Game implements Updatable, Configurable {
         this.paneHeight = paneHeight;
         this.paneWidth = paneWidth;
         this.myLevelSpawner = new LevelSpawner(this, levelNumber, levelList);
+        if (myArsenal!=null) {
+            myArsenal.setUnlockedWeaponsToNew();
+        }
         gameStatus = GameStatus.PLAYING;
     }
 
