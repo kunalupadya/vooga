@@ -220,7 +220,7 @@ public class Logic {
      * @return - map of int weapon ID and Info instance
      */
     public Map<Integer, Info> getMyArsenal(){
-        return myGame.getArsenal().getAllNewWeaponConfigOptions();
+        return myGame.getArsenal().getAllWeaponConfigOptions();
     }
 
     // View calls this when a weapon is placed onto the map
