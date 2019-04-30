@@ -53,8 +53,6 @@ public class ConfigurableMap extends Application {
     public static final int ENEMY_ENTERING_ANGLE=90;
     public static final int MAP_XPOS=450;
     public static final int MAP_SPACING=50;
-    //public static final int GRID_WIDTH = 32;
-//    public static final int GRID_HEIGHT = 20;
     Map<String,Boolean> typeToPath;
     Map<String,Integer> typeToImagePathMap;
     Map<String, Object> passedMap;

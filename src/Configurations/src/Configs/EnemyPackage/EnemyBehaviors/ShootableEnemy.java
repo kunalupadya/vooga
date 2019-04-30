@@ -11,9 +11,13 @@ import Configs.ShooterConfig.Shooter;
 import Configs.Updatable;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+/**
+ * Behavor that allows enemies to shoot projectiles
+ * inhereted methods are commneted in the superclass
+ */
 public class ShootableEnemy extends EnemyBehavior implements Shootable {
 
-    public static final String DISPLAY_LABEL = "ShootableEnemy";
+    public static final String DISPLAY_LABEL = "Shootable Enemy";
     @Configure
     private Shooter myShooter;
 

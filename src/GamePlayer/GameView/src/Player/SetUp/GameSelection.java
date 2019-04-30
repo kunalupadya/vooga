@@ -2,7 +2,7 @@ package Player.SetUp;
 
 import BackendExternal.Logic;
 import ExternalAPIs.GameInfo;
-import Player.GamePlay.GamePlayMain;
+import Player.GamePlayMain;
 import Player.ScreenSize;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -12,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -23,7 +22,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
 
@@ -32,6 +30,16 @@ public class GameSelection extends Application {
     private static final int LABEL_HEIGHT = 100;
     private static final String SELECT_PROMPT = "Select a Game";
     private static final String SELECT_STYLE = "selectGame";
+    private static final String SCROLLPANE_STYLE = "scrollpane";
+    private static final double SCROLLPANE_RATIO = 1/3;
+    private static final String PANE_STYLE = "pane";
+    private static final String CSS_FILE = "style.css";
+    private static final int IMAGE_SIZE = 200;
+    private static final int OFFSET = 10;
+    private static final int SCROLLPANE_OFFSET = 100;
+    private static final String TITLE_STYLE = "gameTitle";
+    private static final String RECT_STYLE = "my-rect";
+    private static final int RECT_RADIUS = 20;
     private HBox root;
     private Stage stage;
     private ScrollPane scrollPane = new ScrollPane();
@@ -49,16 +57,16 @@ public class GameSelection extends Application {
     @Override
     public void start(Stage primaryStage) {
         totalBackground = new StackPane();
-        scrollPane.setId("scrollpane");
+        scrollPane.setId(SCROLLPANE_STYLE);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setPrefSize(width/3,height);
+        scrollPane.setPrefSize(width * SCROLLPANE_RATIO ,height);
 
         stage = primaryStage;
         stage.setX(width);
         stage.setY(height);
         root = new HBox();
         totalBackground.getChildren().add(root);
-        root.setId("pane");
+        root.setId(PANE_STYLE);
         Label text = new Label(SELECT_PROMPT);
         text.setPrefHeight(LABEL_HEIGHT);
         text.setId(SELECT_STYLE);
@@ -70,7 +78,7 @@ public class GameSelection extends Application {
         root.getChildren().add(left);
         text.setLayoutX(width/2);
         var scene = new Scene(totalBackground, width, height);
-        scene.getStylesheets().add("style.css");
+        scene.getStylesheets().add(CSS_FILE);
         primaryStage.setScene(scene);
         primaryStage.show();
         createGameSelectionScreen();
@@ -82,22 +90,22 @@ public class GameSelection extends Application {
 
     private void createGameSelectionScreen(){
         VBox vBox = new VBox();
-        vBox.setPrefWidth(width/3-10);
+        vBox.setPrefWidth(width*SCROLLPANE_RATIO-OFFSET);
         vBox.setAlignment(Pos.CENTER);
         for(GameInfo gameInfo: uploadAvailableGames()){
             StackPane container = new StackPane();
             container.setAlignment(Pos.CENTER);
-            Rectangle bkg = createBackdrop(scrollPane.getWidth() - 100,scrollPane.getWidth() - 100);
+            Rectangle bkg = createBackdrop(scrollPane.getWidth() - SCROLLPANE_OFFSET,scrollPane.getWidth() - SCROLLPANE_OFFSET);
             container.getChildren().add(bkg);
             VBox gameLook = new VBox();
             gameLook.setAlignment(Pos.CENTER);
             Text title = new Text(gameInfo.getGameTitle());
-            title.setId("gameTitle");
+            title.setId(TITLE_STYLE);
             gameLook.getChildren().add(title);
             Image image = logic.getImage(gameInfo.getGameThumbnailID());
             ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(200);
-            imageView.setFitHeight(200);
+            imageView.setFitWidth(IMAGE_SIZE);
+            imageView.setFitHeight(IMAGE_SIZE);
             imageView.setOnMouseClicked(e -> startGame(gameInfo, image));
             gameLook.getChildren().add(imageView);
             container.getChildren().add(gameLook);
@@ -107,11 +115,11 @@ public class GameSelection extends Application {
     }
     private Rectangle createBackdrop(double width, double height){
         Rectangle rect = new Rectangle();
-        rect.setArcWidth(20);
-        rect.setArcHeight(20);
+        rect.setArcWidth(RECT_RADIUS);
+        rect.setArcHeight(RECT_RADIUS);
         rect.setWidth(width);
         rect.setHeight(height);
-        rect.getStyleClass().add("my-rect");
+        rect.getStyleClass().add(RECT_STYLE);
         return rect;
     }
     private void startGame(GameInfo gameInfo, Image image){
@@ -173,11 +181,11 @@ public class GameSelection extends Application {
 
     private Rectangle createSavedPromptRect(){
         Rectangle rect = new Rectangle();
-        rect.setArcWidth(20);
-        rect.setArcHeight(20);
+        rect.setArcWidth(RECT_RADIUS);
+        rect.setArcHeight(RECT_RADIUS);
         rect.setWidth(400);
         rect.setHeight(150);
-        rect.getStyleClass().add("my-rect");
+        rect.getStyleClass().add(RECT_STYLE);
         return rect;
     }
     private Button createSavedButton(GameInfo gameInfo){

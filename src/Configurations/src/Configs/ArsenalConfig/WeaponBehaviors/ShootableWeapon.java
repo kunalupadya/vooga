@@ -10,7 +10,10 @@ import Configs.ArsenalConfig.WeaponConfig;
 import Configs.Configuration;
 import Configs.Updatable;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
+/**
+ * Behavior for weapons that allows the weapon to shoot projectiles
+ *  * All methods inherited from superclass are commented there.
+ */
 public class ShootableWeapon extends WeaponBehavior implements Shootable {
 
     public static final String DISPLAY_LABEL = "ShootableEnemy";

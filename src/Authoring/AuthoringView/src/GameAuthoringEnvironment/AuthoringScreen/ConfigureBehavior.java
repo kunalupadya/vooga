@@ -27,7 +27,7 @@ import java.util.List;
 
 public class ConfigureBehavior extends Application {
 
-    List<Class> myList;
+    List<Class> myBehaviorList;
     Map<String, Object> myMap;
     Stage popUpWindow;
     VBox layout;
@@ -44,11 +44,12 @@ public class ConfigureBehavior extends Application {
     GameOutline myGameOutline;
     String myKey;
     Class myType;
-    List<Class> myList2;
+    List<Class> unmodifiableMyBehaviorList;
     Object[] selectedBehavior;
     List<Object> tempList;
     boolean myBoolean;
     private int PADDING = 20;
+    List<Object> myTempList;
     /*public ConfigureBehavior(GameOutline gameOutline, Configurable configurable, Map<String, Object> attributesMap, List<Class> behaviorList) {
         myGameOutline= gameOutline;
         myConfigurable = configurable;
@@ -68,35 +69,38 @@ public class ConfigureBehavior extends Application {
         popUpWindow.setScene(scene);
         popUpWindow.show();
     }
-    public ConfigureBehavior(GameController gameController, Configurable configurable, Map<String, Object> attributesMap, List<Class> behaviorList, String key, Class clazz, Boolean isArray) {
+
+    public ConfigureBehavior(GameController gameController, Configurable configurable, Map<String, Object> myAttributesMap, List<Class> behaviorList, String key, Class clazz, List<Object> mytempList, Boolean isArray) {
         myType = clazz;
         selectedBehavior = (Object[]) Array.newInstance(myType, 0);
         tempList = new ArrayList<>(Arrays.asList(selectedBehavior));
         myKey = key;
         myGameController = gameController;
         myConfigurable = configurable;
-        myList = behaviorList;
-        myList2 = Collections.unmodifiableList(myList);
-        myMap = attributesMap;
+        myBehaviorList = behaviorList;
+        unmodifiableMyBehaviorList = Collections.unmodifiableList(myBehaviorList);
+        myMap = myAttributesMap;
         myBoolean = isArray;
+        myTempList = mytempList;
         setContent();
     }
 
     private void setContent() {
-        //popUpWindow.initModality(Modality.APPLICATION_MODAL);
 
         layout = new VBox(10.00);
 
         Label sourceListLbl = new Label("Available Behaviors: ");
         Label targetListLbl = new Label("Selected Behaviors: ");
-        Label messageLbl = new Label("Drag and drop behaviors. Some behaviors require further configuration");
-
+        Label messageLbl;
+        if(myBoolean){
+            messageLbl = new Label("Drag and drop behaviors. Some behaviors require further configuration");}
+        else{
+            messageLbl = new Label("Drag and drop one Behavior. You can choose only one behavior");
+        }
 
         sourceView.setPrefSize(sourceViewWidth, sourceViewHeight);
         targetView.setPrefSize(sourceViewWidth, sourceViewHeight);
-
-
-        sourceView.getItems().addAll(myList2);
+        sourceView.getItems().addAll(unmodifiableMyBehaviorList);
         sourceView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         targetView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
@@ -176,9 +180,14 @@ public class ConfigureBehavior extends Application {
                         ob[a] = tempList.get(a);
                     }
                     if(myBoolean == true){
-                    myMap.put(myKey, ob);}
+                        myTempList.add(ob);
+                        myMap.put(myKey, ob);}
                     else{
-                        myMap.put(myKey,ob[0]);
+                        if (ob.length == 0){
+                            AlertFactory alertFactory = new AlertFactory();
+                            alertFactory.createAlert("You have to choose and configure at least one behavior");
+                        }else{
+                        myMap.put(myKey,ob[0]);}
                     }
                     popUpWindow.close();
                 }
@@ -263,7 +272,6 @@ public class ConfigureBehavior extends Application {
 
         // Transfer the data to the target
         Dragboard dragboard = event.getDragboard();
-        boolean dragCompleted = false;
 
         if (dragboard.hasContent(Behavior_LIST)) {
             ArrayList<Behavior> list = (ArrayList<Behavior>) dragboard.getContent(Behavior_LIST);
