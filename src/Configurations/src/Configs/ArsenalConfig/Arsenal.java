@@ -8,7 +8,10 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import java.util.*;
 
 
-//used to hold all of the possible weapons configured in the authoring environemnt
+/**
+ * used to hold all of the possible weapons configured in the authoring environemnt
+ *
+ */
 public class Arsenal implements Configurable, Updatable {
     public static final String DISPLAY_LABEL = "Arsenal";
     private Game myGame;

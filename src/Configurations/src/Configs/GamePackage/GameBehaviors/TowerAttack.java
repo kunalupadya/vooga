@@ -7,6 +7,9 @@ import Configs.GamePackage.GameStatus;
 import Configs.Updatable;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+/**
+ * game mode for  protecting towers from enemies-- key updates for win conditions are in the update method
+ */
 public class TowerAttack extends GameBehavior{
     public static final String DISPLAY_LABEL = "Tower Attack";
 

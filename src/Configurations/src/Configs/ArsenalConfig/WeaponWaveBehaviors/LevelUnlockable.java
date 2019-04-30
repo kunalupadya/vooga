@@ -5,6 +5,9 @@ import Configs.Behaviors.Behavior;
 import Configs.Configuration;
 import Configs.Updatable;
 
+/**
+ * A behavior of a WeaponWave the unlocks weapons based on certain conditions
+ */
 public class LevelUnlockable extends WeaponWaveBehavior {
     public static final String DISPLAY_LABEL = "Level-Unlockable";
     @Configure

@@ -1,6 +1,8 @@
 package Configs;
 
-
+/**
+ * Object that holds everything about how an object should look when rendered
+ */
 public class View implements Configurable {
     private transient Configuration myConfiguration;
 
@@ -29,28 +31,49 @@ public class View implements Configurable {
     }
 
 
-
+    /**
+     *
+     * @return this parameter
+     */
     @Override
     public String getName() {
         return DISPLAY_LABEL;
     }
 
-
+    /**
+     *
+     * @return this objects configuration
+     */
     @Override
     public Configuration getConfiguration() {
         return myConfiguration;
     }
 
-
+    /**
+     *
+     * @return this instance variable
+     */
     public int getWidth() {
         return width;
     }
+    /**
+     *
+     * @return this instance variable
+     */
     public int getHeight() {
         return height;
     }
+    /**
+     *
+     * @return this instance variable
+     */
     public int getImage() {
         return imageId;
     }
+    /**
+     *
+     * @return this instance variable
+     */
     public String getMyConfigurableName(){
         return myConfigurable.getClass().getSimpleName();
     }
