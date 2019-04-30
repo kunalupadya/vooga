@@ -29,18 +29,34 @@ public class GameSelection extends Application {
 
     private static final String SELECT_PROMPT = "Select a Game";
     private static final String SELECT_STYLE = "selectGame";
+    private static final String SMALLER_BUTTON_STYLE = "smallerButton";
     private static final String SCROLLPANE_STYLE = "scrollpane";
     private static final String TITLE_STYLE = "gameTitle";
     private static final String RECT_STYLE = "my-rect";
     private static final String PANE_STYLE = "pane";
     private static final String CSS_FILE = "style.css";
+    private static final String DARKER_STYLE = "-fx-opacity: 0.9; -fx-background-color: black;";
+    private static final String PLAY = "Play";
+    private static final String SAVED_STATE_PROMPT = "Would you like to start from your saved progress?";
+    private static final String LOADING_PROMPT = "Get Ready to Play!";
     private static final double SCROLLPANE_RATIO = 1/3;
     private static final int LABEL_HEIGHT = 100;
     private static final int IMAGE_SIZE = 200;
+    private static final int IMAGE_SIZE_SMALL = 100;
     private static final int OFFSET = 10;
     private static final int SCROLLPANE_OFFSET = 100;
     private static final int RECT_RADIUS = 20;
     private static final String FONT_VERANDA = "veranda";
+    private static final int TITLE_OFFSET = -100;
+    private static final int SUBTITLE_OFFSET = -70;
+    private static final int PADDING = 5;
+    private static final int PLAY_BUTTON_YPOS = 100;
+    private static final int HBOX_YPOS = 50;
+    private static final int RECT_WIDTH = 400;
+    private static final int RECT_HEIGHT = 150;
+    private static final double SELECT_RECT_RATIO = 0.5;
+    private static final int TITLE_SIZE = 50;
+    private static final int SUBTITLE_SIZE = 20;
     private HBox root;
     private Stage stage;
     private ScrollPane scrollPane;
@@ -147,18 +163,18 @@ public class GameSelection extends Application {
         gameStart = new StackPane();
         gameStart.setPrefWidth(width* 2 /3);
         gameStart.setAlignment(Pos.CENTER);
-        Rectangle bkg = createBackdrop(gameStart.getPrefWidth()/2, gameStart.getPrefWidth()/2);
+        Rectangle bkg = createBackdrop(gameStart.getPrefWidth() * SELECT_RECT_RATIO, gameStart.getPrefWidth() * SELECT_RECT_RATIO);
         gameStart.getChildren().add(bkg);
 
 
         Text title = new Text(gameInfo.getGameTitle());
-        title.setFont(Font.font(FONT_VERANDA, FontWeight.BOLD, 50));
-        title.setTranslateY(-100);
+        title.setFont(Font.font(FONT_VERANDA, FontWeight.BOLD, TITLE_SIZE));
+        title.setTranslateY(TITLE_OFFSET);
 
 
         Text subtitle = new Text(gameInfo.getGameDescription());
-        subtitle.setFont(Font.font(FONT_VERANDA, FontPosture.ITALIC, 20));
-        subtitle.setTranslateY(-70);
+        subtitle.setFont(Font.font(FONT_VERANDA, FontPosture.ITALIC, SUBTITLE_SIZE));
+        subtitle.setTranslateY(SUBTITLE_OFFSET);
 
 
         gameStart.getChildren().add(title);
@@ -168,23 +184,22 @@ public class GameSelection extends Application {
 
 
         ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(100);
-        imageView.setFitHeight(100);
+        imageView.setFitWidth(IMAGE_SIZE_SMALL);
+        imageView.setFitHeight(IMAGE_SIZE_SMALL);
 
 
         gameStart.getChildren().add(imageView);
-        Button play = new Button("Play");
-        play.setTranslateX(0);
-        play.setTranslateY(100);
+        Button play = new Button(PLAY);
+        play.setTranslateY(PLAY_BUTTON_YPOS);
         gameStart.getChildren().add(play);
         play.setOnAction(e-> displaySavedOptions(gameInfo));
         root.getChildren().add(gameStart);
     }
 
     private void displaySavedOptions(GameInfo gameInfo){
-        root.setStyle("-fx-opacity: 0.9; -fx-background-color: black;");
-        Rectangle rect = createSavedPromptRect();
-        Text choice = new Text("Would you like to start from your saved progress?");
+        root.setStyle(DARKER_STYLE);
+        Rectangle rect = createBackdrop(RECT_WIDTH, RECT_HEIGHT);
+        Text choice = new Text(SAVED_STATE_PROMPT);
         Button fromSaved = createSavedButton(gameInfo);
         Button fromStart = createStartOverButton(gameInfo);
         HBox hBox = createButtonHBox(fromSaved, fromStart);
@@ -194,33 +209,24 @@ public class GameSelection extends Application {
 
     private HBox createButtonHBox(Button button1, Button button2){
         HBox hbox = new HBox();
-        hbox.setSpacing(5);
+        hbox.setSpacing(PADDING);
         hbox.getChildren().addAll(button1, button2);
         hbox.setMaxWidth(ScreenSize.getWidth()/4);
         hbox.setMaxHeight(ScreenSize.getWidth()/4);
         hbox.setAlignment(Pos.CENTER);
-        hbox.setTranslateY(50);
+        hbox.setTranslateY(HBOX_YPOS);
         return hbox;
     }
 
-    private Rectangle createSavedPromptRect(){
-        Rectangle rect = new Rectangle();
-        rect.setArcWidth(RECT_RADIUS);
-        rect.setArcHeight(RECT_RADIUS);
-        rect.setWidth(400);
-        rect.setHeight(150);
-        rect.getStyleClass().add(RECT_STYLE);
-        return rect;
-    }
     private Button createSavedButton(GameInfo gameInfo){
         Button fromSaved = new Button("Yes");
-        fromSaved.setId("smallerButton");
+        fromSaved.setId(SMALLER_BUTTON_STYLE);
         fromSaved.setOnAction(e->startFromSaved(gameInfo));
         return fromSaved;
     }
     private Button createStartOverButton(GameInfo gameInfo){
         Button fromStart = new Button("No, start over");
-        fromStart.setId("smallerButton");
+        fromStart.setId(SMALLER_BUTTON_STYLE);
         fromStart.setOnAction(e->startGame(gameInfo, false));
         return fromStart;
     }
@@ -233,7 +239,7 @@ public class GameSelection extends Application {
         this.stage.close();
         LogInPreloader logInPreloader = new LogInPreloader();
         logInPreloader.start(new Stage());
-        logInPreloader.setTitle("Get Ready to Play!");
+        logInPreloader.setTitle(LOADING_PROMPT);
         logInPreloader.setTransitionEvent(e->transitionToScreen(gameInfo, saved));
     }
     private void transitionToScreen(GameInfo gameInfo, boolean saved){
