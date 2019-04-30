@@ -8,8 +8,6 @@ import javafx.scene.Group;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
 
-import java.io.FileNotFoundException;
-
 public class GamePlayRightSide extends VBox {
 
     public static final double ARSENAL_RATIO = 0.8;
@@ -24,11 +22,7 @@ public class GamePlayRightSide extends VBox {
         this.mediaPlayer = mediaPlayer;
         setPrefWidth(width);
         setPrefHeight(height);
-        try {
-            myGameArsenal = new GamePlayArsenal(width, height * ARSENAL_RATIO, logic, myMap, root);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        myGameArsenal = new GamePlayArsenal(width, height * ARSENAL_RATIO, logic, myMap, root);
         this.getChildren().addAll(myGameArsenal, createButtonPanel(width, height, play, fastForward, home, logic));
     }
     public void update(){
@@ -40,5 +34,4 @@ public class GamePlayRightSide extends VBox {
         myButtonPanel = new ButtonPanel(width, height * BUTTON_RATIO, play, fastFoward, home, mediaPlayer, logic);
         return myButtonPanel;
     }
-
 }

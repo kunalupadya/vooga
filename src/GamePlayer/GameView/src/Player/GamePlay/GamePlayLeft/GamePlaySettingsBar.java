@@ -73,15 +73,14 @@ public class GamePlaySettingsBar extends StackPane {
     private void createLabels(double imageHeight){
         HBox textHBox = new HBox();
         textHBox.setAlignment(Pos.CENTER);
-        liveScore = new Text("0");
-        numLives = new Text("0");
-        myMoney = new Text("0");
-        myLevel = new Text("0");
+        liveScore = new Text("" + DEFAULT_SCORE);
+        numLives = new Text("" + DEFAULT_SCORE);
+        myMoney = new Text("" + DEFAULT_SCORE);
+        myLevel = new Text("" + DEFAULT_SCORE);
         StackPane score = createLabelVBox(scoreImage, imageHeight, liveScore);
         StackPane level = createLabelVBox(levelImage, imageHeight, myLevel);
         StackPane money = createLabelVBox(moneyImage, imageHeight, myMoney);
         StackPane lives = createLabelVBox(livesImage, imageHeight, numLives);
-
         textHBox.getChildren().addAll(score, level, money, lives);
         textHBox.setSpacing(padding);
         textHBox.setMaxWidth(width);
