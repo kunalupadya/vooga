@@ -7,6 +7,9 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * gives enemies the ability to move according to an AI algorithm
+ */
 public enum AIOptions {
     SHORTEST_PATH(Cell::getShortestDistanceHeuristic, (cell, inte) ->cell.setShortestDistanceHeuristic(inte), false, false),
     SHORTEST_IGNORE_PATH(Cell::getShortestDistanceHeuristicIgnorePath, (cell, inte) -> cell.setShortestDistanceHeuristicIgnorePath(inte), true,false),

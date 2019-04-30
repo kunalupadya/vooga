@@ -10,6 +10,9 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import java.util.function.Predicate;
 
+/**
+ * game mode where the goal is to get the most points in a certain amount of time
+ */
 public class TimedGame extends GameBehavior{
     public static final String DISPLAY_LABEL = "Beat the Timer";
     @Configure

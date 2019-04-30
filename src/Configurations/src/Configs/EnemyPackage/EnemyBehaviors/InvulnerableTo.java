@@ -1,6 +1,8 @@
 package Configs.EnemyPackage.EnemyBehaviors;
 
-
+/**
+ * allows enemy to be impervious to certain weapons (NOT IMLEMENTED
+ */
 
 import ActiveConfigs.ActiveEnemy;
 import ActiveConfigs.ActiveLevel;

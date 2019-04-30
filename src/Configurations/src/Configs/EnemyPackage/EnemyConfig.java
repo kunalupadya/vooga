@@ -10,6 +10,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * A template for enemy objects created by the authoring environment that will be passed to the game through serialization
+ */
 public class EnemyConfig implements Configurable, Viewable {
     private Wave myWave;
     public static final String DISPLAY_LABEL = "Enemy";
@@ -62,10 +65,17 @@ public class EnemyConfig implements Configurable, Viewable {
 //        myBehaviors = behavior;
 //    }
 
+    /**
+     *
+     * @return this parameter
+     */
     public EnemyBehavior[] getMyBehaviors() {
         return myBehaviors;
     }
-
+    /**
+     *
+     * @return this parameter
+     */
     public double getUnitSpeedPerSecond() {
         return unitSpeedPerSecond;
     }
@@ -74,7 +84,10 @@ public class EnemyConfig implements Configurable, Viewable {
     public View getView() {
         return view;
     }
-
+    /**
+     *
+     * @return this parameter
+     */
     public int getHealth() {
         return health;
     }
@@ -98,18 +111,34 @@ public class EnemyConfig implements Configurable, Viewable {
         return rewardForKilling;
     }
 
+    /**
+     * updates the health when the enemy is given a powerup through a wave
+     * @param multiplier how much to multiply health by
+     */
     public void multiplyHealth(double multiplier) {
         this.health = (int) multiplier*health;
     }
 
+    /**
+     * changes the reward for being killed (cash and score)
+     * @param multiplier
+     */
     public void multiplyRewardForKilling(double multiplier) {
         this.rewardForKilling = (int) multiplier * rewardForKilling;
     }
 
+    /**
+     * modifies the speed for when waves want to do that
+     * @param multiplier
+     */
     public void multiplyUnitSpeedPerSecond(double multiplier) {
         this.unitSpeedPerSecond = (int) multiplier * unitSpeedPerSecond;
     }
 
+    /**
+     *
+     * @return the type of AI that is implementd
+     */
     public AIOptions getAiType() {
         return aiType;
     }
