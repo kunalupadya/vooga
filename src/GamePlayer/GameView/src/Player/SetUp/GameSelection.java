@@ -163,10 +163,10 @@ public class GameSelection extends Application {
         Text choice = new Text("Would you like to start from your saved progress?");
         Button fromSaved = new Button("Yes");
         fromSaved.setId("smallerButton");
-        fromSaved.setOnAction(e->startFromSaved());
+        fromSaved.setOnAction(e->startFromSaved(gameInfo));
         Button fromStart = new Button("No, start over");
         fromStart.setId("smallerButton");
-        fromStart.setOnAction(e->startGame(gameInfo));
+        fromStart.setOnAction(e->startGame(gameInfo, false));
         HBox hbox = new HBox();
         hbox.setSpacing(5);
         hbox.getChildren().addAll(fromSaved, fromStart);
@@ -178,20 +178,23 @@ public class GameSelection extends Application {
         totalBackground.getChildren().addAll(choice,hbox);
     }
 
-    private void startFromSaved(){
-        logic.startAtUserState();
+    private void startFromSaved(GameInfo gameInfo){
+        startGame(gameInfo, true);
     }
 
-    private void startGame(GameInfo gameInfo){
+    private void startGame(GameInfo gameInfo, boolean saved){
         this.stage.close();
         LogInPreloader logInPreloader = new LogInPreloader();
         logInPreloader.start(new Stage());
         logInPreloader.setTitle("Get Ready to Play!");
-        logInPreloader.setTransitionEvent(e->transitionToScreen(gameInfo));
+        logInPreloader.setTransitionEvent(e->transitionToScreen(gameInfo, saved));
     }
-    private void transitionToScreen(GameInfo gameInfo){
+    private void transitionToScreen(GameInfo gameInfo, boolean saved){
         GamePlayMain gamePlayMain = new GamePlayMain();
-        gamePlayMain.setGameInfo(gameInfo);
+        gamePlayMain.setGameInfo(gameInfo, saved);
+        if(saved){
+            gamePlayMain.setLogic(logic);
+        }
         gamePlayMain.start(new Stage());
     }
 }

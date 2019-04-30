@@ -70,9 +70,16 @@ public class GamePlayMain extends Application {
             e.printStackTrace();
         }
     }
-    public void setGameInfo(GameInfo gameInfo){
+    public void setLogic(Logic logic){
+        this.myLogic = logic;
+    }
+    public void setGameInfo(GameInfo gameInfo, boolean saved){
         myLogic.createGameInstance(gameInfo);
-        myLogic.startAtDefaultState();
+        if(saved){
+            myLogic.startAtUserState();
+        }else{
+            myLogic.startAtDefaultState();
+        }
     }
     private void fastFoward(){
         animation.setRate(2.5);
