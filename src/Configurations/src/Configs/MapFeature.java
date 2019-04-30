@@ -153,16 +153,6 @@ public class MapFeature {
     }
 
     private void setImage(View view) throws IllegalStateException {
-//<<<<<<< HEAD
-//        try {
-//            myImageView = new TransferImageView(new Image(new FileInputStream("resources/"+view.getImage())));
-//            myImageView.setFitHeight(paneHeight/gridYSize*heightInGridUnits);
-//            myImageView.setFitWidth(paneWidth/gridXSize* widthInGridUnits);
-//        }
-//        catch (FileNotFoundException e) {
-//            throw new IllegalStateException();
-//        }
-//=======
         Game game = parent.getActiveLevel().getGame();
         int imageId = view.getImage();
         Image image;
@@ -186,7 +176,6 @@ public class MapFeature {
             removeFromCell();
         }
         this.displayState = displayState;
->>>>>>> 6cce1699b2be8987a6b4215831ca399f8849c6e7
     }
 
     /**
@@ -375,11 +364,11 @@ public class MapFeature {
         }
     }
 
-<<<<<<< HEAD
-    public void setDisplayState(DisplayState displayState) {
-        if(displayState == DisplayState.DIED) removeFromCell();
-        this.displayState = displayState;
-=======
+//<<<<<<< HEAD
+//    public void setDisplayState(DisplayState displayState) {
+//        if(displayState == DisplayState.DIED) removeFromCell();
+//        this.displayState = displayState;
+//=======
     private void setPixelPos(double pixelXPos, double pixelYPos, double direction) {
         updateSafeBoxBounds();
         removeFromCell();
@@ -412,6 +401,6 @@ public class MapFeature {
 //        }
         }
         myCells.clear();
->>>>>>> 6cce1699b2be8987a6b4215831ca399f8849c6e7
+//>>>>>>> 6cce1699b2be8987a6b4215831ca399f8849c6e7
     }
 }
