@@ -133,8 +133,13 @@ public class MapFeature {
         int imageId = view.getImage();
         Image image;
 //        System.out.println("HERE:" + imageId);
-        if (game.hasImage(imageId)) image = game.getImage(imageId);
-        else image = Data.getImageStatic(imageId);
+        if (game.hasImage(imageId)) {
+            image = game.getImage(imageId);
+        }
+        else {
+            image = Data.getImageStatic(imageId);
+            game.addImage(imageId, image);
+        }
         myImageView = new TransferImageView(image);
         myImageView.setFitHeight(paneHeight/gridYSize*heightInGridUnits);
         myImageView.setFitWidth(paneWidth/gridXSize* widthInGridUnits);

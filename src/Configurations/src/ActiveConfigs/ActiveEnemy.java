@@ -19,8 +19,8 @@ import Configs.EnemyPackage.EnemyBehaviors.AIOptions.*;
 public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable, Attackable {
     public static final double CONVERSION_TO_SECONDS = .001;
     private MapFeature myMapFeature;
-    private Cell[][] activeMapGrid;
-    private double distance = 0;
+//    private Cell[][] activeMapGrid;
+//    private double distance = 0;
     private ActiveLevel myActiveLevel;
     private double startTime = -Integer.MAX_VALUE;
     private LinkedList<Point> prevLocations = new LinkedList<>();
@@ -128,7 +128,7 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
             MovementDirection movementDirection = determineMovementDirection(getAiType());
             int newX = myMapFeature.getGridXPos()+movementDirection.getX();
             int newY = myMapFeature.getGridYPos()+movementDirection.getY();
-            int heuristicValue = getAiType().getGetter().apply(myActiveLevel.getGridCell(newX,newY));
+            int heuristicValue = getAiType().getGetter().apply(myActiveLevel.getGridCell(newX+getView().getWidth()/2,newY+getView().getHeight()/2));
             if (heuristicValue ==0 ){
                 myActiveLevel.incrementEscapedEnemies();
                 killMe();
@@ -160,20 +160,15 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
             int j = getView().getWidth()/2;
             int x = myMapFeature.getGridXPos()+xAdditions[k]+getView().getWidth()/2;
             int y = myMapFeature.getGridYPos()+yAdditions[k]+getView().getHeight()/2;
-
-//            for
-
-            int topleft = myMapFeature.getGridXPos()+xAdditions[k];
-            int topleftx = myMapFeature.getGridYPos()+yAdditions[k];
-
             Point newxy = new Point(x,y);
             if (isCellValid(x,y)&& !prevLocations.contains(newxy)){
+                int topLeftX = myMapFeature.getGridXPos()+xAdditions[k];
+                int topLeftY = myMapFeature.getGridYPos()+yAdditions[k];
                 int[] checkY = new int[]{0,0,getView().getHeight(), getView().getHeight()};
                 int[] checkX = new int[]{0,getView().getWidth(), 0, getView().getWidth()};
                 boolean valid = true;
                 for (int m=0; m<checkX.length;m++){
-//                checkCorners[m] = new Point(checkX[m], checkY[m]);
-                    if (!isCellValid(checkX[m], checkY[m])){
+                    if (!isCellValid(topLeftX+checkX[m], topLeftY+checkY[m])){
                         valid = false;
                     }
                 }
