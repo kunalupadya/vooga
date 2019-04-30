@@ -19,7 +19,7 @@ public class InvulnerableTo extends EnemyBehavior{
     ProjectileConfig[] immuneToThese;
     private transient Configuration myConfiguration;
 
-    InvulnerableTo(EnemyConfig enemyConfig){
+    public InvulnerableTo(EnemyConfig enemyConfig){
         super(enemyConfig);
         myConfiguration = new Configuration(this);
     }
