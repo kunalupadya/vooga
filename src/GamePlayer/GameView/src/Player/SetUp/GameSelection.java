@@ -27,22 +27,23 @@ import java.util.List;
 
 public class GameSelection extends Application {
 
-    private static final int LABEL_HEIGHT = 100;
     private static final String SELECT_PROMPT = "Select a Game";
     private static final String SELECT_STYLE = "selectGame";
     private static final String SCROLLPANE_STYLE = "scrollpane";
-    private static final double SCROLLPANE_RATIO = 1/3;
+    private static final String TITLE_STYLE = "gameTitle";
+    private static final String RECT_STYLE = "my-rect";
     private static final String PANE_STYLE = "pane";
     private static final String CSS_FILE = "style.css";
+    private static final double SCROLLPANE_RATIO = 1/3;
+    private static final int LABEL_HEIGHT = 100;
     private static final int IMAGE_SIZE = 200;
     private static final int OFFSET = 10;
     private static final int SCROLLPANE_OFFSET = 100;
-    private static final String TITLE_STYLE = "gameTitle";
-    private static final String RECT_STYLE = "my-rect";
     private static final int RECT_RADIUS = 20;
+    private static final String FONT_VERANDA = "veranda";
     private HBox root;
     private Stage stage;
-    private ScrollPane scrollPane = new ScrollPane();
+    private ScrollPane scrollPane;
     private double width = ScreenSize.getWidth();
     private double height = ScreenSize.getHeight();
     private Logic logic;
@@ -57,31 +58,44 @@ public class GameSelection extends Application {
     @Override
     public void start(Stage primaryStage) {
         totalBackground = new StackPane();
-        scrollPane.setId(SCROLLPANE_STYLE);
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setPrefSize(width * SCROLLPANE_RATIO ,height);
-
+        createScrollPane();
         stage = primaryStage;
         stage.setX(width);
         stage.setY(height);
         root = new HBox();
         totalBackground.getChildren().add(root);
         root.setId(PANE_STYLE);
-        Label text = new Label(SELECT_PROMPT);
-        text.setPrefHeight(LABEL_HEIGHT);
-        text.setId(SELECT_STYLE);
-
-        VBox left = new VBox();
-        left.setAlignment(Pos.CENTER);
-        left.getChildren().add(text);
-        left.getChildren().add(scrollPane);
+        Label text = createSelectPrompt();
+        VBox left = createLeftVBox(scrollPane, text);
         root.getChildren().add(left);
-        text.setLayoutX(width/2);
         var scene = new Scene(totalBackground, width, height);
         scene.getStylesheets().add(CSS_FILE);
         primaryStage.setScene(scene);
         primaryStage.show();
         createGameSelectionScreen();
+
+    }
+    private VBox createLeftVBox(ScrollPane scrollPane, Label text){
+        VBox left = new VBox();
+        left.setAlignment(Pos.CENTER);
+        left.getChildren().add(text);
+        left.getChildren().add(scrollPane);
+        return left;
+    }
+
+    private Label createSelectPrompt(){
+        Label text = new Label(SELECT_PROMPT);
+        text.setPrefHeight(LABEL_HEIGHT);
+        text.setId(SELECT_STYLE);
+        text.setLayoutX(width/2);
+        return text;
+    }
+
+    private void createScrollPane(){
+        scrollPane =  new ScrollPane();
+        scrollPane.setId(SCROLLPANE_STYLE);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setPrefSize(width * SCROLLPANE_RATIO ,height);
 
     }
     private List<GameInfo> uploadAvailableGames(){
@@ -136,10 +150,10 @@ public class GameSelection extends Application {
         Rectangle bkg = createBackdrop(gameStart.getPrefWidth()/2, gameStart.getPrefWidth()/2);
         gameStart.getChildren().add(bkg);
         Text title = new Text(gameInfo.getGameTitle());
-        title.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
+        title.setFont(Font.font(FONT_VERANDA, FontWeight.BOLD, 50));
         title.setTranslateY(-100);
         Text subtitle = new Text(gameInfo.getGameDescription());
-        subtitle.setFont(Font.font("Verdana", FontPosture.ITALIC, 20));
+        subtitle.setFont(Font.font(FONT_VERANDA, FontPosture.ITALIC, 20));
         subtitle.setTranslateY(-70);
         gameStart.getChildren().add(title);
         gameStart.getChildren().add(subtitle);
