@@ -272,18 +272,6 @@ public class MapFeature {
         myImageView.setRotate(direction);
     }
 
-    private void setImage(View view) throws IllegalStateException {
-        Game game = parent.getActiveLevel().getGame();
-        int imageId = view.getImage();
-        Image image;
-//        System.out.println("HERE:" + imageId);
-        if (game.hasImage(imageId)) image = game.getImage(imageId);
-        else image = Data.getImageStatic(imageId);
-        myImageView = new TransferImageView(image);
-        myImageView.setFitHeight(paneHeight/gridYSize*heightInGridUnits);
-        myImageView.setFitWidth(paneWidth/gridXSize* widthInGridUnits);
-
-    }
 
     /**
      * Allows for the movement of an object based on a new grid position and pointing location
