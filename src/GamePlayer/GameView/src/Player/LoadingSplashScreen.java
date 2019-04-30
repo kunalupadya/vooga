@@ -40,6 +40,11 @@ public class LoadingSplashScreen extends Application{
     private static final String CREATE_ACCOUNT_PROMPT = "Create Account";
     private static final String LOG_IN_PROMPT = "Log In";
     private static final String SIGN_UP_PROMPT = "Sign Up";
+    private static final String GREEN_BUTTON_ID = "green";
+    private static final String ACCOUNT_BUTTON_ID = "createAccount";
+    private static final String RECTANGLE_ID = "my-rect";
+    private static final String PANE_ID = "pane";
+    private static final String LOADING_PROMPT = "We're loading your \n available games!!!";
     private static final int BUTTON_Y_POS = 150;
     private static final int BUTTON_X_POS = 0;
     private static final int LOGO_WIDTH = 500;
@@ -49,7 +54,10 @@ public class LoadingSplashScreen extends Application{
     private static final int ARC = 20;
     private static final int RECTANGLE_WIDTH = 400;
     private static final int RECTANGLE_HEIGHT = 200;
+    private static final int LARGE_RECTANGLE_HEIGHT = 250;
     private static final double SIZE_TRANSITION = -0.6f;
+    private static final int ANIMATION_CYCLE = 1;
+    private static final int BACK_LOGO_SIZE = 30;
     private StackPane root;
     private ImageView title;
     private Stage stage;
@@ -80,7 +88,7 @@ public class LoadingSplashScreen extends Application{
         primaryStage.show();
     }
     private void addElementsToRoot(){
-        root.setId("pane");
+        root.setId(PANE_ID);
         root.applyCss();
         root.layout();
         root.getChildren().add(createWelcomeMusic());
@@ -119,7 +127,7 @@ public class LoadingSplashScreen extends Application{
         ScaleTransition st = new ScaleTransition(Duration.seconds(TRANSITION_TIME), title);
         st.setByX(SIZE_TRANSITION);
         st.setByY(SIZE_TRANSITION);
-        st.setCycleCount(1);
+        st.setCycleCount(ANIMATION_CYCLE);
         int xPos = (int)Math.round(title.getX() + title.getBoundsInLocal().getWidth()/2);
         PathTransition bannerTransition = generatePathTransition(generatePath(xPos, 0, LOGO_Y_POS * 2), title);
         ParallelTransition parallelTransition = new ParallelTransition();
@@ -133,7 +141,7 @@ public class LoadingSplashScreen extends Application{
             rect = new Rectangle();
             rect.setArcWidth(ARC);
             rect.setArcHeight(ARC);
-            rect.getStyleClass().add("my-rect");
+            rect.getStyleClass().add(RECTANGLE_ID);
             background.getChildren().add(rect);
         }else{
             background.getChildren().remove(accountGrid);
@@ -158,10 +166,10 @@ public class LoadingSplashScreen extends Application{
         HBox hBox = new HBox();
         hBox.setSpacing(10);
         Button login = new Button(LOG_IN_PROMPT);
-        login.setId("green");
+        login.setId(GREEN_BUTTON_ID);
         login.setOnAction(e-> startGame(vbox));
         Button newAccount = new Button(SIGN_UP_PROMPT);
-        newAccount.setId("green");
+        newAccount.setId(GREEN_BUTTON_ID);
         newAccount.setOnAction(e->switchToCreateAccountGrid(vbox));
         hBox.getChildren().addAll(login,newAccount);
         hBox.setMaxWidth(rect.getWidth());
@@ -170,19 +178,19 @@ public class LoadingSplashScreen extends Application{
     }
     private void switchToCreateAccountGrid(VBox vbox){
         background.getChildren().remove(vbox);
-        rect.setWidth(400);
-        rect.setHeight(250);
+        rect.setWidth(RECTANGLE_WIDTH);
+        rect.setHeight(LARGE_RECTANGLE_HEIGHT);
         createAccountGrid = new CreateAccount();
         Image back = new Image(this.getClass().getClassLoader().getResourceAsStream("back.png"));
         ImageView backToLogIn = new ImageView(back);
-        backToLogIn.setFitWidth(30);
-        backToLogIn.setFitHeight(30);
+        backToLogIn.setFitWidth(BACK_LOGO_SIZE);
+        backToLogIn.setFitHeight(BACK_LOGO_SIZE);
         backToLogIn.setOnMousePressed(e->createSignInSettings(true));
         createAccountGrid.add(backToLogIn, 0,0);
 
         Button createAccount = new Button(CREATE_ACCOUNT_PROMPT);
         createAccount.setOnAction(e-> createAccount());
-        createAccount.setId("createAccount");
+        createAccount.setId(ACCOUNT_BUTTON_ID);
         createAccountGrid.setAlignment(Pos.CENTER);
 
         accountGrid = new VBox(createAccountGrid, createAccount);
@@ -202,7 +210,7 @@ public class LoadingSplashScreen extends Application{
         PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.seconds(TRANSITION_TIME));
         pathTransition.setPath(path);
-        pathTransition.setCycleCount(1);
+        pathTransition.setCycleCount(ANIMATION_CYCLE);
         pathTransition.setNode(node);
         return pathTransition;
     }
@@ -211,7 +219,7 @@ public class LoadingSplashScreen extends Application{
         this.stage.close();
         LogInPreloader logInPreloader = new LogInPreloader();
         logInPreloader.start(new Stage());
-        logInPreloader.setTitle("We're loading your \n available games!!!");
+        logInPreloader.setTitle(LOADING_PROMPT);
         logInPreloader.setTransitionEvent(e -> {
             GameSelection gameSelection = new GameSelection(logic);
             gameSelection.start(new Stage());
