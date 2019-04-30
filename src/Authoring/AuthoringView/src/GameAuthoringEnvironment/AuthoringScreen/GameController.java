@@ -391,7 +391,7 @@ public class GameController {
                 createConfigurable((Configurable) tempList.get(sourceView.getSelectionModel().getSelectedIndex()));
             }
 
-        } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
+        } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException| IndexOutOfBoundsException e) {
             myAlertFactory.createAlert("Please try again! Something went wrong during your configuration ");
             handleArraySourceView(value, myConfigurable, myAttributesMap, tempList, sourceView, key);
             System.out.println(e);

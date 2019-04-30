@@ -1,5 +1,6 @@
 package GameAuthoringEnvironment.AuthoringScreen;
 
+import BackendExternalAPI.Model;
 import ExternalAPIs.AuthoringData;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,7 +20,6 @@ import java.io.IOException;
 
 public class UploadImage {
 
-    private static Stage myStage;
     private static Group myRoot;
 
     private VBox myVBox;
@@ -36,10 +36,12 @@ public class UploadImage {
     public static final String FILE_BUTTON_TXT = "Select File";
     public static final String SAVE_BUTTON_TXT = "Save Image File";
     public static final String DROPDOWN_TXT = "Type";
+    private Model myModel;
 
     private static int imageID;
 
-    public UploadImage(){
+    public UploadImage(Model model){
+        myModel = model;
         setContent();
     }
 
@@ -57,6 +59,7 @@ public class UploadImage {
         myVBox.getChildren().add(typeSelectionHBox);
         myRoot.getChildren().add(myVBox);
 
+        myFileChooser = new FileChooser();
         Scene scene= new Scene(myRoot, 800, 800);
         popUpWindow.setScene(scene);
         popUpWindow.show();
@@ -72,7 +75,7 @@ public class UploadImage {
         Button fileButton = makeButton(FILE_BUTTON_TXT, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                myImageFile = myFileChooser.showOpenDialog(myStage);
+                myImageFile = myFileChooser.showOpenDialog(popUpWindow);
                 int fileSize = (int) myImageFile.length();
                 try{
                     checkFileSize(fileSize);
@@ -129,11 +132,11 @@ public class UploadImage {
     }
 
     private void testStoreImage(){
-        /*try {
-            imageID = myAuthoringData.uploadImage(myImageFile,myImageType);
+        try {
+            imageID = myModel.uploadImage(myImageFile,myImageType);
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
     private void checkFileSize(int size){

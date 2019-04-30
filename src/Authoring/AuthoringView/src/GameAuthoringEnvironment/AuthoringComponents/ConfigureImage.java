@@ -116,7 +116,7 @@ public class ConfigureImage {
             //TODO DO Errorchecking/Refactor
             @Override
             public void handle(MouseEvent event) {
-                UploadImage uploadImage = new UploadImage();
+                UploadImage uploadImage = new UploadImage(model);
             }
         }));
         finished.setOnAction(e->finish());
