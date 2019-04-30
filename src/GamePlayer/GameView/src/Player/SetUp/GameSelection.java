@@ -29,8 +29,9 @@ import java.util.List;
 
 public class GameSelection extends Application {
 
-    public static final String RESOURCES_PATH = "resources/";
-
+    private static final int LABEL_HEIGHT = 100;
+    private static final String SELECT_PROMPT = "Select a Game";
+    private static final String SELECT_STYLE = "selectGame";
     private HBox root;
     private Stage stage;
     private ScrollPane scrollPane = new ScrollPane();
@@ -51,22 +52,23 @@ public class GameSelection extends Application {
         scrollPane.setId("scrollpane");
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setPrefSize(width/3,height);
-        // Changed by Brian
+
         stage = primaryStage;
         stage.setX(width);
         stage.setY(height);
         root = new HBox();
         totalBackground.getChildren().add(root);
         root.setId("pane");
-        Label text = new Label("Select a Game");
-        text.setPrefHeight(100);
-        text.setId("selectGame");
+        Label text = new Label(SELECT_PROMPT);
+        text.setPrefHeight(LABEL_HEIGHT);
+        text.setId(SELECT_STYLE);
+
         VBox left = new VBox();
         left.setAlignment(Pos.CENTER);
         left.getChildren().add(text);
         left.getChildren().add(scrollPane);
         root.getChildren().add(left);
-        text.setLayoutX(ScreenSize.getWidth()/2);
+        text.setLayoutX(width/2);
         var scene = new Scene(totalBackground, width, height);
         scene.getStylesheets().add("style.css");
         primaryStage.setScene(scene);
@@ -153,18 +155,22 @@ public class GameSelection extends Application {
         Text choice = new Text("Would you like to start from your saved progress?");
         Button fromSaved = createSavedButton(gameInfo);
         Button fromStart = createStartOverButton(gameInfo);
+        HBox hBox = createButtonHBox(fromSaved, fromStart);
+        totalBackground.getChildren().add(rect);
+        totalBackground.getChildren().addAll(choice,hBox);
+    }
 
-
+    private HBox createButtonHBox(Button button1, Button button2){
         HBox hbox = new HBox();
         hbox.setSpacing(5);
-        hbox.getChildren().addAll(fromSaved, fromStart);
+        hbox.getChildren().addAll(button1, button2);
         hbox.setMaxWidth(ScreenSize.getWidth()/4);
         hbox.setMaxHeight(ScreenSize.getWidth()/4);
         hbox.setAlignment(Pos.CENTER);
         hbox.setTranslateY(50);
-        totalBackground.getChildren().add(rect);
-        totalBackground.getChildren().addAll(choice,hbox);
+        return hbox;
     }
+
     private Rectangle createSavedPromptRect(){
         Rectangle rect = new Rectangle();
         rect.setArcWidth(20);
