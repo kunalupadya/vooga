@@ -21,6 +21,7 @@ public class Model {
     private final String XML_FILE_PATH = "games/GameXMLs/";
     private final String REGEX = "~";
     private final String XML_TAG = "XML.xml";
+    private final double MAX_FILE_SIZE = 16 * Math.pow(10,6);
 
     private Game myGame;
     private String myXMLFileName;
@@ -39,6 +40,7 @@ public class Model {
     public void saveToXML(Game newGame){
         XStream mySerializer = new XStream(new DomDriver());
         String gameXMLString = mySerializer.toXML(newGame);
+        System.out.println(myAuthoringData.getCurrentUserID());
         GameInfo savingInfo = new GameInfo(newGame.getTitle(), newGame.getThumbnailID(), newGame.getDescription());
         myAuthoringData.saveGame(gameXMLString, savingInfo);
     }
@@ -108,10 +110,10 @@ public class Model {
     // Do Not Call Yet !!!!!!!!!!!!!!!
     // Use file chooser and pass selected File object into this method
     // TODO: Do not think we are going to use this method anymore
-    public int uploadImage(File newImageFile, AuthoringData.ImageType imageType) throws java.io.IOException{
+    public int uploadImage(File newImageFile, AuthoringData.ImageType imageType) throws java.io.IOException, IllegalArgumentException{
         // TODO: Check length of image file and throw exception if too large
         int fileSize = (int) newImageFile.length();
-//        checkFileSize(fileSize);
+        checkFileSize(fileSize);
         byte[] fileBytes = new byte[fileSize];
         InputStream imageIS = new FileInputStream(newImageFile);
         imageIS.read(fileBytes);
@@ -119,7 +121,11 @@ public class Model {
     }
 
 
-
+    private void checkFileSize(int size) throws IllegalArgumentException{
+        if (size > MAX_FILE_SIZE){
+            throw new IllegalArgumentException("File too Large > 16MB");
+        }
+    }
 
     /**
      * Polls the database for the byte array associated with the specific imageID and converts it to a JavaFX Image object
@@ -132,22 +138,22 @@ public class Model {
         return new Image(byteIS);
     }
 
-    // TODO: Remove Method call
-    private void updatePropertiesFile() throws IOException{
-        FileInputStream propertiesIS = new FileInputStream(PROPERTIES_FILE_PATH);
-        Properties myGameDetails = new Properties();
-        myGameDetails.load(propertiesIS);
-        myXMLFileName = myGame.getTitle() + XML_TAG;
-        String propertyValue = myGame.getThumbnail() + REGEX + myGame.getDescription() + REGEX + myXMLFileName;
-
-        //System.out.println(propertyValue);
-
-
-
-        myGameDetails.setProperty(myGame.getTitle(),propertyValue);
-        FileOutputStream propertiesOS = new FileOutputStream(PROPERTIES_FILE_PATH);
-        myGameDetails.store(propertiesOS, null);
-    }
+//    // TODO: Remove Method call
+//    private void updatePropertiesFile() throws IOException{
+//        FileInputStream propertiesIS = new FileInputStream(PROPERTIES_FILE_PATH);
+//        Properties myGameDetails = new Properties();
+//        myGameDetails.load(propertiesIS);
+//        myXMLFileName = myGame.getTitle() + XML_TAG;
+//        String propertyValue = myGame.getThumbnail() + REGEX + myGame.getDescription() + REGEX + myXMLFileName;
+//
+//        //System.out.println(propertyValue);
+//
+//
+//
+//        myGameDetails.setProperty(myGame.getTitle(),propertyValue);
+//        FileOutputStream propertiesOS = new FileOutputStream(PROPERTIES_FILE_PATH);
+//        myGameDetails.store(propertiesOS, null);
+//    }
 
     // TODO: Remove method call
     private void writeToXMLFile() throws IOException {

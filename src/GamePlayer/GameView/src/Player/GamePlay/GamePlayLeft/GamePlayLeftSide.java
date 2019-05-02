@@ -7,7 +7,7 @@ import javafx.scene.layout.VBox;
 
 public class GamePlayLeftSide extends VBox {
     public static final double TOP_RATIO = 0.8;
-    public static final double BOTTOM_RATIO = 0.2;
+    private static final double BOTTOM_RATIO = 0.2;
     public GamePlayMap myMap;
     public GamePlaySettingsBar mySettings;
 
@@ -22,6 +22,9 @@ public class GamePlayLeftSide extends VBox {
         getChildren().addAll(myMap, mySettings);
     }
 
+    /**
+     * @return Returns the map of the Game. This is used to check valid placements of the weapons on the Map.
+     */
     public GamePlayMap getMap(){
         return myMap;
     }

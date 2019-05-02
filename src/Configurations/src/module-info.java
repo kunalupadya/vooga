@@ -2,7 +2,6 @@ module Configurations {
     requires java.desktop;
     requires javafx.graphics;
     requires java.base;
-
     requires xstream;
     requires DatabaseUtil;
 
@@ -27,5 +26,6 @@ module Configurations {
     exports Configs.ShooterConfig;
     exports Configs.ShooterConfig.ShooterBehaviors;
     exports ActiveConfigs;
+    exports Configs.ArsenalConfig.WeaponWaveBehaviors;
 
 }

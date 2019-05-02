@@ -4,23 +4,26 @@ import BackendExternalAPI.Model;
 import GameAuthoringEnvironment.AuthoringScreen.AlertFactory;
 import GameAuthoringEnvironment.AuthoringScreen.GameController;
 import GameAuthoringEnvironment.AuthoringScreen.GameOutline;
+import Player.GamePlayMain;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 public class TopMenuBar {
 
     private HBox TopMenuBar;
     private GameController gameController;
     private GameOutline myGameOutline;
+    private Model myModel;
 
     //TODO @Hyunjae : Set Style for these buttons
 
-    public TopMenuBar(GameOutline gameOutline){
+    public TopMenuBar(GameOutline gameOutline, Model model){
+        myModel = model;
         myGameOutline = gameOutline;
         TopMenuBar = new HBox();
         TopMenuBar.setSpacing(5);
@@ -61,8 +64,7 @@ public class TopMenuBar {
                 if(gameController == null){
                     createAlert();}
                 else{
-                Model model = new Model();
-                model.saveToXML(gameController.getMyGame());}
+                myModel.saveToXML(gameController.getMyGame());}
             }
         });
 
@@ -71,6 +73,16 @@ public class TopMenuBar {
             public void handle(MouseEvent event) {
 
 
+            }
+        });
+
+        Button runButton = new Button("Run");
+        runButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                GamePlayMain gamePlayMain = new GamePlayMain();
+                gamePlayMain.setGameFromAuthoring(gameController.getMyGame());
+                gamePlayMain.start(new Stage());
             }
         });
 
@@ -92,7 +104,7 @@ public class TopMenuBar {
             }
         });
 
-        TopMenuBar.getChildren().addAll(newGameButton, saveButton, exportButton, loadButton, refreshButton);
+        TopMenuBar.getChildren().addAll(newGameButton, saveButton, exportButton, loadButton, runButton, refreshButton);
     }
 
     private void createAlert() {

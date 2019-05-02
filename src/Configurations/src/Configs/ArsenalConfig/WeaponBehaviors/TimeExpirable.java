@@ -10,11 +10,15 @@ import Configs.Updatable;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import java.util.List;
-
+/**
+ * Behavior for weapons that causes the weapon to die after a certain amount of time elapses
+ * All methods inherited from superclass are commented there.
+ */
 public class TimeExpirable extends WeaponBehavior{
     public static final String DISPLAY_LABEL= "Time-Expirable (in ms)";
     @Configure
     private double timeAlive;
+    private double birthTime;
 
     @XStreamOmitField
     private transient Configuration myConfiguration;
@@ -22,12 +26,14 @@ public class TimeExpirable extends WeaponBehavior{
     public TimeExpirable(WeaponConfig weaponConfig){
         super(weaponConfig);
         myConfiguration = new Configuration(this);
+        this.birthTime = System.currentTimeMillis();
+
     }
 
     @Override
     public void update(double ms, Updatable parent) {
-        if(ms>=timeAlive) {
-            ((ActiveWeapon) parent).getMapFeature().setDisplayState(DisplayState.DIED);
+        if(ms>=birthTime+timeAlive) {
+            ((ActiveWeapon) parent).killMe();
         }
     }
 

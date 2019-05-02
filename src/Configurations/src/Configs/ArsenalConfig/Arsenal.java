@@ -8,7 +8,10 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import java.util.*;
 
 
-//used to hold all of the possible weapons configured in the authoring environemnt
+/**
+ * used to hold all of the possible weapons configured in the authoring environemnt
+ *
+ */
 public class Arsenal implements Configurable, Updatable {
     public static final String DISPLAY_LABEL = "Arsenal";
     private Game myGame;
@@ -59,6 +62,18 @@ public class Arsenal implements Configurable, Updatable {
         return myConfiguration;
     }
 
+//    public Map<Integer, Info> getAllWeaponConfigOptions() {
+//        Map<Integer, Info> ret = new HashMap<>();
+//        for(int i = 0; i< unlockedWeapons.size(); i++) {
+//            ret.put(i, unlockedWeapons.get(i));
+//        }
+//        return Collections.unmodifiableMap(ret);
+//    }
+
+    public void setUnlockedWeaponsToNew(){
+        newUnlockedWeapons = unlockedWeapons;
+        unlockedWeapons = new ArrayList<>();
+    }
 
     //note: ID is the index of the weapon+1
     public Map<Integer, Info> getAllNewWeaponConfigOptions() {
@@ -85,9 +100,7 @@ public class Arsenal implements Configurable, Updatable {
         MapFeature mapFeature = new MapFeature(pixelX, pixelY, direction, myWeaponConfig.getView(), myGame.getActiveLevel().getPaneWidth(), myGame.getActiveLevel().getPaneHeight(), myGame.getActiveLevel().getGridWidth(), myGame.getActiveLevel().getGridHeight(), activeWeapon);
         activeWeapon.setMyMapFeature(mapFeature);
         myGame.getActiveLevel().addToActiveWeapons(activeWeapon);
-        myGame.addToCash(-1);//TODO: DO THIS BASED ON HOW MUCH THE WEAPON COSTS
+        myGame.addToCash(-activeWeapon.getWeaponCost());
         return activeWeapon.getMapFeature().getImageView();
     }
-
-
 }

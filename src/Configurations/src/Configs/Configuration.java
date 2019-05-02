@@ -1,3 +1,6 @@
+/**
+ * A class that is held by all objects set by the authoring user that holds the various components for which users define values
+ */
 package Configs;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
@@ -41,7 +44,11 @@ public class Configuration {
         }*/
     }
 
-
+    /**
+     * Allows for the addition of one key-value pair for an attribute
+     * @param name
+     * @param value
+     */
     public void setOneAttribute(String name, Object value) {
         myAttributes.put(name,value);
         validateType(name,value);
@@ -49,6 +56,10 @@ public class Configuration {
         if(isAttributesComplete(myAttributes)) isComplete = true;
     }
 
+    /**
+     * Sets all the parameters for a given object based on what the authoring environment gets from the user
+     * @param attributes
+     */
     public void setAllAttributes(Map<String,Object> attributes) {
 
         validateAttributes(attributes);
@@ -82,6 +93,10 @@ public class Configuration {
 
     }
 
+    /**
+     *
+     * @return the map of the types attributes that can be configured for the object in question
+     */
     public Map<String, Class>  getAttributes(){
         Map<String, Class> attributes = new LinkedHashMap<>();
         for (Field field: myConfigurableClass.getDeclaredFields()){
@@ -96,10 +111,19 @@ public class Configuration {
         return Collections.unmodifiableMap(attributes);
     }
 
+    /**
+     * returns the state o the configuration to ensure validation
+     * @return
+     */
     public boolean isConfigurationComplete() {
         return isComplete;
     }
 
+    /**
+     *
+     * @return a map with the user-defined attributes for the object that holds this configuration
+     *
+     */
     public Map<String,Object> getDefinedAttributes() throws IllegalStateException {
         if (!isComplete) throw new IllegalStateException();
         return myAttributes;

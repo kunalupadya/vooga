@@ -101,11 +101,12 @@ public class ImportGame extends Application {
     private ImageView createImageView(GameInfo gameInfo){
         ImageView imageView = new ImageView();
         Image image;
-        try {
-            image = new Image(new FileInputStream(RESOURCES_PATH + gameInfo.getGameThumbnail()));
-        }catch (IOException e){
-            return imageView;
-        }
+//        try {
+            image = model.getImage(gameInfo.getGameThumbnailID());
+//            image = new Image(new FileInputStream(RESOURCES_PATH + gameInfo.getGameThumbnail()));
+//        }catch (IOException e){
+//            return imageView;
+//        }
         imageView.setImage(image);
         return imageView;
     }
@@ -120,9 +121,8 @@ public class ImportGame extends Application {
     }
 
     private void makeGame(Game game){
-        AuthoringVisualization authoringVisualization = new AuthoringVisualization(game);
+        AuthoringVisualization authoringVisualization = new AuthoringVisualization(game, model);
         authoringVisualization.start(new Stage());
         this.stage.close();
     }
-
 }

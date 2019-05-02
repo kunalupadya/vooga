@@ -46,6 +46,9 @@ public class Authentication {
     public static byte[] hashPassword(String password, byte[] salt){
         byte[] passwordBytes = password.getBytes();
         byte[] plainTextBytes = new byte[passwordBytes.length + salt.length];
+        System.out.println(passwordBytes.length);
+        System.out.println(salt.length);
+        System.out.println(plainTextBytes.length);
         System.arraycopy(passwordBytes, 0, plainTextBytes, 0, passwordBytes.length);
         System.arraycopy(salt, 0, plainTextBytes, passwordBytes.length, salt.length);
         try {

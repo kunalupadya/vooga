@@ -1,6 +1,7 @@
 package ActiveConfigs;
 
 import Configs.*;
+import Configs.EnemyPackage.EnemyBehaviors.AIOptions;
 import Configs.EnemyPackage.EnemyConfig;
 import Configs.GamePackage.Game;
 import Configs.GamePackage.GameBehaviors.TowerAttack;
@@ -13,13 +14,15 @@ import java.io.CharArrayReader;
 import java.security.PublicKey;
 import java.util.*;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static ActiveConfigs.MovementHeuristicGeneration.DISTANCE_HEURISTIC;
 import static Configs.MapPackage.Terrain.TERRAIN_SIZE;
 
 public class ActiveLevel extends Level implements Updatable {
-    public static final int DISTANCE_HEURISTIC = 1;
+
     private List<MapFeaturable> activeWeapons;
     private List<MapFeaturable> activeEnemies;
     private List<MapFeaturable> activeProjectiles;
@@ -46,12 +49,19 @@ public class ActiveLevel extends Level implements Updatable {
 //        goalPositions.add(new Point(getMyMapConfig().getEnemyExitGridXPos(),getMyMapConfig().getEnemyExitGridYPos()));
         gridHeight = getMyMapConfig().getGridHeight();
         gridWidth = getMyMapConfig().getGridWidth();
-        recalculateMovementHeuristic();
+        initializeMovementHeuristics();
+//        recalculateMovementHeuristic(AIOptions.SHORTEST_PATH);
         this.paneHeight = myGame.getPaneHeight();
         this.paneWidth = myGame.getPaneWidth();
         imagesToBeRemoved = new ArrayList<>();
         this.setMyGame(myGame);
 
+    }
+
+    private void initializeMovementHeuristics() {
+        for (AIOptions aiOption:AIOptions.values()) {
+            recalculateMovementHeuristic(aiOption);
+        }
     }
 
     private Cell[][] createMyGrid(){
@@ -98,10 +108,10 @@ public class ActiveLevel extends Level implements Updatable {
     public void killEnemy(ActiveEnemy activeEnemy){
         enemiesToDie.add(activeEnemy);
     }
-
-    public void addToEnemiesKilled(Collection<ActiveEnemy> aes){
-        enemiesToDie.addAll(aes);
-    }
+//
+//    public void addToEnemiesKilled(Collection<ActiveEnemy> aes){
+//        enemiesToDie.addAll(aes);
+//    }
 
     @Override
     public void update(double ms, Updatable parent) {
@@ -122,6 +132,7 @@ public class ActiveLevel extends Level implements Updatable {
     private void updateActive(double ms, List<MapFeaturable> activeList) {
         List<MapFeaturable> activeToRemove = new ArrayList<>();
         enemiesToDie.stream().forEach(e->e.killMe());
+        enemiesToDie.clear();
         activeList.stream().forEach(active -> {
             ((Updatable)active).update(ms, this);
             if(active.getMapFeature().getDisplayState()==DisplayState.DIED) {
@@ -137,6 +148,9 @@ public class ActiveLevel extends Level implements Updatable {
         return escapedEnemies;
     }
 
+    public int getNumActiveEnemies() {
+        return activeEnemies.size();
+    }
 
     public List<ImmutableImageView> getViewsToBeRemoved() {
         List<ImmutableImageView> ret = new ArrayList<>(imagesToBeRemoved);
@@ -181,10 +195,20 @@ public class ActiveLevel extends Level implements Updatable {
 
     public void addToActiveWeapons(ActiveWeapon activeWeapon) {
         activeWeapons.add(activeWeapon);
-//        recalculateMovementHeuristic();
         if (getGame().getGameType() instanceof TowerAttack){
             MapFeature weaponMapFeature = activeWeapon.getMapFeature();
             goalPositions.add(new Point(weaponMapFeature.getGridXPos(), weaponMapFeature.getGridYPos()));
+//            initializeMovementHeuristics();
+        }
+        updateWeaponMovementHeuristics();
+    }
+
+
+    private void updateWeaponMovementHeuristics() {
+        for(AIOptions aiOption: AIOptions.values()){
+            if (aiOption.isUpdateOnWeaponPlacement()){
+                recalculateMovementHeuristic(aiOption);
+            }
         }
     }
 
@@ -201,6 +225,7 @@ public class ActiveLevel extends Level implements Updatable {
             }
             goalPositions.remove(toRemove);
         }
+        updateWeaponMovementHeuristics();
     }
 
     public void incrementEscapedEnemies() {
@@ -215,101 +240,87 @@ public class ActiveLevel extends Level implements Updatable {
         return paneWidth;
     }
 
-    private void recalculateMovementHeuristic(){
-        for (Point goal:goalPositions) {
-            astar(myGrid,goal.x,goal.y, "short");
-//            astar(myGrid,goal.x,goal.y, "shortIgnorePath");
-//            astar(myGrid,goal.x,goal.y, "shortAvoidWeapons");
-//            astar(myGrid,goal.x,goal.y, "shortAvoidWeaponsIgnorePath");
-        }
+    private void recalculateMovementHeuristic(AIOptions heuristicType){
+        MovementHeuristicGeneration generateMovementHeuristics = new MovementHeuristicGeneration(myGrid, goalPositions, getMyMapConfig().getEnemyEnteringGridPosList(), heuristicType);
     }
     public void addGameCash(double amt){
-        if (Arrays.asList(getLevelBehaviors()).stream().anyMatch(behavior -> behavior instanceof Deflation)) getGame().addToCash(amt);
+        if (Arrays.asList(getLevelBehaviors()).stream().noneMatch(behavior -> behavior instanceof Deflation)) {
+            getGame().addToCash(amt);
+        }
     }
     public void addGameScore(int amt){
         getGame().addToScore(amt);
     }
 
-    private void astar(Cell[][] grid, int startX, int startY, String heuristicType){
-        Cell startCell = grid[startX][startY];
-        startCell.setShortestDistanceHeuristic(0);
-        startCell.setShortestDistanceHeuristicAvoidWeapons(0);
-        startCell.setShortestDistanceHeuristicAvoidWeaponsIgnorePath(0);
-        startCell.setShortestDistanceHeuristicIgnorePath(0);
-        PriorityQueue<Cell> pq = new PriorityQueue<>();
-        pq.add(startCell);
-        while(!pq.isEmpty()){
-            popCellsAndRecalculateHeuristic(pq, heuristicType);
-        }
-    }
+//    private Point pointMaker(Cell cell){
+//        return new Point(cell.getX(), cell.getY());
+//    }
 
-    private void popCellsAndRecalculateHeuristic(PriorityQueue<Cell> pq, String heuristicType) {
-        Cell expandedCell = pq.remove();
-        int[]xAdditions = new int[]{0,0,-1,1};
-        int[]yAdditions = new int[]{1,-1,0,0};
-        for (int i = 0; i < 4; i++) {
-            int x = expandedCell.getX() + xAdditions[i];
-            int y = expandedCell.getY() + yAdditions[i];
-            if(isCellValid(x,y)){
-                if (heuristicType.equals("short")) {
-                    calculateShortestDistanceHeuristic(pq, myGrid[x][y], expandedCell.getShortestDistanceHeuristic() + DISTANCE_HEURISTIC);
-                }
-                else if (heuristicType.equals("shortIgnorePath")){
-                    calculateShortestDistanceHeuristicIgnorePath(pq, myGrid[x][y], expandedCell.getShortestDistanceHeuristicIgnorePath() + DISTANCE_HEURISTIC);
-                }
-                else if (heuristicType.equals("shortAvoidWeapons")){
-                    calculateShortestDistanceHeuristicWeapons(pq, myGrid[x][y], expandedCell.getShortestDistanceHeuristicAvoidWeapons() + DISTANCE_HEURISTIC + myGrid[x][y].getWeaponCoverage());
-                }
-                else if (heuristicType.equals("shortAvoidWeaponsIgnorePath")){
-                    calculateShortestDistanceHeuristicIgnorePathWeapons(pq, myGrid[x][y], expandedCell.getShortestDistanceHeuristicAvoidWeaponsIgnorePath() + DISTANCE_HEURISTIC + myGrid[x][y].getWeaponCoverage());
-                }
-            }
-        }
-    }
-
-    private void calculateShortestDistanceHeuristic(PriorityQueue<Cell> pq, Cell inspectedCell, int newHeuristic) {
-        if (!inspectedCell.getMyTerrain().getIfPath()){
-            inspectedCell.setShortestDistanceHeuristic(Integer.MAX_VALUE);
-            return;
-        }
-        setShortestDistanceHeuristic(pq, inspectedCell, newHeuristic);
-    }
-
-    private void calculateShortestDistanceHeuristicWeapons(PriorityQueue<Cell> pq, Cell inspectedCell, int newHeuristic) {
-        if (!inspectedCell.getMyTerrain().getIfPath()){
-            inspectedCell.setShortestDistanceHeuristicAvoidWeapons(Integer.MAX_VALUE);
-            return;
-        }
-        setShortestDistanceHeuristicWeapons(pq, inspectedCell, newHeuristic);
-    }
-
-    private void setShortestDistanceHeuristicWeapons(PriorityQueue<Cell> pq, Cell inspectedCell, int newHeuristic) {
-        if (newHeuristic<inspectedCell.getShortestDistanceHeuristicAvoidWeapons()){
-            inspectedCell.setShortestDistanceHeuristicAvoidWeapons(newHeuristic);
-            pq.add(inspectedCell);
-        }
-    }
-
-    private void setShortestDistanceHeuristic(PriorityQueue<Cell> pq, Cell inspectedCell, int newHeuristic) {
-        if (newHeuristic<inspectedCell.getShortestDistanceHeuristic()){
-            inspectedCell.setShortestDistanceHeuristic(newHeuristic);
-            pq.add(inspectedCell);
-        }
-    }
-
-    private void calculateShortestDistanceHeuristicIgnorePath(PriorityQueue<Cell> pq, Cell inspectedCell, int newHeuristic) {
-        if (newHeuristic<inspectedCell.getShortestDistanceHeuristicIgnorePath()){
-            inspectedCell.setShortestDistanceHeuristicIgnorePath(newHeuristic);
-            pq.add(inspectedCell);
-        }
-    }
-
-    private void calculateShortestDistanceHeuristicIgnorePathWeapons(PriorityQueue<Cell> pq, Cell inspectedCell, int newHeuristic) {
-        if (newHeuristic<inspectedCell.getShortestDistanceHeuristicAvoidWeaponsIgnorePath()){
-            inspectedCell.setShortestDistanceHeuristicAvoidWeaponsIgnorePath(newHeuristic);
-            pq.add(inspectedCell);
-        }
-    }
+//    private void astar(Cell[][] grid, int startX, int startY, AIOptions heuristicType){
+//        Cell startCell = grid[startX][startY];
+//        startCell.setShortestDistanceHeuristic(0);
+//        startCell.setShortestDistanceHeuristicAvoidWeapons(0);
+//        startCell.setShortestDistanceHeuristicAvoidWeaponsIgnorePath(0);
+//        startCell.setShortestDistanceHeuristicIgnorePath(0);
+//        PriorityQueue<Cell> pq = new PriorityQueue<>();
+//        pq.add(startCell);
+//        Set<Point> visited = new HashSet<>();
+//        visited.add(pointMaker(startCell));
+//        HashMap<Point, Boolean> startLocs = new HashMap<>();
+//        for (Point point:getMyMapConfig().getEnemyEnteringGridPosList()){
+//            startLocs.put(point, false);
+//        }
+//        while(!pq.isEmpty()&&startLocs.containsValue(false)){
+//            popCellsAndRecalculateHeuristic(pq, visited, heuristicType, startLocs);
+//        }
+//    }
+//
+//    private void popCellsAndRecalculateHeuristic(PriorityQueue<Cell> pq, Set<Point> visited, AIOptions heuristicType, HashMap<Point, Boolean> startLocs) {
+//        Cell expandedCell = pq.remove();
+//        int[]xAdditions = new int[]{0,0,-1,1};
+//        int[]yAdditions = new int[]{1,-1,0,0};
+//        for (int i = 0; i < 4; i++) {
+//            int x = expandedCell.getX() + xAdditions[i];
+//            int y = expandedCell.getY() + yAdditions[i];
+//            Point point = new Point(x,y);
+//            if(!visited.contains(point)&&isCellValid(x,y)){
+//                visited.add(point);
+//                int costHeuristic = DISTANCE_HEURISTIC;
+//                if (heuristicType.isUpdateOnWeaponPlacement()){
+//                    costHeuristic+=myGrid[x][y].getWeaponCoverage();
+//                }
+//                calculateShortestDistanceHeuristic(pq, myGrid[x][y], heuristicType.getGetter().apply(expandedCell) + costHeuristic, heuristicType);
+//                if(startLocs.containsKey(point)){
+//                    startLocs.put(point,true);
+//                }
+////                if (heuristicType == AIOptions.SHORTEST_PATH) {
+////                }
+////                else if (heuristicType== AIOptions.SHORTEST_IGNORE_PATH){
+////                    calculateShortestDistanceHeuristicIgnorePath(pq, myGrid[x][y], expandedCell.getShortestDistanceHeuristicIgnorePath() + DISTANCE_HEURISTIC);
+////                }
+////                else if (heuristicType== AIOptions.SHORTEST_PATH_AVOID_WEAPON){
+////                    calculateShortestDistanceHeuristicWeapons(pq, myGrid[x][y], expandedCell.getShortestDistanceHeuristicAvoidWeapons() + DISTANCE_HEURISTIC + myGrid[x][y].getWeaponCoverage());
+////                }
+////                else if (heuristicType==AIOptions.SHORTEST_IGNORE_PATH_AVOID_WEAPON){
+////                    calculateShortestDistanceHeuristicIgnorePathWeapons(pq, myGrid[x][y], expandedCell.getShortestDistanceHeuristicAvoidWeaponsIgnorePath() + DISTANCE_HEURISTIC + myGrid[x][y].getWeaponCoverage());
+////                }
+//            }
+//        }
+//    }
+//    private void calculateShortestDistanceHeuristic(PriorityQueue<Cell> pq, Cell inspectedCell, int newHeuristic, AIOptions heuristicType) {
+//        if (!heuristicType.isIgnorePath()&&!inspectedCell.getMyTerrain().getIfPath()){
+//            heuristicType.getSetter().accept(inspectedCell, Integer.MAX_VALUE);
+//            return;
+//        }
+//        setShortestDistanceHeuristic(pq, inspectedCell, newHeuristic, heuristicType);
+//    }
+//
+//    private void setShortestDistanceHeuristic(PriorityQueue<Cell> pq, Cell inspectedCell, int newHeuristic, AIOptions heuristicType) {
+//        if (newHeuristic<heuristicType.getGetter().apply(inspectedCell)){
+//            heuristicType.getSetter().accept(inspectedCell, newHeuristic);
+//            pq.add(inspectedCell);
+//        }
+//    }
 
 
     public boolean isCellValid(int x, int y){

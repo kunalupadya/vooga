@@ -1,7 +1,8 @@
 package Configs.ShooterConfig;
 
 import Configs.*;
-import Configs.ArsenalConfig.WeaponBehaviors.Shootable;
+import Configs.ArsenalConfig.WeaponBehaviors.ShootableWeapon;
+import Configs.EnemyPackage.EnemyBehaviors.ShootableEnemy;
 import Configs.ProjectilePackage.ProjectileConfig;
 import Configs.ShooterConfig.ShooterBehaviors.ShooterBehavior;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
@@ -18,6 +19,7 @@ public class Shooter implements Updatable , Configurable {
     private double rateOfFire;
     @Configure
     private ProjectileConfig projectileConfig;
+    @Slider(min=50, max = 1500)
     @Configure
     private double shooterRange;
     @Configure
@@ -27,7 +29,15 @@ public class Shooter implements Updatable , Configurable {
     private transient Configuration myConfiguration;
     private int projectilesFired;
 
-    public Shooter(Shootable shootable){
+    public Shooter(ShootableEnemy shootable){
+        configure(shootable);
+    }
+
+    public Shooter(ShootableWeapon shootable){
+        configure(shootable);
+    }
+
+    public void configure(Shootable shootable){
         myShootable = shootable;
         myConfiguration = new Configuration(this);
         projectilesFired = 0;
@@ -35,13 +45,12 @@ public class Shooter implements Updatable , Configurable {
 
     public Shooter(Shooter shooter, Shootable shootable){
         shooterRange = shooter.shooterRange;
-        myShootable=shootable;
+        myShootable = shootable;
         projectileConfig = shooter.projectileConfig;
         rateOfFire = shooter.rateOfFire;
         shooterBehavior = (ShooterBehavior) shooter.shooterBehavior.copy();
         myName = shooter.myName;
     }
-
 
     public void addToProjectilesFired() {
         projectilesFired++;

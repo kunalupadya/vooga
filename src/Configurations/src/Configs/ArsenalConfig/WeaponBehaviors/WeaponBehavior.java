@@ -5,6 +5,9 @@ import Configs.Behaviors.Behavior;
 
 import java.util.List;
 
+/**
+ * Superclass that provides a template for the behaviors of weapons
+ */
 public abstract class WeaponBehavior implements Behavior<WeaponConfig> {
     public static final String DISPLAY_LABEL = "Weapon Behavior";
 
@@ -15,13 +18,17 @@ public abstract class WeaponBehavior implements Behavior<WeaponConfig> {
             HealthExpirable.class,
             Movable.class,
             PlaceableOnPath.class,
-            Shootable.class,
+            ShootableWeapon.class,
             TimeExpirable.class);
 
     WeaponBehavior(WeaponConfig weaponConfig){
         myWeaponConfig = weaponConfig;
     }
 
+    /**
+     *
+     * @return the type of weaspon with which this behavior is associated
+     */
     public WeaponConfig getMyWeaponConfig() {
         return myWeaponConfig;
     }

@@ -3,7 +3,9 @@ package Configs.LevelPackage;
 import Configs.*;
 import Configs.ArsenalConfig.WeaponBehaviors.WeaponBehavior;
 import Configs.GamePackage.Game;
+import Configs.LevelPackage.LevelBehaviors.GlueWorld;
 import Configs.LevelPackage.LevelBehaviors.LevelBehavior;
+import Configs.LevelPackage.LevelBehaviors.Survival;
 import Configs.MapPackage.MapConfig;
 import Configs.Waves.Wave;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
@@ -56,7 +58,7 @@ public class Level implements Configurable{
         return myMap;
     }
 
-    protected Wave[] getMyWaves() {
+    public Wave[] getMyWaves() {
         return myWaves;
     }
 
@@ -74,6 +76,10 @@ public class Level implements Configurable{
     }
     public void setMyGame(Game g){
         myGame = g;
+    }
+
+    public boolean isSurvival() {
+        return Arrays.asList(levelBehaviors).stream().anyMatch(behavior -> behavior instanceof Survival);
     }
 
 

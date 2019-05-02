@@ -121,7 +121,7 @@ public class StartingScreen {
     }
 
     private void makeGame(Game game){
-        AuthoringVisualization authoringVisualization = new AuthoringVisualization(game);
+        AuthoringVisualization authoringVisualization = new AuthoringVisualization(game, myModel);
         authoringVisualization.start(new Stage());
         myStage.close();
     }

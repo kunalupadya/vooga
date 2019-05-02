@@ -9,7 +9,10 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import java.awt.*;
 import java.util.List;
-
+/**
+ * Behavior for weapons that allows weapons to be moved
+ *  * All methods inherited from superclass are commented there.
+ */
 public class Movable extends WeaponBehavior{
     public static final String DISPLAY_LABEL = "Movable";
     @Configure
