@@ -377,12 +377,12 @@ public class GameController {
                 ob[a] = tempList.get(a);
             }}
             myAttributesMap.put(key, ob);
-           /* List<Object> newObjects = new ArrayList<>(Arrays.asList(ob));
+            List<Object> newObjects = new ArrayList<>(Arrays.asList(ob));
             if(configuredObjects.get(key) != null){
                 configuredObjects.get(key).addAll(newObjects);
             }else{
                 configuredObjects.put(key, newObjects);
-            }*/
+            }
         }
         catch (ClassNotFoundException e){
             myAlertFactory.createAlert("This array has illegal classes. Please configure it again.");
@@ -416,8 +416,6 @@ public class GameController {
 
 
         } catch (Exception  e) {
-            //myAlertFactory.createAlert("This wasn't able to be added. Please try again.");
-            //handleArrayAddnewButton(sourceView, value, myConfigurable, tempList);
 
         }
     }
@@ -531,16 +529,6 @@ public class GameController {
             @Override
             public void handle(MouseEvent event) {
                 ConfigureImage configureImage = new ConfigureImage(myTextField, imageType);
-//                if(myTextField.getText()!=null && !myTextField.getText().equals("")) {
-//                }
-//                else{
-//                    AlertFactory af = new AlertFactory();
-//                    af.createAlert("Image Not Found");
-//                }
-//                if(myTextField.getText()==null || myTextField.getText().equals("")) {
-//                    AlertFactory af = new AlertFactory();
-//                    af.createAlert("Image Not Found");
-//                }
             }
         }));
 
