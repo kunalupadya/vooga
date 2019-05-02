@@ -425,7 +425,8 @@ public class GameController {
         try {
             myButton = new Button("Configure " + value.getDeclaredField("DISPLAY_LABEL").get(null));
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            AlertFactory af = new AlertFactory();
+            af.createAlert("Illegal Access!");
         }
         //TODO Should refactor
         myButton.setOnMouseClicked((new EventHandler<>() {
@@ -517,7 +518,13 @@ public class GameController {
         chooseImageButton.setOnMouseClicked((new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ConfigureImage configureImage = new ConfigureImage(myTextField, imageType);
+                if(myTextField.getText()!=null && !myTextField.getText().equals("")) {
+                    ConfigureImage configureImage = new ConfigureImage(myTextField, imageType);
+                }
+                else{
+                    AlertFactory af = new AlertFactory();
+                    af.createAlert("Image Not Found");
+                }
             }
         }));
 
@@ -528,7 +535,6 @@ public class GameController {
                     myAttributesMap.put(key, Integer.parseInt(myTextField.getText()));
                 }
                 else{
-                    System.out.println("HI I HATE");
                     AlertFactory af = new AlertFactory();
                     af.createAlert("Not All Required Fields Filled");
                 }

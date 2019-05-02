@@ -70,21 +70,36 @@ public class ConfigureTile {
             public void handle(MouseEvent mouseEvent) {
                 //TODO ADD the new terrain tile to the listview and terraintilelist.
                 //TerrainTile newTile = new TerrainTile(new Image());
-                if(tf.getText()!=null && imageTextField.getText()!=null) {
+                if(tf.getText()!=null && imageTextField.getText()!=null && !tf.getText().equals("")&& !imageTextField.equals("")) {
                     System.out.println(tf.getText());
                     System.out.println(imageTextField.getText());
-                    TerrainTile newTile = new TerrainTile(configureImage.getSelectedImage(),typeToImageMap);
+                    if(configureImage.getSelectedImage()==null){
+                        AlertFactory af = new AlertFactory();
+                        af.createAlert("Must choose image");
+
+                    }
+
                     if(trueButton.isSelected()){
+                        TerrainTile newTile = new TerrainTile(configureImage.getSelectedImage(), typeToImageMap);
+
                         typeToPath.put(tf.getText(),true);
                         newTile.setPath();
                     }
-                    else{
+                    else if(falseButton.isSelected()){
+                        TerrainTile newTile = new TerrainTile(configureImage.getSelectedImage(), typeToImageMap);
+
                         typeToPath.put(tf.getText(),false);
                         newTile.setPathFalse();
                     }
-                    myListView.getItems().add(tf.getText());
-                    typeToImageMap.put(tf.getText(),configureImage.getSelectedInteger());
-                    popUpWindow.close();
+                    else{
+                        AlertFactory af = new AlertFactory();
+                        af.createAlert("Must set tile as path or not!");
+                    }
+                    if(trueButton.isSelected()||falseButton.isSelected()) {
+                        myListView.getItems().add(tf.getText());
+                        typeToImageMap.put(tf.getText(), configureImage.getSelectedInteger());
+                        popUpWindow.close();
+                    }
                 }
                 else{
                     System.out.println("HELLO");
