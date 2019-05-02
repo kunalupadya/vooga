@@ -336,18 +336,35 @@ public class ConfigurableMap extends Application {
                     terrainTileList.add((TerrainTile) child);
                 }
                 MapConfig m = new MapConfig((Level) myLevel);
+                boolean hasPath =false;
                 for(TerrainTile t : terrainTileList){
+                    if(t.getIsPath()){
+                        hasPath=true;
+                    }
                     Terrain tile = new Terrain(m, t.getImageId(),(int) t.getY(), (int) t.getX(),t.getIsPath());
 
                     tileList.add(tile);
+                }
+                if(hasPath==false){
+                    AlertFactory af = new AlertFactory();
+                    af.createAlert("Map must have at least one path tile!");
                 }
 
 
                 enterPointsList = new ArrayList<>();
                 enterPosView.getItems().stream().forEach(obj->enterPointsList.add(obj));
+                if(enterPointsList.size()==0){
+                    AlertFactory af = new AlertFactory();
+                    af.createAlert("Must have at least one entry point for enemies!");
+                }
+
 
                 exitPointsList = new ArrayList<>();
                 exitPosView.getItems().stream().forEach(obj->exitPointsList.add(obj));
+                if(exitPointsList.size()==0){
+                    AlertFactory af = new AlertFactory();
+                    af.createAlert("Must have at least one exit point for enemies!");
+                }
                 //TODO Need to clean this up
                 passedMap=new HashMap<>();
                 passedMap.put("myName",mapName);
@@ -403,7 +420,8 @@ public class ConfigurableMap extends Application {
                                             terrainTile.setImage(new Image(new FileInputStream("resources/enter.jpg")));
                                         }
                                         catch(FileNotFoundException f){
-                                            System.out.println(f);
+                                            AlertFactory af = new AlertFactory();
+                                            af.createAlert("Could not load image from database!");
                                         }
 
                                     }
@@ -421,7 +439,8 @@ public class ConfigurableMap extends Application {
                                             terrainTile.setImage(new Image(new FileInputStream("resources/exit.jpg")));
                                         }
                                         catch(FileNotFoundException f){
-                                            System.out.println(f);
+                                            AlertFactory af = new AlertFactory();
+                                            af.createAlert("Could not load image from database!");
 
                                         }
                                     }
