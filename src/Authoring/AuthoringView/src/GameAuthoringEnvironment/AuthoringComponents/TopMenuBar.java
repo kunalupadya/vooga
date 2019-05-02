@@ -1,6 +1,6 @@
 package GameAuthoringEnvironment.AuthoringComponents;
 
-import BackendExternalAPI.Model;
+import BackendExternalAPI.AuthoringBackend;
 import GameAuthoringEnvironment.AuthoringScreen.AlertFactory;
 import GameAuthoringEnvironment.AuthoringScreen.GameController;
 import GameAuthoringEnvironment.AuthoringScreen.GameOutline;
@@ -18,12 +18,12 @@ public class TopMenuBar {
     private HBox TopMenuBar;
     private GameController gameController;
     private GameOutline myGameOutline;
-    private Model myModel;
+    private AuthoringBackend myAuthoringBackend;
 
     //TODO @Hyunjae : Set Style for these buttons
 
-    public TopMenuBar(GameOutline gameOutline, Model model){
-        myModel = model;
+    public TopMenuBar(GameOutline gameOutline, AuthoringBackend authoringBackend){
+        myAuthoringBackend = authoringBackend;
         myGameOutline = gameOutline;
         TopMenuBar = new HBox();
         TopMenuBar.setSpacing(5);
@@ -64,7 +64,7 @@ public class TopMenuBar {
                 if(gameController == null){
                     createAlert();}
                 else{
-                myModel.saveToXML(gameController.getMyGame());}
+                myAuthoringBackend.saveToXML(gameController.getMyGame());}
             }
         });
 

@@ -1,18 +1,14 @@
 package GameAuthoringEnvironment.AuthoringScreen;
 
-import BackendExternalAPI.Model;
+import BackendExternalAPI.AuthoringBackend;
 import Configs.Configurable;
-import Configs.Configuration;
 import Configs.LevelPackage.Level;
 import Configs.MapPackage.MapConfig;
 import Configs.MapPackage.Terrain;
-import GameAuthoringEnvironment.AuthoringScreen.TerrainTile;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -29,18 +25,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.text.TabExpander;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static Configs.MapPackage.MapConfig.GRID_HEIGHT;
-import static Configs.MapPackage.MapConfig.GRID_WIDTH;
 
 public class ConfigurableMap extends Application {
 
@@ -78,7 +68,7 @@ public class ConfigurableMap extends Application {
     private MapConfig myAttributesMapConfig;
     private Scene scene;
     private AlertFactory myAlertFactory = new AlertFactory();
-    private Model model;
+    private AuthoringBackend authoringBackend;
 
     @Override
     public void start(Stage stage){
@@ -191,7 +181,7 @@ public class ConfigurableMap extends Application {
         tileView.getItems().add(1,"Water");//        this.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
         tileView.getItems().add(2,"Dirt");
-        model = new Model();
+        authoringBackend = new AuthoringBackend();
         tileView.setCellFactory(param->new ListCell<String>(){
             private ImageView image = new ImageView();
             @Override
@@ -223,7 +213,7 @@ public class ConfigurableMap extends Application {
 //                            image.setImage(new Image(new FileInputStream("resources/dirt.jpg")));
                     for(String s : typeToImagePathMap.keySet()){
                         if(name.equals(s)){
-                            image.setImage(model.getImage(typeToImagePathMap.get(s)));
+                            image.setImage(authoringBackend.getImage(typeToImagePathMap.get(s)));
                         }
                     }
 
