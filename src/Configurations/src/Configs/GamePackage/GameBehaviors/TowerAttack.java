@@ -7,6 +7,9 @@ import Configs.GamePackage.GameStatus;
 import Configs.Updatable;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * game mode for  protecting towers from enemies-- key updates for win conditions are in the update method
  */
@@ -38,6 +41,13 @@ public class TowerAttack extends GameBehavior{
     @Override
     public Configuration getConfiguration() {
         return myConfiguration;
+    }
+
+    @Override
+    public Map<String, Integer> getSpecialValueForDisplay() {
+        Map<String, Integer> ret = new HashMap<>();
+        ret.put("Number of Towers:", getMyGame().getActiveLevel().getNumActiveEnemies());
+        return ret;
     }
 
     @Override

@@ -137,6 +137,10 @@ public class Logic {
         return new Image(byteIS);
     }
 
+    public Map<String, Integer> getSpecialParameterToDisplay(){
+        return null;
+    }
+
 
 
     /**
