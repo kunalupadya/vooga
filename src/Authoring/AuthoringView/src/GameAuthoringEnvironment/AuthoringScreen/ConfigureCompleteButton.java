@@ -30,7 +30,8 @@ public class ConfigureCompleteButton {
             public void handle(MouseEvent event) {
                 //TODO(Hyunjae) Should tell the user what attribute is missing
                 if(!myConfigurable.getConfiguration().isConfigurationComplete()){
-                    AlertScreen alertScreen = new AlertScreen();
+                    AlertFactory af = new AlertFactory();
+                    af.createAlert("Configuration Not Complete!");
                 }
                 else {
                     for (Button button : allButton) {

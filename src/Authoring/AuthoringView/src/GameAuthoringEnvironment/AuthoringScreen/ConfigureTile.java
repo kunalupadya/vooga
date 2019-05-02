@@ -71,7 +71,8 @@ public class ConfigureTile {
                 //TODO ADD the new terrain tile to the listview and terraintilelist.
                 //TerrainTile newTile = new TerrainTile(new Image());
                 if(tf.getText()!=null && imageTextField.getText()!=null) {
-
+                    System.out.println(tf.getText());
+                    System.out.println(imageTextField.getText());
                     TerrainTile newTile = new TerrainTile(configureImage.getSelectedImage(),typeToImageMap);
                     if(trueButton.isSelected()){
                         typeToPath.put(tf.getText(),true);
@@ -84,6 +85,11 @@ public class ConfigureTile {
                     myListView.getItems().add(tf.getText());
                     typeToImageMap.put(tf.getText(),configureImage.getSelectedInteger());
                     popUpWindow.close();
+                }
+                else{
+                    System.out.println("HELLO");
+                    AlertFactory af = new AlertFactory();
+                    af.createAlert("One or more fields empty");
                 }
             }
         });

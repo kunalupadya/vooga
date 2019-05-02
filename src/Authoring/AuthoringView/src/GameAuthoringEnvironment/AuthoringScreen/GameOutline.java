@@ -70,7 +70,8 @@ public class GameOutline extends Screen {
                     }
                 } catch (Exception e) {
                     //TODO Handle Error
-                    e.printStackTrace();
+                    AlertFactory af = new AlertFactory();
+                    af.createAlert("Tree View Couldn't be Created");
                 }
             //value is an array
             } else if (value.getClass().isArray()) {
@@ -103,7 +104,8 @@ public class GameOutline extends Screen {
                                 setText(item.getClass().getDeclaredField("DISPLAY_LABEL").get(null) + ": " + item.getName());
                             } catch (IllegalAccessException | NoSuchFieldException e) {
                                 //TODO Error checking
-                                e.printStackTrace();
+                                AlertFactory af = new AlertFactory();
+                                af.createAlert("Illegal Access Attempted!");
                             }
                         setGraphic(getMyImage());
                         }
@@ -125,7 +127,8 @@ public class GameOutline extends Screen {
                     findMyClass(object, myGame);
                 } catch (NoSuchFieldException e) {
                     //TODO Error checking
-                    AlertScreen alert = new AlertScreen();
+                    AlertFactory af = new AlertFactory();
+                    af.createAlert("Attempted Entry into Invalid Field");
                 }
             }
         });
