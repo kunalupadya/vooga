@@ -14,7 +14,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+/**
+ * A template for the Level object that will be filled in by users using the Authoring Environment
+ */
 public class Level implements Configurable{
     private Game myGame;
     public static final String DISPLAY_LABEL = "Level";

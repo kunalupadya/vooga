@@ -6,6 +6,9 @@ import Configs.ShooterConfig.Shooter;
 import Configs.Updatable;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+/**
+ * Allows a shooter to shoot one weapon in a specified direction
+ */
 public class Linear extends ShooterBehavior {
     public static final String DISPLAY_LABEL = "Linear Shooter";
     @XStreamOmitField
