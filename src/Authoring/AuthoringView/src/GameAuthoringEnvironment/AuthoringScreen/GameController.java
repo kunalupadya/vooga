@@ -478,6 +478,8 @@ public class GameController {
     private Label getLabel(String key) {
         if (authoringProps.getProperty(key)==null){
             System.out.println("LABEL NOT DEFINED: "+key);
+            AlertFactory af = new AlertFactory();
+            af.createAlert("Label Not Defined: "+key);
         }
         return new Label(authoringProps.getProperty(key));
     }
@@ -522,7 +524,14 @@ public class GameController {
         confirmButton.setOnMouseClicked((new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                myAttributesMap.put(key, Integer.parseInt(myTextField.getText()));
+                if(myTextField.getText()!=null && !myTextField.getText().equals("")) {
+                    myAttributesMap.put(key, Integer.parseInt(myTextField.getText()));
+                }
+                else{
+                    System.out.println("HI I HATE");
+                    AlertFactory af = new AlertFactory();
+                    af.createAlert("Not All Required Fields Filled");
+                }
             }
         }));
 
