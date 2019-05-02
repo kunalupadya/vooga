@@ -7,6 +7,8 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
+import static ActiveConfigs.UtilityClass.pointMaker;
+
 public class MovementHeuristicGeneration {
     public static final int DISTANCE_HEURISTIC = 1;
 
@@ -42,11 +44,6 @@ public class MovementHeuristicGeneration {
             popCellsAndRecalculateHeuristic(pq, visited, heuristicType, startLocs);
         }
     }
-
-    private Point pointMaker(Cell cell){
-        return new Point(cell.getX(), cell.getY());
-    }
-
     private void popCellsAndRecalculateHeuristic(PriorityQueue<Cell> pq, Set<Point> visited, AIOptions heuristicType, HashMap<Point, Boolean> startLocs) {
         Cell expandedCell = pq.remove();
         int[]xAdditions = new int[]{0,0,-1,1};

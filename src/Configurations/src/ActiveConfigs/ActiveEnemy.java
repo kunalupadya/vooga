@@ -3,6 +3,8 @@ package ActiveConfigs;
 import Configs.*;
 import Configs.Behaviors.Behavior;
 import Configs.EnemyPackage.EnemyBehaviors.AIOptions;
+import Configs.EnemyPackage.EnemyBehaviors.EnemyBehavior;
+import Configs.EnemyPackage.EnemyBehaviors.SpawnEnemiesWhenKilled;
 import Configs.EnemyPackage.EnemyConfig;
 import Configs.MapPackage.Terrain;
 //import Configs.MapPackage.TerrainBehaviors.SpeedModifier;
@@ -208,6 +210,11 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
     }
 
     public void killMe(){
+        Arrays.stream(getMyBehaviors()).forEach(enemyBehavior ->{
+            if (enemyBehavior instanceof SpawnEnemiesWhenKilled){
+                enemyBehavior.update(0, this);
+            }
+        });
         myMapFeature.setDisplayState(DisplayState.DIED);
         myActiveLevel.addGameCash(1*getRewardForKilling());
         myActiveLevel.addGameScore(5*getRewardForKilling());
