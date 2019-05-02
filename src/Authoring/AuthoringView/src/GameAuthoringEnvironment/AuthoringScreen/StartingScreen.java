@@ -7,7 +7,6 @@ import GameAuthoringEnvironment.ImportGame;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -16,18 +15,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-
-import java.beans.EventHandler;
-import java.io.File;
-import java.util.List;
 
 public class StartingScreen {
 
@@ -93,8 +83,8 @@ public class StartingScreen {
 
     private void handleCreateAccount(MouseEvent event){
         //TODO Complete this part
-        CreateAccount createAccount = new CreateAccount(this, myModel);
-        createAccount.start(new Stage());
+        CreateAccountScreen createAccountScreen = new CreateAccountScreen(this, myModel);
+        createAccountScreen.start(new Stage());
     }
 
     private void handleLogin(MouseEvent event){

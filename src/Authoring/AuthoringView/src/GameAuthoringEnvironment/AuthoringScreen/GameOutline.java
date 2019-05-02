@@ -3,7 +3,6 @@ package GameAuthoringEnvironment.AuthoringScreen;
 import Configs.Configurable;
 import Configs.GamePackage.Game;
 import Configs.MapPackage.MapConfig;
-import GameAuthoringEnvironment.AuthoringComponents.AlertScreen;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

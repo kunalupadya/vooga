@@ -9,6 +9,9 @@ import javafx.scene.image.ImageView;
 
 import java.io.File;
 
+/**
+ * Template for the types of terrain objects that will be placed on the ground of the map-- can be configured by users using the authoring environment
+ */
 
 public class Terrain implements Configurable, Viewable, MapFeaturable{
     public static final int TERRAIN_SIZE = 50;
