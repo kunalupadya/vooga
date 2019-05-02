@@ -9,6 +9,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Template for projectiles that will be fired by shooters as part of weapons in the authoring environment
+ */
 public class ProjectileConfig implements Configurable, Viewable {
     private Shooter myShooter;
 

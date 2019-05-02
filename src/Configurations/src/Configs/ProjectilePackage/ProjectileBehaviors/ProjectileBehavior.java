@@ -6,6 +6,9 @@ import Configs.ProjectilePackage.ProjectileConfig;
 
 import java.util.List;
 
+/**
+ * Template for special behaviors that can be attached to projectiles and can be configured in the authoring environment
+ */
 public abstract class ProjectileBehavior implements Behavior<ProjectileConfig> {
     public static final String DISPLAY_LABEL = "Projectile Behavior";
     ProjectileConfig myProjectileConfig;
@@ -15,6 +18,10 @@ public abstract class ProjectileBehavior implements Behavior<ProjectileConfig> {
         myProjectileConfig = projectileConfig;
     }
 
+    /**
+     * retrns the configuration of the parent object
+     * @return
+     */
     public ProjectileConfig getMyProjectileConfig() {
         return myProjectileConfig;
     }

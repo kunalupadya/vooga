@@ -12,6 +12,9 @@ import Configs.Updatable;
 
 import java.util.List;
 
+/**
+ * A template for the behaviors that shooters can hold
+ */
 public abstract class ShooterBehavior implements Behavior<Shooter> {
     public static final String DISPLAY_LABEL = "Shooter Behavior";
     private Shooter myShooter;

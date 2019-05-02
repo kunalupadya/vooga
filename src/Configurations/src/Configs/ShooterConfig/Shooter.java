@@ -7,6 +7,9 @@ import Configs.ProjectilePackage.ProjectileConfig;
 import Configs.ShooterConfig.ShooterBehaviors.ShooterBehavior;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+/**
+ * An object that can be held in a weapon that allows the weapon to shoot projectiles
+ */
 public class Shooter implements Updatable , Configurable {
 
     private Shootable myShootable;

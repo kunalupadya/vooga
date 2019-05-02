@@ -5,6 +5,9 @@ import Configs.Configuration;
 import Configs.ProjectilePackage.ProjectileConfig;
 import Configs.Updatable;
 
+/**
+ * This class was not able to be implemented in time
+ */
 public class Homing extends ProjectileBehavior{
     public static final String DISPLAY_LABEL = "Homing Behavior";
     public transient Configuration myConfiguration;

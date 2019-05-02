@@ -14,6 +14,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+/**
+ * Specifies a wave of enemies that will be deployed by a wavespawner on each level
+ * a wave holds multiple enemies
+ */
 
 public class Wave implements Updatable, Configurable {
     private Level myLevel;
