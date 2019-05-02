@@ -73,12 +73,21 @@ public class ConfigureTile {
                 if(tf.getText()!=null && imageTextField.getText()!=null && !tf.getText().equals("")&& !imageTextField.equals("")) {
                     System.out.println(tf.getText());
                     System.out.println(imageTextField.getText());
-                    TerrainTile newTile = new TerrainTile(configureImage.getSelectedImage(),typeToImageMap);
+                    if(configureImage.getSelectedImage()==null){
+                        AlertFactory af = new AlertFactory();
+                        af.createAlert("Must choose image");
+
+                    }
+
                     if(trueButton.isSelected()){
+                        TerrainTile newTile = new TerrainTile(configureImage.getSelectedImage(), typeToImageMap);
+
                         typeToPath.put(tf.getText(),true);
                         newTile.setPath();
                     }
                     else if(falseButton.isSelected()){
+                        TerrainTile newTile = new TerrainTile(configureImage.getSelectedImage(), typeToImageMap);
+
                         typeToPath.put(tf.getText(),false);
                         newTile.setPathFalse();
                     }
@@ -86,9 +95,11 @@ public class ConfigureTile {
                         AlertFactory af = new AlertFactory();
                         af.createAlert("Must set tile as path or not!");
                     }
-                    myListView.getItems().add(tf.getText());
-                    typeToImageMap.put(tf.getText(),configureImage.getSelectedInteger());
-                    popUpWindow.close();
+                    if(trueButton.isSelected()||falseButton.isSelected()) {
+                        myListView.getItems().add(tf.getText());
+                        typeToImageMap.put(tf.getText(), configureImage.getSelectedInteger());
+                        popUpWindow.close();
+                    }
                 }
                 else{
                     System.out.println("HELLO");
