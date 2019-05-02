@@ -50,6 +50,7 @@ public class Configuration {
     }
 
     public void setAllAttributes(Map<String,Object> attributes) {
+
         validateAttributes(attributes);
 //        for (String key:attributes.keySet()) {
 //            if(attributes.get(key) instanceof Behavior[]) {
