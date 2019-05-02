@@ -70,7 +70,7 @@ public class ConfigureTile {
             public void handle(MouseEvent mouseEvent) {
                 //TODO ADD the new terrain tile to the listview and terraintilelist.
                 //TerrainTile newTile = new TerrainTile(new Image());
-                if(tf.getText()!=null && imageTextField.getText()!=null) {
+                if(tf.getText()!=null && imageTextField.getText()!=null && !tf.getText().equals("")&& !imageTextField.equals("")) {
                     System.out.println(tf.getText());
                     System.out.println(imageTextField.getText());
                     TerrainTile newTile = new TerrainTile(configureImage.getSelectedImage(),typeToImageMap);
@@ -78,9 +78,13 @@ public class ConfigureTile {
                         typeToPath.put(tf.getText(),true);
                         newTile.setPath();
                     }
-                    else{
+                    else if(falseButton.isSelected()){
                         typeToPath.put(tf.getText(),false);
                         newTile.setPathFalse();
+                    }
+                    else{
+                        AlertFactory af = new AlertFactory();
+                        af.createAlert("Must set tile as path or not!");
                     }
                     myListView.getItems().add(tf.getText());
                     typeToImageMap.put(tf.getText(),configureImage.getSelectedInteger());

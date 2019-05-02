@@ -121,7 +121,8 @@ public class ConfigureBehavior extends Application {
                             }
 
                         } catch (Exception e) {
-
+                            AlertFactory af = new AlertFactory();
+                            af.createAlert("Configuration Not Completed Properly");
                         }
                     }
                 }}
