@@ -1,6 +1,7 @@
 package GameAuthoringEnvironment.AuthoringComponents;
 
 import BackendExternalAPI.Model;
+import GameAuthoringEnvironment.AuthoringScreen.AlertFactory;
 import GameAuthoringEnvironment.AuthoringScreen.GameController;
 import GameAuthoringEnvironment.AuthoringScreen.GameOutline;
 import javafx.event.EventHandler;
@@ -33,6 +34,8 @@ public class TopMenuBar {
                     gameController.createConfigurable(gameController.getMyGame());
                 } catch (NoSuchFieldException e) {
                     handle(event);
+                    AlertFactory af = new AlertFactory();
+                    af.createAlert("Improper Field");
                 }
             }
         });
