@@ -9,6 +9,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 public class GamePlaySettingsBar extends StackPane {
 
     private static final int DEFAULT_SCORE = 0;
@@ -103,8 +106,11 @@ public class GamePlaySettingsBar extends StackPane {
      * data from the backend.
      */
     public void updateVariables(){
+        Map<String, Integer> specialParameter = myLogic.getSpecialParameterToDisplay();
         liveScore.setText(Double.toString(myLogic.getScore()));
-//        numLives.setText("Lives: " + myLogic.getLives());
+        for (String parameter: specialParameter.keySet()) {
+            numLives.setText(parameter + specialParameter.get(parameter));
+        }
         myMoney.setText(Double.toString(myLogic.getCash()));
     }
 

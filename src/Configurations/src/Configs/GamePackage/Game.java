@@ -219,6 +219,10 @@ public class Game implements Updatable, Configurable {
     public double getCash(){return myCash;}
     public void addToCash(double newCash){myCash = myCash+newCash;}
 
+    public Map<String, Integer> getSpecialParameter(){
+        return gameType.getSpecialValueForDisplay();
+    }
+
     @Override
     public String getName() {
         return myName;

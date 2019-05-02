@@ -3,7 +3,9 @@ package Configs.GamePackage.GameBehaviors;
 import Configs.Behaviors.Behavior;
 import Configs.GamePackage.Game;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Template for game behavior-- win conditions are determined by the implementation of the update method.
@@ -28,6 +30,8 @@ public abstract class GameBehavior implements Behavior<Game> {
     public void setMyGame(Game myGame) {
         this.myGame = myGame;
     }
+
+    public abstract Map<String, Integer> getSpecialValueForDisplay();
 
     @Override
     public List<Class> getBehaviorOptions() {

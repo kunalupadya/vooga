@@ -147,6 +147,9 @@ public class ActiveLevel extends Level implements Updatable {
         return escapedEnemies;
     }
 
+    public int getNumActiveEnemies() {
+        return activeEnemies.size();
+    }
 
     public List<ImmutableImageView> getViewsToBeRemoved() {
         List<ImmutableImageView> ret = new ArrayList<>(imagesToBeRemoved);

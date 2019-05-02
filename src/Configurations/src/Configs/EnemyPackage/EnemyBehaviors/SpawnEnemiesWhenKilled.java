@@ -4,22 +4,19 @@ package Configs.EnemyPackage.EnemyBehaviors;
  * allows enemy to be impervious to certain weapons (NOT IMLEMENTED
  */
 
-import ActiveConfigs.ActiveEnemy;
-import ActiveConfigs.ActiveLevel;
-import ActiveConfigs.Cell;
 import Configs.Behaviors.Behavior;
 import Configs.Configuration;
 import Configs.EnemyPackage.EnemyConfig;
 import Configs.ProjectilePackage.ProjectileConfig;
 import Configs.Updatable;
 
-public class InvulnerableTo extends EnemyBehavior{
-    public static final String DISPLAY_LABEL = "InvulnerableTo";
+public class SpawnEnemiesWhenKilled extends EnemyBehavior{
+    public static final String DISPLAY_LABEL = "SpawnEnemiesWhenKilled";
     @Configure
     ProjectileConfig[] immuneToThese;
     private transient Configuration myConfiguration;
 
-    public InvulnerableTo(EnemyConfig enemyConfig){
+    public SpawnEnemiesWhenKilled(EnemyConfig enemyConfig){
         super(enemyConfig);
         myConfiguration = new Configuration(this);
     }
@@ -43,7 +40,7 @@ public class InvulnerableTo extends EnemyBehavior{
 
     @Override
     public Behavior copy() {
-        InvulnerableTo ret = new InvulnerableTo(getMyEnemyConfig());
+        SpawnEnemiesWhenKilled ret = new SpawnEnemiesWhenKilled(getMyEnemyConfig());
         ret.immuneToThese = immuneToThese;
         return ret;
     }
