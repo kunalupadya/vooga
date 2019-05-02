@@ -17,7 +17,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
  */
 public class ShootableEnemy extends EnemyBehavior implements Shootable {
 
-    public static final String DISPLAY_LABEL = "ShootableEnemy";
+    public static final String DISPLAY_LABEL = "Shootable Enemy";
     @Configure
     private Shooter myShooter;
 

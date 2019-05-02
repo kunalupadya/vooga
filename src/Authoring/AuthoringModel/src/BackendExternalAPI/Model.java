@@ -6,14 +6,16 @@ import ExternalAPIs.GameInfo;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import javafx.scene.image.Image;
-
-import javax.print.DocFlavor;
 import java.io.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
+
+/**
+ * Project 4: VoogaSalad
+ * Duke CompSci 308 Spring 2019 - Duvall
+ * Date Created: 4/4/2019
+ * Date Last Modified: 5/2/2019
+ * @author Brian Jordan
+ */
 
 public class Model {
 
@@ -21,6 +23,7 @@ public class Model {
     private final String XML_FILE_PATH = "games/GameXMLs/";
     private final String REGEX = "~";
     private final String XML_TAG = "XML.xml";
+    private final double MAX_FILE_SIZE = 16 * Math.pow(10,6);
 
     private Game myGame;
     private String myXMLFileName;
@@ -109,10 +112,10 @@ public class Model {
     // Do Not Call Yet !!!!!!!!!!!!!!!
     // Use file chooser and pass selected File object into this method
     // TODO: Do not think we are going to use this method anymore
-    public int uploadImage(File newImageFile, AuthoringData.ImageType imageType) throws java.io.IOException{
+    public int uploadImage(File newImageFile, AuthoringData.ImageType imageType) throws java.io.IOException, IllegalArgumentException{
         // TODO: Check length of image file and throw exception if too large
         int fileSize = (int) newImageFile.length();
-//        checkFileSize(fileSize);
+        checkFileSize(fileSize);
         byte[] fileBytes = new byte[fileSize];
         InputStream imageIS = new FileInputStream(newImageFile);
         imageIS.read(fileBytes);
@@ -120,7 +123,11 @@ public class Model {
     }
 
 
-
+    private void checkFileSize(int size) throws IllegalArgumentException{
+        if (size > MAX_FILE_SIZE){
+            throw new IllegalArgumentException("File too Large > 16MB");
+        }
+    }
 
     /**
      * Polls the database for the byte array associated with the specific imageID and converts it to a JavaFX Image object

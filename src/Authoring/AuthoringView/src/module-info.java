@@ -9,6 +9,7 @@ module AuthoringView {
     requires Configurations;
     requires AuthoringModel;
     requires DatabaseUtil;
+    requires GameView;
 
     exports GameAuthoringEnvironment.AuthoringComponents;
     exports GameAuthoringEnvironment.AuthoringScreen;

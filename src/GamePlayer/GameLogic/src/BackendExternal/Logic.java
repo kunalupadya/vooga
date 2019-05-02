@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * Project 4: VoogaSalad
  * Duke CompSci 308 Spring 2019 - Duvall
  * Date Created: 4/4/2019
- * Date Last Modified: 4/4/2019
+ * Date Last Modified: 5/2/2019
  * @author Brian Jordan
  */
 
@@ -102,6 +102,10 @@ public class Logic {
         myGame =  (Game)serializer.fromXML(gameXMLString);
     }
 
+    public void setGameFromAuthoring(Game game){
+        myGame = game;
+    }
+
     /**
      * Begins the game at the state that the current user left off at when they previously played
      */
@@ -131,6 +135,10 @@ public class Logic {
         byte[] imageBytes = myPlayerData.getImage(imageID);
         InputStream byteIS = new ByteArrayInputStream(imageBytes);
         return new Image(byteIS);
+    }
+
+    public Map<String, Integer> getSpecialParameterToDisplay(){
+        return myGame.getSpecialParameter();
     }
 
 

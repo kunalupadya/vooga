@@ -57,7 +57,7 @@ public class DatabaseTest extends Application {
 //        System.out.println();
 //        testGetXMLString();
 //        System.out.println();
-//        testGetImage();
+        testGetImage();
 //        System.out.println();
 //        testStoreBasicInfo();
 //        System.out.println();
@@ -73,7 +73,7 @@ public class DatabaseTest extends Application {
 //        System.out.println();
 //        testCompileLeaderBoard();
 //        System.out.println();
-        hashingTest();
+//        hashingTest();
 
         System.out.println("Done Tests");
 
@@ -156,7 +156,7 @@ public class DatabaseTest extends Application {
 
         System.out.println("Testing Get Image:");
 
-        int imageID = 27;
+        int imageID = 70;
 
         Image image = myAuthoringData.getImage2(imageID);
 

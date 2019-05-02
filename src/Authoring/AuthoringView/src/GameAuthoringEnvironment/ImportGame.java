@@ -125,5 +125,4 @@ public class ImportGame extends Application {
         authoringVisualization.start(new Stage());
         this.stage.close();
     }
-
 }
