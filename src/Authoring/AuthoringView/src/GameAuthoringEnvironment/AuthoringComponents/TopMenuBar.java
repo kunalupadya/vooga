@@ -108,7 +108,7 @@ public class TopMenuBar {
     }
 
     private void createAlert() {
-        AlertScreen alertScreen = new AlertScreen();
+        AlertFactory alertFactory = new AlertFactory();
     }
 
     public HBox getTopMenuBar(){

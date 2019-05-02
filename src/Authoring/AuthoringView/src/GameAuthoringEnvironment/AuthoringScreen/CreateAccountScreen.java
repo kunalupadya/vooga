@@ -18,7 +18,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class CreateAccount extends Application {
+public class CreateAccountScreen extends Application {
 
     private VBox layout;
     private TextField newIDTf, pwTf, confirmPwTf;
@@ -26,7 +26,7 @@ public class CreateAccount extends Application {
     private Stage popupwindow;
     private Model myModel;
 
-    public CreateAccount(StartingScreen startingScreen, Model model){
+    public CreateAccountScreen(StartingScreen startingScreen, Model model){
         super();
         myModel = model;
         layout = new VBox(10.00);

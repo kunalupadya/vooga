@@ -1,7 +1,6 @@
 package GameAuthoringEnvironment.AuthoringScreen;
 
 import Configs.Configurable;
-import GameAuthoringEnvironment.AuthoringComponents.AlertScreen;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -10,13 +9,13 @@ import javafx.stage.Stage;
 import java.util.List;
 import java.util.Map;
 
-public class ConfigureCompleteButton {
+public class CompleteButton {
     private Configurable myConfigurable;
     private Stage popupwindow;
     private List<Button> allButton;
     private Map<String, Object> myAttributesMap;
 
-    public ConfigureCompleteButton(Configurable myConfigurable, Stage popupwindow, List<Button> allButton, Map<String, Object> myAttributesMap) {
+    public CompleteButton(Configurable myConfigurable, Stage popupwindow, List<Button> allButton, Map<String, Object> myAttributesMap) {
         this.myConfigurable = myConfigurable;
         this.popupwindow = popupwindow;
         this.allButton = allButton;

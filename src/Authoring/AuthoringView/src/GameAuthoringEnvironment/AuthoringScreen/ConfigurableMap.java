@@ -2,17 +2,13 @@ package GameAuthoringEnvironment.AuthoringScreen;
 
 import BackendExternalAPI.Model;
 import Configs.Configurable;
-import Configs.Configuration;
 import Configs.LevelPackage.Level;
 import Configs.MapPackage.MapConfig;
 import Configs.MapPackage.Terrain;
-import GameAuthoringEnvironment.AuthoringScreen.TerrainTile;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -29,18 +25,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.text.TabExpander;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static Configs.MapPackage.MapConfig.GRID_HEIGHT;
-import static Configs.MapPackage.MapConfig.GRID_WIDTH;
 
 public class ConfigurableMap extends Application {
 
@@ -248,7 +238,7 @@ public class ConfigurableMap extends Application {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 //TODO Create Pop up screen that can configure Tile and add that tile to the list of tiles
-                ConfigureTile configureTile = new ConfigureTile(tileView,terrainTileList,typeToImagePathMap,typeToPath);
+                ConfigurableTile configurableTile = new ConfigurableTile(tileView,terrainTileList,typeToImagePathMap,typeToPath);
 
             }
         });

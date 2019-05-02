@@ -3,11 +3,9 @@ package GameAuthoringEnvironment.AuthoringComponents;
 import BackendExternalAPI.Model;
 import Configs.Configurable;
 import ExternalAPIs.AuthoringData;
-import ExternalAPIs.ImageLoader;
 import GameAuthoringEnvironment.AuthoringScreen.GameController;
-import GameAuthoringEnvironment.AuthoringScreen.ImageBox;
 import GameAuthoringEnvironment.AuthoringScreen.ScreenSize;
-import GameAuthoringEnvironment.AuthoringScreen.UploadImage;
+import GameAuthoringEnvironment.AuthoringScreen.ImageUploader;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -17,17 +15,13 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -116,7 +110,7 @@ public class ConfigureImage {
             //TODO DO Errorchecking/Refactor
             @Override
             public void handle(MouseEvent event) {
-                UploadImage uploadImage = new UploadImage(model);
+                ImageUploader imageUploader = new ImageUploader(model);
             }
         }));
         finished.setOnAction(e->finish());
