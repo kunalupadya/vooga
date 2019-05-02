@@ -9,6 +9,7 @@ module GameView {
     requires GameLogic;
     requires Configurations;
     requires DatabaseUtil;
+    requires org.junit.jupiter.api;
 
     exports Player;
 

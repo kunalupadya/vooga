@@ -24,7 +24,6 @@ public class LogInGrid extends GridPane {
         Label userName = new Label("User Name:");
         add(userName, 0, 1);
         userTextField = new TextField();
-
         add(userTextField, TEXT_FIELD_POS, TEXT_FIELD_POS);
         Label pw = new Label("Password:");
         add(pw, 0, 2);

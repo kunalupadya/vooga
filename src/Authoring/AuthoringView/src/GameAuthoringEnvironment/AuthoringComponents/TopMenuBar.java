@@ -1,6 +1,7 @@
 package GameAuthoringEnvironment.AuthoringComponents;
 
 import BackendExternalAPI.Model;
+import GameAuthoringEnvironment.AuthoringScreen.AlertFactory;
 import GameAuthoringEnvironment.AuthoringScreen.GameController;
 import GameAuthoringEnvironment.AuthoringScreen.GameOutline;
 import Player.GamePlayMain;
@@ -34,8 +35,14 @@ public class TopMenuBar {
                 try {
                     gameController = new GameController();
                     gameController.createConfigurable(gameController.getMyGame());
-                } catch (NoSuchFieldException e) {
+                } catch (NumberFormatException n) {
                     handle(event);
+                    AlertFactory af = new AlertFactory();
+                    af.createAlert("Improper Field");
+                }
+                catch(NoSuchFieldException e){
+                    AlertFactory af = new AlertFactory();
+                    af.createAlert("Improper Field");
                 }
             }
         });

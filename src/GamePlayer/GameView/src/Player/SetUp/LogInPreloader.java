@@ -19,40 +19,51 @@ import javafx.util.Duration;
 
 public class LogInPreloader extends Application {
     public static final int MILLISECOND_DELAY = 10;
+    private static final String CHARACTER_FILE = "character.png";
+    private static final String CLOUD_FILE = "cloud.png";
+    private static final String LOADING = "Loading ...";
+    private static final String RECT_STYLE = "-fx-fill: linear-gradient(yellow, lightyellow);";
+    private static final String FONT = "Veranda";
+    private static final String PANE_STYLE = "pane";
+    private static final int FONT_SIZE = 30;
+    private static final int CLOUD_XPOS = 20;
+    private static final int CHARACTER_XPOS = -150;
+    private static final double CLOUD_RATIO = 3.8;
+    private static final int OFFSET = 10;
     private EventHandler eventHandler;
-    private Image characterImage = new Image(this.getClass().getClassLoader().getResourceAsStream("character.png"));
-    private Image cloudImage = new Image(this.getClass().getClassLoader().getResourceAsStream("cloud.png"));
     private Timeline animation;
     private StackPane root;
     private String title;
     private Rectangle loading;
-        Stage stage;
-        Text text = new Text("Loading ...");
+    private Stage stage;
+    private Text text;
         @Override
         public void start(Stage primaryStage){
             stage = primaryStage;
             root = new StackPane();
+            Image characterImage = new Image(this.getClass().getClassLoader().getResourceAsStream(CHARACTER_FILE));
+            Image cloudImage = new Image(this.getClass().getClassLoader().getResourceAsStream(CLOUD_FILE));
             ImageView imageView = new ImageView(characterImage);
             ImageView cloudView = new ImageView(cloudImage);
             root.getChildren().add(imageView);
             root.getChildren().add(cloudView);
             cloudView.setPreserveRatio(true);
-            cloudView.setTranslateX(20);
-            cloudView.setFitWidth(ScreenSize.getWidth()/3.8);
-            imageView.setTranslateX(-150);
+            cloudView.setTranslateX(CLOUD_XPOS);
+            cloudView.setFitWidth(ScreenSize.getWidth()/ CLOUD_RATIO);
+            imageView.setTranslateX(CHARACTER_XPOS);
             imageView.setTranslateY(ScreenSize.getHeight()/2 - imageView.getBoundsInLocal().getHeight()/2);
 
-            root.setId("pane");
+            root.setId(PANE_STYLE);
+            text = new Text(LOADING);
             HBox hbox = new HBox(text, createInitialLoadingBar());
             root.getChildren().add(hbox);
-            text.setFont(Font.font ("Verdana", 30));
+            text.setFont(Font.font (FONT, FONT_SIZE));
             var scene = new Scene(root, ScreenSize.getWidth(), ScreenSize.getHeight());
             primaryStage.setScene(scene);
             primaryStage.show();
             var animationFrame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step());
             animation = new Timeline();
             int animationTime = (int)Math.round((ScreenSize.getWidth() - text.getBoundsInLocal().getWidth())/10);
-            System.out.println(animationTime);
             animation.setCycleCount(animationTime);
             animation.getKeyFrames().add(animationFrame);
             animation.play();
@@ -68,12 +79,12 @@ public class LogInPreloader extends Application {
         }
         private Rectangle createInitialLoadingBar(){
             loading = new Rectangle();
-            loading.setStyle("-fx-fill: linear-gradient(yellow, lightyellow);");
+            loading.setStyle(RECT_STYLE);
             loading.setHeight(text.getBoundsInParent().getHeight() * 2);
             return loading;
         }
         private void step() {
-            loading.setWidth(loading.getWidth() + 10);
+            loading.setWidth(loading.getWidth() + OFFSET );
             animation.statusProperty().addListener((obs, oldStatus, newStatus) -> {
                 if (newStatus == Animation.Status.STOPPED) {
                     animation.setOnFinished(eventHandler);

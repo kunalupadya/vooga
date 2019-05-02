@@ -29,7 +29,6 @@ public class UploadImage {
 
     private File myImageFile;
     private AuthoringData.ImageType myImageType;
-    private final int MAX_FILE_SIZE = 16 * (10 ^ 6);
     private Stage popUpWindow;
     public static final String DEFAULT_FILE_TEXT = "Select a File to Upload";
     public static final String DEFAULT_TYPE_TEXT = "Select an Image Type";
@@ -39,6 +38,8 @@ public class UploadImage {
     private Model myModel;
 
     private static int imageID;
+
+    private TextField fileTextBox;
 
     public UploadImage(Model model){
         myModel = model;
@@ -71,20 +72,11 @@ public class UploadImage {
     }
 
     private void startFileChooser(){
-        TextField fileTextBox = new TextField(DEFAULT_FILE_TEXT);
+        fileTextBox = new TextField(DEFAULT_FILE_TEXT);
         Button fileButton = makeButton(FILE_BUTTON_TXT, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 myImageFile = myFileChooser.showOpenDialog(popUpWindow);
-                int fileSize = (int) myImageFile.length();
-                try{
-                    checkFileSize(fileSize);
-                }
-                catch (IllegalArgumentException e){
-                    System.out.println(e.getMessage());
-                    fileTextBox.setText(e.getMessage());
-                    return;
-                }
 
                 String fileName;
                 if (myImageFile.toString().indexOf('/') != -1){
@@ -134,16 +126,12 @@ public class UploadImage {
     private void testStoreImage(){
         try {
             imageID = myModel.uploadImage(myImageFile,myImageType);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            fileTextBox.setText(e.getMessage());
+            System.out.println("File too large");
         }
     }
 
-    private void checkFileSize(int size){
-        if (size > MAX_FILE_SIZE){
-            throw new IllegalArgumentException("File too Large > 16MB");
-        }
-    }
     private static Button makeButton(String buttonString, EventHandler<ActionEvent> handler){
         var newButton = new Button(buttonString);
         newButton.setOnAction(handler);

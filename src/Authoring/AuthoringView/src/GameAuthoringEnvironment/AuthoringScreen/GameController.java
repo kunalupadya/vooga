@@ -1,11 +1,17 @@
 package GameAuthoringEnvironment.AuthoringScreen;
 
+import Configs.ArsenalConfig.Arsenal;
+import Configs.ArsenalConfig.WeaponConfig;
 import Configs.Configurable;
 import Configs.EnemyPackage.EnemyBehaviors.AIOptions;
+import Configs.EnemyPackage.EnemyBehaviors.SpawnEnemiesWhenKilled;
+import Configs.EnemyPackage.EnemyConfig;
 import Configs.GamePackage.Game;
+import Configs.GamePackage.GameBehaviors.TowerAttack;
 import Configs.MapPackage.MapConfig;
 import Configs.Shootable;
 import Configs.View;
+import Configs.Waves.Wave;
 import ExternalAPIs.AuthoringData;
 import GameAuthoringEnvironment.AuthoringComponents.ConfigureImage;
 import javafx.beans.value.ChangeListener;
@@ -425,7 +431,8 @@ public class GameController {
         try {
             myButton = new Button("Configure " + value.getDeclaredField("DISPLAY_LABEL").get(null));
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            AlertFactory af = new AlertFactory();
+            af.createAlert("Illegal Access!");
         }
         //TODO Should refactor
         myButton.setOnMouseClicked((new EventHandler<>() {
@@ -457,6 +464,16 @@ public class GameController {
                         List<Object> emptyList = new ArrayList<>();
                         configureBehavior(clazz, myConfigurable, myAttributesMap, key, emptyList,false);
                     }
+                    else if(myConfigurable instanceof SpawnEnemiesWhenKilled){
+                        EnemyConfig enemyConfig = new EnemyConfig((Wave) null);
+                        createConfigurable(enemyConfig);
+                        myAttributesMap.put(key, enemyConfig);
+                    }
+                    else if(myConfigurable instanceof TowerAttack){
+                        WeaponConfig weaponConfig = new WeaponConfig((Arsenal) null);
+                        createConfigurable(weaponConfig);
+                        myAttributesMap.put(key, weaponConfig);
+                    }
                     //rest should follow this
                     else {
                         Constructor<?> cons = clazz.getConstructor(myConfigurable.getClass());
@@ -464,8 +481,8 @@ public class GameController {
                         createConfigurable((Configurable) object);
                         myAttributesMap.put(key, object);
                     }
-
                 } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
+                    e.printStackTrace();
                     myAlertFactory.createAlert("Something went wrong! Please try again");
                 }
 
@@ -478,6 +495,8 @@ public class GameController {
     private Label getLabel(String key) {
         if (authoringProps.getProperty(key)==null){
             System.out.println("LABEL NOT DEFINED: "+key);
+            AlertFactory af = new AlertFactory();
+            af.createAlert("Label Not Defined: "+key);
         }
         return new Label(authoringProps.getProperty(key));
     }
@@ -516,13 +535,29 @@ public class GameController {
             @Override
             public void handle(MouseEvent event) {
                 ConfigureImage configureImage = new ConfigureImage(myTextField, imageType);
+//                if(myTextField.getText()!=null && !myTextField.getText().equals("")) {
+//                }
+//                else{
+//                    AlertFactory af = new AlertFactory();
+//                    af.createAlert("Image Not Found");
+//                }
+//                if(myTextField.getText()==null || myTextField.getText().equals("")) {
+//                    AlertFactory af = new AlertFactory();
+//                    af.createAlert("Image Not Found");
+//                }
             }
         }));
 
         confirmButton.setOnMouseClicked((new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                myAttributesMap.put(key, Integer.parseInt(myTextField.getText()));
+                if(myTextField.getText()!=null && !myTextField.getText().equals("")) {
+                    myAttributesMap.put(key, Integer.parseInt(myTextField.getText()));
+                }
+                else{
+                    AlertFactory af = new AlertFactory();
+                    af.createAlert("Not All Required Fields Filled");
+                }
             }
         }));
 

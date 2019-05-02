@@ -22,6 +22,8 @@ public class WeaponConfig implements  Configurable, Viewable, Info {
     @Configure
     private String myName;
     @Configure
+    private int weaponCost;
+    @Configure
     private WeaponBehavior[] behaviors = new WeaponBehavior[0];
     @Configure
     private View view;
@@ -85,6 +87,14 @@ public class WeaponConfig implements  Configurable, Viewable, Info {
 
     public int getWeaponId() {
         return weaponId;
+    }
+
+    public int getWeaponCost() {
+        return weaponCost;
+    }
+
+    public void setWeaponCost(int weaponCost) {
+        this.weaponCost = weaponCost;
     }
 
     @Override

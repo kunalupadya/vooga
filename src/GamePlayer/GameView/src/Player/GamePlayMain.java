@@ -28,13 +28,14 @@ import static Player.GamePlay.GamePlayLeft.GamePlayLeftSide.TOP_RATIO;
 public class GamePlayMain extends Application {
     private String Title = "VoogaSalad Game";
     private String GAME_MUSIC = "resources/gameMusic.mp3";
-    public static int FRAMES_PER_SECOND = 3;
-    public static int MILLISECOND_DELAY = 1000/FRAMES_PER_SECOND;
+    private static final int FRAMES_PER_SECOND = 10;
+    private static final int MILLISECOND_DELAY = 1000/FRAMES_PER_SECOND;
+    private static final int NORMAL_RATE = 1;
+    private static final double FAST_RATE = 2.5;
     public static final double SECOND_DELAY = 1.0/FRAMES_PER_SECOND;
     private static final Paint backgroundColor = Color.NAVY;
     private double screenWidth = ScreenSize.getWidth();
     private double screenHeight = ScreenSize.getHeight();
-    // Added by Brian
     private Logic myLogic = new Logic(screenWidth * LEFT_RATIO, screenHeight * TOP_RATIO);
     private Timeline animation;
     private GamePlayGUI myGameGUI;
@@ -46,35 +47,38 @@ public class GamePlayMain extends Application {
     private Stage primaryStage;
     @Override
     public void start(Stage stage){
-        try {
-            primaryStage = stage;
-            root = new Group();
-            primaryStage.setX(screenWidth);
-            primaryStage.setY(screenHeight);
-            var startScreen = new Scene(root, screenWidth, screenHeight,backgroundColor);
-            startScreen.getStylesheets().add("gameplay.css");
-            MediaView music = createWelcomeMusic();
-            root.getChildren().add(music);
-            myGameGUI = new GamePlayGUI(myLogic, () -> startLoop(), () -> fastFoward(), () -> endLoop(),
-                    () -> closeStage(),
-                    root,
-                    mediaPlayer);
-            root.getChildren().add(myGameGUI);
-            frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), event -> step());
-            animation = new Timeline();
-            animation.setCycleCount(Timeline.INDEFINITE);
-            animation.getKeyFrames().add(frame);
-            primaryStage.setScene(startScreen);
-            primaryStage.setTitle(Title);
-            primaryStage.show();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        primaryStage = stage;
+        root = new Group();
+        primaryStage.setX(screenWidth);
+        primaryStage.setY(screenHeight);
+        var startScreen = new Scene(root, screenWidth, screenHeight,backgroundColor);
+        startScreen.getStylesheets().add("gameplay.css");
+        MediaView music = createWelcomeMusic();
+        root.getChildren().add(music);
+        myGameGUI = new GamePlayGUI(myLogic, () -> startLoop(), () -> fastFoward(), () -> endLoop(),
+                () -> closeStage(),
+                root,
+                mediaPlayer);
+        root.getChildren().add(myGameGUI);
+        frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), event -> step());
+        animation = new Timeline();
+        animation.setCycleCount(Timeline.INDEFINITE);
+        animation.getKeyFrames().add(frame);
+        primaryStage.setScene(startScreen);
+        primaryStage.setTitle(Title);
+        primaryStage.show();
     }
-    public void setGameInfo(GameInfo gameInfo){
+
+    public void setLogic(Logic logic){
+        this.myLogic = logic;
+    }
+    public void setGameInfo(GameInfo gameInfo, boolean saved){
         myLogic.createGameInstance(gameInfo);
-        myLogic.startAtDefaultState();
+        if(saved){
+            myLogic.startAtUserState();
+        }else{
+            myLogic.startAtDefaultState();
+        }
     }
 
     public void setGameFromAuthoring(Game game){
@@ -83,7 +87,7 @@ public class GamePlayMain extends Application {
     }
 
     private void fastFoward(){
-        animation.setRate(2.5);
+        animation.setRate(FAST_RATE);
     }
 
     private MediaView createWelcomeMusic(){
@@ -95,7 +99,7 @@ public class GamePlayMain extends Application {
     }
 
     private void startLoop(){
-        animation.setRate(1);
+        animation.setRate(NORMAL_RATE);
         animation.play();
     }
 
@@ -107,7 +111,7 @@ public class GamePlayMain extends Application {
         }
     }
 
-    public void endLoop(){
+    private void endLoop(){
         gameOver = true;
     }
 

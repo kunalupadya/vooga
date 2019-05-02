@@ -3,6 +3,8 @@ package ActiveConfigs;
 import Configs.*;
 import Configs.Behaviors.Behavior;
 import Configs.EnemyPackage.EnemyBehaviors.AIOptions;
+import Configs.EnemyPackage.EnemyBehaviors.EnemyBehavior;
+import Configs.EnemyPackage.EnemyBehaviors.SpawnEnemiesWhenKilled;
 import Configs.EnemyPackage.EnemyConfig;
 import Configs.MapPackage.Terrain;
 //import Configs.MapPackage.TerrainBehaviors.SpeedModifier;
@@ -57,12 +59,21 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
         }
     }
 
-
+    /**
+     * creates an active enemy
+     * @param enemyConfig the enemyconfig "template" that this is created from
+     * @param activeLevel the current active level
+     */
     public ActiveEnemy(EnemyConfig enemyConfig,ActiveLevel activeLevel) {
         super(enemyConfig);
         myActiveLevel = activeLevel;
     }
 
+    /**
+     *
+     * @param mapFeature the mapFeature with which to initialize the implementing object with during constructor
+     */
+    @Override
     public void setMyMapFeature(MapFeature mapFeature) {
         this.myMapFeature = mapFeature;
     }
@@ -78,8 +89,7 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
     }
 
 
-//    public void addInstantiationModifier(InstantiationModifier instantiationModifier){
-//        instantiationModifier.apply(this);
+
 //    }
     public void addSpeedModifier(SpeedModifier speedModifier){
         speedModifiers.add(speedModifier);
@@ -87,22 +97,6 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
 
     @Override
     public void update(double ms, Updatable parent) {
-//        System.out.println("HERE");
-//        System.out.println(myMapFeature.getMyCells().size());
-//        TerrainBehavior[] tbs = myActiveLevel.getGridCell(myMapFeature.getGridXPos(), myMapFeature.getGridYPos()).getMyTerrain().getTerrainBehaviors() ;
-//        if (tbs!=null) {
-//            ArrayList<TerrainBehavior> behaviorsList = new ArrayList<TerrainBehavior>(Arrays.asList(tbs));
-//            for (TerrainBehavior b : behaviorsList) {
-//                if (b.getClass() == SpeedModifier.class) {
-//                    effectiveSpeed = this.getUnitSpeedPerSecond() * ((SpeedModifier) (b)).getSpeedMultiplier();
-//                    break;
-//                }
-//                effectiveSpeed = this.getUnitSpeedPerSecond();
-//            }
-//        }
-        //get x, y from myMapFeature and do logic using the map within the activeLevel
-//        if
-        //dont forget to update state to PRESENT or DIED in myMapFeature
         Arrays.stream(getMyBehaviors())
                 .forEach(b -> b.update(ms, this));
         effectiveSpeed = getUnitSpeedPerSecond();
@@ -199,6 +193,11 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
     }
 
     public void killMe(){
+        Arrays.stream(getMyBehaviors()).forEach(enemyBehavior ->{
+            if (enemyBehavior instanceof SpawnEnemiesWhenKilled){
+                ((SpawnEnemiesWhenKilled)enemyBehavior).spawnOnDeath(this);
+            }
+        });
         myMapFeature.setDisplayState(DisplayState.DIED);
         myActiveLevel.addGameCash(1*getRewardForKilling());
         myActiveLevel.addGameScore(5*getRewardForKilling());

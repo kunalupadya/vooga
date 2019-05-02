@@ -4,10 +4,12 @@ import ActiveConfigs.ActiveEnemy;
 import ActiveConfigs.ActiveProjectile;
 import ActiveConfigs.ActiveWeapon;
 import ActiveConfigs.Cell;
+//import ExternalAPIs.AuthoringData;
+//import ExternalAPIs.Data;
+import Configs.GamePackage.Game;
 import Configs.GamePackage.Game;
 import ExternalAPIs.AuthoringData;
 import ExternalAPIs.Data;
-
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import javafx.scene.image.Image;
 
@@ -51,9 +53,9 @@ public class MapFeature {
         setImage(view);
         this.heightInGridUnits = view.getHeight();
         this.widthInGridUnits = view.getWidth();
+        hypotenuse = Math.sqrt(Math.pow(widthInGridUnits/2, 2) + Math.pow(heightInGridUnits/2, 2));
         setGridPos(gridXPos,gridYPos,displayDirection);
         displayState = DisplayState.NEW;
-        hypotenuse = Math.sqrt(Math.pow(widthInGridUnits/2, 2) + Math.pow(heightInGridUnits/2, 2));
 
     }
 
@@ -66,9 +68,9 @@ public class MapFeature {
         this.gridXSize = gridXSize;
         this.gridYSize = gridYSize;
         displayState = DisplayState.NEW;
+        hypotenuse = Math.sqrt(Math.pow(widthInGridUnits/2, 2) + Math.pow(heightInGridUnits/2, 2));
         setImage(view);
         setGridPos(gridXPos, gridYPos, displayDirection);
-        hypotenuse = Math.sqrt(Math.pow(widthInGridUnits/2, 2) + Math.pow(heightInGridUnits/2, 2));
     }
 
     /**
@@ -94,34 +96,34 @@ public class MapFeature {
         this.gridYPos = gridYPos;
         this.gridXPos = gridXPos;
         this.parent = parent;
+        hypotenuse = Math.sqrt(Math.pow(widthInGridUnits/2, 2) + Math.pow(heightInGridUnits/2, 2));
         setImage(view);
         setGridPos(gridXPos, gridYPos, displayDirection);
-        hypotenuse = Math.sqrt(Math.pow(widthInGridUnits/2, 2) + Math.pow(heightInGridUnits/2, 2));
     }
 
 
     @Deprecated
     public MapFeature( double pixelXPos, double pixelYPos, double direction, View view){
-            this.heightInGridUnits = view.getHeight();
-            this.widthInGridUnits = view.getWidth();
-            setImage(view);
-            setPixelPos(pixelXPos, pixelYPos, direction);
-            displayState = DisplayState.NEW;
-        }
+        this.heightInGridUnits = view.getHeight();
+        this.widthInGridUnits = view.getWidth();
+        setImage(view);
+        setPixelPos(pixelXPos, pixelYPos, direction);
+        displayState = DisplayState.NEW;
+    }
 
     @Deprecated
     public MapFeature( double pixelXPos, double pixelYPos, double direction, View view,double paneWidth,
-        double paneHeight, int gridXSize, int gridYSize){
-            this.heightInGridUnits = view.getHeight();
-            this.widthInGridUnits = view.getWidth();
-            displayState = DisplayState.NEW;
-            this.paneWidth = paneWidth;
-            this.paneHeight = paneHeight;
-            this.gridXSize = gridXSize;
-            this.gridYSize = gridYSize;
-            setImage(view);
-            setPixelPos(pixelXPos, pixelYPos, direction);
-        }
+                       double paneHeight, int gridXSize, int gridYSize){
+        this.heightInGridUnits = view.getHeight();
+        this.widthInGridUnits = view.getWidth();
+        displayState = DisplayState.NEW;
+        this.paneWidth = paneWidth;
+        this.paneHeight = paneHeight;
+        this.gridXSize = gridXSize;
+        this.gridYSize = gridYSize;
+        setImage(view);
+        setPixelPos(pixelXPos, pixelYPos, direction);
+    }
 
 
 
@@ -148,9 +150,9 @@ public class MapFeature {
         this.gridXPos = (int) (pixelXPos*(gridXSize/paneWidth));
         this.gridYPos = (int) (pixelYPos*(gridYSize/paneHeight));
         this.parent = parent;
+        hypotenuse = Math.sqrt(Math.pow(widthInGridUnits/2, 2) + Math.pow(heightInGridUnits/2, 2));
         setImage(view);
         setPixelPos(pixelXPos,pixelYPos,direction);
-        hypotenuse = Math.sqrt(Math.pow(widthInGridUnits/2, 2) + Math.pow(heightInGridUnits/2, 2));
     }
 
     private void setImage(View view) throws IllegalStateException {
@@ -177,6 +179,10 @@ public class MapFeature {
             removeFromCell();
         }
         this.displayState = displayState;
+    }
+
+    public void setDisplayDirection(double displayDirection) {
+        this.displayDirection = displayDirection;
     }
 
     /**

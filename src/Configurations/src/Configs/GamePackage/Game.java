@@ -160,6 +160,9 @@ public class Game implements Updatable, Configurable {
         this.paneHeight = paneHeight;
         this.paneWidth = paneWidth;
         this.myLevelSpawner = new LevelSpawner(this, levelNumber, levelList);
+        if (myArsenal!=null) {
+            myArsenal.setUnlockedWeaponsToNew();
+        }
         gameStatus = GameStatus.PLAYING;
     }
 
@@ -215,6 +218,10 @@ public class Game implements Updatable, Configurable {
      */
     public double getCash(){return myCash;}
     public void addToCash(double newCash){myCash = myCash+newCash;}
+
+    public Map<String, Integer> getSpecialParameter(){
+        return gameType.getSpecialValueForDisplay();
+    }
 
     @Override
     public String getName() {
