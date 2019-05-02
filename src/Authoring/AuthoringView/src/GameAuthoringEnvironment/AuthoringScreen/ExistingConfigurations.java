@@ -40,7 +40,7 @@ public class ExistingConfigurations {
     private void setContent() {
         popUpWindow = new Stage();
         //popUpWindow.initModality(Modality.APPLICATION_MODAL);
-        popUpWindow.setTitle("Behavior Editor");
+        popUpWindow.setTitle("Pre Existing Configurations Editor");
         layout = new VBox(10.00);
 
         Label DISPLAY_LABEL = new Label("Double Click what you want to use");
@@ -81,7 +81,6 @@ public class ExistingConfigurations {
             //controlTreeCellMouseClick(cell);
             return cell ;
         });
-
 
         layout.getChildren().addAll(DISPLAY_LABEL, sourceView );
         Scene scene= new Scene(layout, 800, 800);

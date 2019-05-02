@@ -4,6 +4,8 @@ import BackendExternalAPI.Model;
 import GameAuthoringEnvironment.AuthoringScreen.AlertFactory;
 import GameAuthoringEnvironment.AuthoringScreen.GameController;
 import GameAuthoringEnvironment.AuthoringScreen.GameOutline;
+import GameAuthoringEnvironment.CloseStage;
+import GameAuthoringEnvironment.ImportGame;
 import Player.GamePlayMain;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -19,9 +21,6 @@ public class TopMenuBar {
     private GameController gameController;
     private GameOutline myGameOutline;
     private Model myModel;
-
-    //TODO @Hyunjae : Set Style for these buttons
-
     public TopMenuBar(GameOutline gameOutline, Model model){
         myModel = model;
         myGameOutline = gameOutline;
@@ -71,8 +70,9 @@ public class TopMenuBar {
         Button loadButton = new Button("Load");
         loadButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
-
-
+                ImportGame importGame = new ImportGame(myModel.getAuthoredGameLibrary(), myModel);
+                importGame.start(new Stage());
+                saveButton.fireEvent(event);
             }
         });
 
@@ -107,8 +107,9 @@ public class TopMenuBar {
         TopMenuBar.getChildren().addAll(newGameButton, saveButton, exportButton, loadButton, runButton, refreshButton);
     }
 
+
     private void createAlert() {
-        AlertScreen alertScreen = new AlertScreen();
+        AlertFactory alertFactory = new AlertFactory();
     }
 
     public HBox getTopMenuBar(){
