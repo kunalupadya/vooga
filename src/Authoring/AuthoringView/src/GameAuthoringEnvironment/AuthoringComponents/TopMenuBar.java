@@ -32,8 +32,12 @@ public class TopMenuBar {
                 try {
                     gameController = new GameController();
                     gameController.createConfigurable(gameController.getMyGame());
-                } catch (NoSuchFieldException e) {
+                } catch (NumberFormatException n) {
                     handle(event);
+                    AlertFactory af = new AlertFactory();
+                    af.createAlert("Improper Field");
+                }
+                catch(NoSuchFieldException e){
                     AlertFactory af = new AlertFactory();
                     af.createAlert("Improper Field");
                 }
