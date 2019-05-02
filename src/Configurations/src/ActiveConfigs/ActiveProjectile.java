@@ -74,13 +74,15 @@ public class ActiveProjectile extends ProjectileConfig implements Updatable, Map
 
     private void handleWeaponCollision(ActiveWeapon aes){
         if (myMapFeature.getImageView().intersects(aes.getMapFeature().getImageView().getBoundsInParent())) {
+            aes.attack((int) getStrength());
             myActiveLevel.removeWeapon(aes);
             myMapFeature.setDisplayState(DisplayState.DIED);
         }
     }
 
     private void handleEnemyCollision(ActiveEnemy aes){
-        if (myMapFeature.getImageView().intersects(aes.getMapFeature().getImageView().getBoundsInParent())) {
+        if (myMapFeature.getImageView().intersects(aes.getMapFeature().getImageView().getBoundsInParent())&&aes.getMapFeature().getDisplayState()!=DisplayState.DIED) {
+            aes.attack((int) getStrength());
             myActiveLevel.killEnemy(aes);
             myMapFeature.setDisplayState(DisplayState.DIED);
         }

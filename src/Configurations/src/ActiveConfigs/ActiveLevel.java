@@ -108,10 +108,10 @@ public class ActiveLevel extends Level implements Updatable {
     public void killEnemy(ActiveEnemy activeEnemy){
         enemiesToDie.add(activeEnemy);
     }
-
-    public void addToEnemiesKilled(Collection<ActiveEnemy> aes){
-        enemiesToDie.addAll(aes);
-    }
+//
+//    public void addToEnemiesKilled(Collection<ActiveEnemy> aes){
+//        enemiesToDie.addAll(aes);
+//    }
 
     @Override
     public void update(double ms, Updatable parent) {
@@ -132,6 +132,7 @@ public class ActiveLevel extends Level implements Updatable {
     private void updateActive(double ms, List<MapFeaturable> activeList) {
         List<MapFeaturable> activeToRemove = new ArrayList<>();
         enemiesToDie.stream().forEach(e->e.killMe());
+        enemiesToDie.clear();
         activeList.stream().forEach(active -> {
             ((Updatable)active).update(ms, this);
             if(active.getMapFeature().getDisplayState()==DisplayState.DIED) {
