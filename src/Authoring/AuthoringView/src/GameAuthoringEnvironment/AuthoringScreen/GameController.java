@@ -285,7 +285,6 @@ public class GameController {
         else{
 
             ListView sourceView = new ListView<>();
-
             var buttonBar = new HBox();
             buttonBar.setAlignment(Pos.CENTER);
             buttonBar.setSpacing(10);
@@ -299,7 +298,6 @@ public class GameController {
                 @Override
                 public void handle(MouseEvent event) {
                     ExistingConfigurations existingConfigurations = new ExistingConfigurations(tempList, sourceView, configuredObjects.get(key));
-
                 }
             }));
 
@@ -365,8 +363,6 @@ public class GameController {
         try {
             Class c = Class.forName(value.getComponentType().getName());
             Object[] ob = (Object[]) Array.newInstance(c, tempList.size());
-            System.out.println(value.getComponentType());
-            System.out.println(value.getComponentType().getSimpleName().contains("behavior"));
             if(value.getComponentType().getSimpleName().toLowerCase().contains("behavior")){
                 for(int a=0; a<tempList.size() ; a++) {
                     Object[] ob1 = (Object[]) tempList.get(0);
@@ -388,7 +384,6 @@ public class GameController {
             myAlertFactory.createAlert("This array has illegal classes. Please configure it again.");
         }
     }
-
     private void handleArraySourceView(Class value, Configurable myConfigurable, Map<String, Object> myAttributesMap, List<Object> tempList, ListView sourceView, String key) {
         try {
             Class<?> cl = Class.forName(value.getComponentType().getName());
@@ -413,8 +408,6 @@ public class GameController {
             Constructor<?> cons = cl.getConstructor(myConfigurable.getClass());
             var object = cons.newInstance(myConfigurable);
             tempList.add(object);
-
-
         } catch (Exception  e) {
 
         }
@@ -445,7 +438,6 @@ public class GameController {
                             ConfigurableMap configurableMap = new ConfigurableMap(myAttributesMap, myConfigurable);
                             configurableMap.setConfigurations();
                         }
-
                     //Special case : View because view is being used in multiple places
                     } else if (clazz.getSimpleName().equals("View")) {
                         Constructor<?> cons = clazz.getConstructor(Configurable.class);
@@ -476,7 +468,6 @@ public class GameController {
                         myAttributesMap.put(key, object);
                     }
                 } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
-                    e.printStackTrace();
                     myAlertFactory.createAlert("Something went wrong! Please try again");
                 }
 
@@ -484,7 +475,6 @@ public class GameController {
         }));
         layout.getChildren().add(myButton);
     }
-
 
     private Label getLabel(String key) {
         if (authoringProps.getProperty(key)==null){
@@ -516,7 +506,6 @@ public class GameController {
                 imageType = "PROJECTILE";
             }
         }
-
         Label DISPLAY_LABEL = getLabel(key);
         TextField myTextField = getTextField(key, definedAttributesMap);
         Button chooseImageButton = new Button("Choose Image");
@@ -531,7 +520,6 @@ public class GameController {
                 ConfigureImage configureImage = new ConfigureImage(myTextField, imageType);
             }
         }));
-
         confirmButton.setOnMouseClicked((new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -544,7 +532,6 @@ public class GameController {
                 }
             }
         }));
-
         allButton.add(confirmButton);
         layout.getChildren().addAll(nameAndTfBar);
     }
