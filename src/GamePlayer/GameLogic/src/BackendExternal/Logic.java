@@ -138,7 +138,7 @@ public class Logic {
     }
 
     public Map<String, Integer> getSpecialParameterToDisplay(){
-        return null;
+        return myGame.getSpecialParameter();
     }
 
 
