@@ -6,14 +6,16 @@ import ExternalAPIs.GameInfo;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import javafx.scene.image.Image;
-
-import javax.print.DocFlavor;
 import java.io.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
+
+/**
+ * Project 4: VoogaSalad
+ * Duke CompSci 308 Spring 2019 - Duvall
+ * Date Created: 4/4/2019
+ * Date Last Modified: 5/2/2019
+ * @author Brian Jordan
+ */
 
 public class Model {
 
