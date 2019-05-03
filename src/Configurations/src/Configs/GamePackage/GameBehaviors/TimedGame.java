@@ -55,7 +55,7 @@ public class TimedGame extends GameBehavior{
     @Override
     public Map<String, Integer> getSpecialValueForDisplay() {
         Map<String, Integer> ret = new HashMap<>();
-        ret.put("Time Remaining:", totalTimeInSec);
+        ret.put("Time Remaining:", timeLeft);
         return ret;
     }
 
