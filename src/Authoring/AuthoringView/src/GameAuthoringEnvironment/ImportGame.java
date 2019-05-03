@@ -58,20 +58,24 @@ public class ImportGame extends Application {
     }
     private ScrollPane createScrollPane(){
         scrollPane = new ScrollPane();
-        scrollPane.setPrefWidth(ScreenSize.getWidth()/4);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setPrefWidth(ScreenSize.getWidth()/4 + 50);
         VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
+        vBox.setMaxWidth(ScreenSize.getWidth()/4);
         for(GameInfo gameInfo: gameInfoList){
             StackPane stackPane = new StackPane();
             stackPane.setPrefWidth(ScreenSize.getWidth());
             Rectangle rect = createRectangle();
             stackPane.getChildren().add(rect);
             Text title = new Text(gameInfo.getGameTitle());
+            title.setTranslateY(-rect.getHeight()/3);
             stackPane.getChildren().add(title);
             ImageView thumbnailImageView = createImageView(gameInfo);
-            thumbnailImageView.setFitWidth(ScreenSize.getWidth()/4);
+            thumbnailImageView.setFitWidth(rect.getWidth()/3);
             thumbnailImageView.setPreserveRatio(true);
-            thumbnailImageView.setOnMousePressed(e-> createPrompt(gameInfo, thumbnailImageView));
-            thumbnailImageView.setTranslateY(rect.getHeight()/2);
+            thumbnailImageView.setOnMousePressed(e-> createPrompt(gameInfo));
+            thumbnailImageView.setTranslateY(rect.getHeight()/3 - thumbnailImageView.getBoundsInLocal().getHeight()/2);
             stackPane.getChildren().add(thumbnailImageView);
             vBox.getChildren().add(stackPane);
         }
@@ -83,12 +87,16 @@ public class ImportGame extends Application {
         topMenuBar.loadGame(myGame);
         eventHandler.close();
     }
-    private void createPrompt(GameInfo gameInfo, ImageView imageView){
+    private void createPrompt(GameInfo gameInfo){
         StackPane stackPane = new StackPane();
         Rectangle rect = createRectangle();
         Text text = new Text(gameInfo.getGameTitle());
+        text.setTranslateY(-rect.getHeight()/3);
+        ImageView imageView = createImageView(gameInfo);
         stackPane.getChildren().addAll(rect, text, imageView);
-        imageView.setTranslateY(rect.getHeight()/2);
+        imageView.setTranslateY(rect.getHeight()/4);
+        imageView.setFitWidth(rect.getWidth()/3);
+        imageView.setPreserveRatio(true);
         if(rightSide != null){
             gameSelector.getChildren().remove(rightSide);
         }
