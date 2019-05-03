@@ -66,7 +66,7 @@ public class TerrainTile extends ImageView {
 //            changeToDirt();
 //        }
 
-        int imageId = typeToImageMap.get(myType);
+        imageId = typeToImageMap.get(myType);
         Image loadedImage;
         if (configurableMap.hasImage(imageId)) {
             loadedImage = configurableMap.getImage(imageId);
