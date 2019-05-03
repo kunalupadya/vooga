@@ -35,7 +35,9 @@ public class TimedGame extends GameBehavior{
     public void update(double ms, Updatable parent) {
         Game game = (Game) parent;
         if(timeLeft<0 || getMyGame().getActiveLevel().noMoreEnemiesLeft()) {
+            System.out.println(getMyGame().getActiveLevel().noMoreEnemiesLeft());
             if(game.isLastLevel()) {
+                System.out.println(timeLeft);
                 game.setGameStatus(GameStatus.OVER);
             }
             else {
