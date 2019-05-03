@@ -22,8 +22,6 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable, Attackable {
     public static final double CONVERSION_TO_SECONDS = .001;
     private MapFeature myMapFeature;
-//    private Cell[][] activeMapGrid;
-//    private double distance = 0;
     private ActiveLevel myActiveLevel;
     private double startTime = -Integer.MAX_VALUE;
     private LinkedList<Point> prevLocations = new LinkedList<>();
@@ -85,7 +83,6 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
 
     @Override
     public void attack(int damage) {
-        //TODO: FINISH
         currentHealth -= damage;
         if (currentHealth<0){
             if (!isDead) {
@@ -129,7 +126,7 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
             startTime = ms;
         }
 
-        double numMovements = getUnitSpeedPerSecond();
+        double numMovements = effectiveSpeed;
 
         for (int i = 0; i < numMovements; i++) {
             MovementDirection movementDirection = determineMovementDirection(getAiType());
@@ -151,7 +148,6 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
 
 
     private MovementDirection determineMovementDirection(AIOptions aiTypes){
-        System.out.println(aiTypes);
         return moveShortestDistance(aiTypes.getGetter());
     }
 

@@ -1,6 +1,6 @@
 package GameAuthoringEnvironment.AuthoringComponents;
 
-import BackendExternalAPI.Model;
+import BackendExternalAPI.AuthoringBackend;
 import GameAuthoringEnvironment.AuthoringScreen.AlertFactory;
 import GameAuthoringEnvironment.AuthoringScreen.GameController;
 import GameAuthoringEnvironment.AuthoringScreen.GameOutline;
@@ -20,9 +20,12 @@ public class TopMenuBar {
     private HBox TopMenuBar;
     private GameController gameController;
     private GameOutline myGameOutline;
-    private Model myModel;
-    public TopMenuBar(GameOutline gameOutline, Model model){
-        myModel = model;
+    private AuthoringBackend myAuthoringBackend;
+
+    //TODO @Hyunjae : Set Style for these buttons
+
+    public TopMenuBar(GameOutline gameOutline, AuthoringBackend authoringBackend){
+        myAuthoringBackend = authoringBackend;
         myGameOutline = gameOutline;
         TopMenuBar = new HBox();
         TopMenuBar.setSpacing(5);
@@ -59,14 +62,14 @@ public class TopMenuBar {
                 if(gameController == null){
                     createAlert("Make a Game first");}
                 else{
-                myModel.saveToXML(gameController.getMyGame());}
+                myAuthoringBackend.saveToXML(gameController.getMyGame());}
             }
         });
 
         Button loadButton = new Button("Load");
         loadButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
-                ImportGame importGame = new ImportGame(myModel.getAuthoredGameLibrary(), myModel);
+                ImportGame importGame = new ImportGame(myAuthoringBackend.getAuthoredGameLibrary(), myAuthoringBackend);
                 importGame.start(new Stage());
                 saveButton.fireEvent(event);
             }

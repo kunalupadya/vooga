@@ -41,6 +41,8 @@ public class Game implements Updatable, Configurable {
     private Arsenal myArsenal;
     @Configure
     private GameBehavior gameType;
+    @Configure
+    private double myCash = STARTING_CASH;
 
     @XStreamOmitField
     private transient double paneWidth;
@@ -55,8 +57,6 @@ public class Game implements Updatable, Configurable {
     @XStreamOmitField
     private transient Map<Integer, Image> imageCache;
 
-    //TODO:TEST VALUE OF CASH NEED TO MAKE CONFIGURABLE LATER
-    private double myCash = STARTING_CASH;
 
     public Game(){
         myConfiguration = new Configuration(this);
@@ -218,6 +218,13 @@ public class Game implements Updatable, Configurable {
      */
     public double getCash(){return myCash;}
     public void addToCash(double newCash){myCash = myCash+newCash;}
+    public boolean buy(double cost){
+        if (myCash-cost<0){
+            return false;
+        }
+        myCash-=cost;
+        return true;
+    }
 
     public Map<String, Integer> getSpecialParameter(){
         return gameType.getSpecialValueForDisplay();

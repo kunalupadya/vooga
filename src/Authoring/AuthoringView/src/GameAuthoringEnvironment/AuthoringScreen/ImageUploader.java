@@ -1,6 +1,6 @@
 package GameAuthoringEnvironment.AuthoringScreen;
 
-import BackendExternalAPI.Model;
+import BackendExternalAPI.AuthoringBackend;
 import ExternalAPIs.AuthoringData;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,7 +16,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.IOException;
 
 public class ImageUploader {
 
@@ -34,14 +33,14 @@ public class ImageUploader {
     public static final String FILE_BUTTON_TXT = "Select File";
     public static final String SAVE_BUTTON_TXT = "Save Image File";
     public static final String DROPDOWN_TXT = "Type";
-    private Model myModel;
+    private AuthoringBackend myAuthoringBackend;
 
     private static int imageID;
 
     private TextField fileTextBox;
 
-    public ImageUploader(Model model){
-        myModel = model;
+    public ImageUploader(AuthoringBackend authoringBackend){
+        myAuthoringBackend = authoringBackend;
         setContent();
     }
 
@@ -124,7 +123,7 @@ public class ImageUploader {
 
     private void testStoreImage(){
         try {
-            imageID = myModel.uploadImage(myImageFile,myImageType);
+            imageID = myAuthoringBackend.uploadImage(myImageFile,myImageType);
         } catch (Exception e) {
             fileTextBox.setText(e.getMessage());
         }
