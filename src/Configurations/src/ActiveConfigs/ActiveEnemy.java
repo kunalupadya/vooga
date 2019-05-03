@@ -22,8 +22,6 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable, Attackable {
     public static final double CONVERSION_TO_SECONDS = .001;
     private MapFeature myMapFeature;
-//    private Cell[][] activeMapGrid;
-//    private double distance = 0;
     private ActiveLevel myActiveLevel;
     private double startTime = -Integer.MAX_VALUE;
     private LinkedList<Point> prevLocations = new LinkedList<>();
@@ -150,7 +148,6 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
 
 
     private MovementDirection determineMovementDirection(AIOptions aiTypes){
-        System.out.println(aiTypes);
         return moveShortestDistance(aiTypes.getGetter());
     }
 

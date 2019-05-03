@@ -12,7 +12,7 @@ import java.util.List;
 public abstract class ProjectileBehavior implements Behavior<ProjectileConfig> {
     public static final String DISPLAY_LABEL = "Projectile Behavior";
     ProjectileConfig myProjectileConfig;
-    public static final List<Class> IMPLEMENTING_BEHAVIORS = List.of(Explosive.class, Homing.class, SpeedModifier.class, Wind.class);
+    public static final List<Class> IMPLEMENTING_BEHAVIORS = List.of(Explosive.class, Homing.class);
 
     ProjectileBehavior(ProjectileConfig projectileConfig){
         myProjectileConfig = projectileConfig;

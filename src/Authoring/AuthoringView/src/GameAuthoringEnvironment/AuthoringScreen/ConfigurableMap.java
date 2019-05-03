@@ -1,6 +1,6 @@
 package GameAuthoringEnvironment.AuthoringScreen;
 
-import BackendExternalAPI.Model;
+import BackendExternalAPI.AuthoringBackend;
 import Configs.Configurable;
 import Configs.LevelPackage.Level;
 import Configs.MapPackage.MapConfig;
@@ -69,8 +69,8 @@ public class ConfigurableMap extends Application {
     private MapConfig myAttributesMapConfig;
     private Scene scene;
     private AlertFactory myAlertFactory = new AlertFactory();
-    private Model model;
     private transient Map<Integer, Image> imageCache;
+    private AuthoringBackend authoringBackend;
 
     @Override
     public void start(Stage stage){
@@ -197,7 +197,7 @@ public class ConfigurableMap extends Application {
         tileView.getItems().add(1,"Water");//        this.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
         tileView.getItems().add(2,"Dirt");
-        model = new Model();
+        authoringBackend = new AuthoringBackend();
         tileView.setCellFactory(param->new ListCell<String>(){
             private ImageView image = new ImageView();
             @Override

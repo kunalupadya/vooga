@@ -4,17 +4,13 @@ import BackendExternalAPI.Model;
 import ExternalAPIs.Data;
 import GameAuthoringEnvironment.AuthoringComponents.ConfigureImage;
 import javafx.event.EventHandler;
+import BackendExternalAPI.AuthoringBackend;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 public class TerrainTile extends ImageView {
@@ -69,6 +65,7 @@ public class TerrainTile extends ImageView {
 //        else if(type.equals("Dirt")){
 //            changeToDirt();
 //        }
+
         int imageId = typeToImageMap.get(myType);
         Image loadedImage;
         if (configurableMap.hasImage(imageId)) {
@@ -79,6 +76,7 @@ public class TerrainTile extends ImageView {
             configurableMap.addImage(imageId, loadedImage);
         }
         this.setImage(loadedImage);
+
 
 //        if(!type.equals("Grass")){
 //            setPath();

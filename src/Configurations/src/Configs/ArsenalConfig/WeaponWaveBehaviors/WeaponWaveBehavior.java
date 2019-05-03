@@ -9,7 +9,7 @@ import java.util.List;
  * A template for the behaviors of weaponwaves
  */
 public abstract class WeaponWaveBehavior implements Behavior<WeaponWave> {
-    public static final String DISPLAY_LABEL = "Arsenal Behavior";
+    public static final String DISPLAY_LABEL = "Arsenal Unlocking Behavior";
     public static final List<Class> IMPLEMENTING_BEHAVIORS = List.of(
             LevelUnlockable.class);
 

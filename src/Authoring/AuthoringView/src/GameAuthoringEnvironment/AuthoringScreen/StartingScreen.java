@@ -1,6 +1,6 @@
 package GameAuthoringEnvironment.AuthoringScreen;
 
-import BackendExternalAPI.Model;
+import BackendExternalAPI.AuthoringBackend;
 import Configs.GamePackage.Game;
 import GameAuthoringEnvironment.CloseStage;
 import GameAuthoringEnvironment.ImportGame;
@@ -32,7 +32,7 @@ public class StartingScreen {
     private double height = ScreenSize.getHeight() * 0.75;
     private Button loginButton;
     private Button createIDButton;
-    private Model myModel;
+    private AuthoringBackend myAuthoringBackend;
 
     public void start (Stage stage) {
         myStage = stage;
@@ -41,7 +41,7 @@ public class StartingScreen {
     }
     private void setScene(){
 
-        myModel = new Model();
+        myAuthoringBackend = new AuthoringBackend();
         final BooleanProperty firstTime = new SimpleBooleanProperty(true);
         myContatiner = new VBox();
         myContatiner.setSpacing(padding);
@@ -83,14 +83,14 @@ public class StartingScreen {
 
     private void handleCreateAccount(MouseEvent event){
         //TODO Complete this part
-        CreateAccountScreen createAccountScreen = new CreateAccountScreen(this, myModel);
+        CreateAccountScreen createAccountScreen = new CreateAccountScreen(this, myAuthoringBackend);
         createAccountScreen.start(new Stage());
     }
 
     private void handleLogin(MouseEvent event){
         //TODO Call APIs to confirm password
         try {
-            if (myModel.authenticateUser(idTf.getText(), pwTf.getText())) {
+            if (myAuthoringBackend.authenticateUser(idTf.getText(), pwTf.getText())) {
                 Text instructions = new Text("Now Click New Game to make a new Game or click import Game to import a existing game");
                 instructions.setStyle("-fx-font-size: 10");
                 myContatiner.getChildren().removeAll(idTf, pwTf, loginButton, createIDButton, loginDescription);
@@ -111,7 +111,7 @@ public class StartingScreen {
     }
 
     private void makeGame(Game game){
-        AuthoringVisualization authoringVisualization = new AuthoringVisualization(game, myModel);
+        AuthoringVisualization authoringVisualization = new AuthoringVisualization(game, myAuthoringBackend);
         authoringVisualization.start(new Stage());
         myStage.close();
     }
@@ -122,7 +122,7 @@ public class StartingScreen {
     }
 
     private void importGame(MouseEvent evemt){
-        ImportGame importGame = new ImportGame(myModel.getAuthoredGameLibrary(), myModel);
+        ImportGame importGame = new ImportGame(myAuthoringBackend.getAuthoredGameLibrary(), myAuthoringBackend);
         importGame.start(new Stage());
         CloseStage eventHandler = () -> startGame();
         importGame.setEventHandler(eventHandler);
