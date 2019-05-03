@@ -24,6 +24,11 @@ import java.util.List;
  */
 
 public class AuthoringBackend {
+    private final String XML_FILE_PATH = "games/GameXMLs/";
+    private Game myGame;
+    private String myXMLFileName;
+    private final String XML_TAG = "XML.xml";
+
 
     private final double MAX_FILE_SIZE = 16 * Math.pow(10,6);
     private AuthoringData myAuthoringData;
@@ -42,12 +47,28 @@ public class AuthoringBackend {
      */
 
     public void saveToXML(Game newGame){
+        saveToXML2(newGame);
         XStream mySerializer = new XStream(new DomDriver());
         String gameXMLString = mySerializer.toXML(newGame);
         GameInfo savingInfo = new GameInfo(newGame.getTitle(), newGame.getThumbnailID(), newGame.getDescription());
         myAuthoringData.saveGame(gameXMLString, savingInfo);
     }
 
+//    // TODO: Remove this method and use one above
+    public void saveToXML2(Game newGame) {
+        myGame = newGame;
+        myXMLFileName = myGame.getTitle() + XML_TAG;
+
+
+        try {
+          //  updatePropertiesFile();
+            writeToXMLFile();
+
+        } catch (Exception e) {
+            // TODO: For Testing Purposes
+            e.printStackTrace();
+        }
+    }
     /**
      * Receives user login input from the front-end and passes it to the database module to check against server data
      * @param username - User input for unique string to identify user
@@ -122,5 +143,15 @@ public class AuthoringBackend {
         InputStream byteIS = new ByteArrayInputStream(imageBytes);
         return new Image(byteIS);
     }
+
+    private void writeToXMLFile() throws IOException {
+        XStream mySerializer = new XStream(new DomDriver());
+        String gameString = mySerializer.toXML(myGame);
+        FileWriter xmlFW = new FileWriter(XML_FILE_PATH + myXMLFileName);
+        xmlFW.write(gameString);
+        xmlFW.close();
+
+    }
+
 
 }
