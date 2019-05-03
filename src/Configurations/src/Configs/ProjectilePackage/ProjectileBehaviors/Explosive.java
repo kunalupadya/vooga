@@ -24,12 +24,8 @@ public class Explosive extends ProjectileBehavior{
     private int explosiveRange;
 
 
-<<<<<<< HEAD
     private Configuration myConfiguration;
-=======
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
->>>>>>> 2d0ac27232076918740d3bdc0c5e6a88ada71104
+
     public static final String DISPLAY_LABEL = "Explosive Behavior";
 
     @XStreamOmitField
