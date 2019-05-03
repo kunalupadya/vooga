@@ -175,12 +175,13 @@ public class ConfigureBehavior extends Application {
                     alert.showAndWait();
                 }
                 else {
-                    //TODO Add THE TARGETVIEW LIST TO THE ATTRIBUTES BUT HOW?
+
                     Object[] ob = (Object[]) Array.newInstance(myType, tempList.size());
                     for(int a=0; a<tempList.size(); a++){
                         ob[a] = tempList.get(a);
                     }
                     if(myBoolean == true){
+                        //TODO Refactor this is not the clean way
                         myTempList.add(ob);
                         myMap.put(myKey, ob);}
                     else{
