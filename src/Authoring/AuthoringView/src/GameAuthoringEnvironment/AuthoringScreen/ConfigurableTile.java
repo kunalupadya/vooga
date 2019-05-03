@@ -1,24 +1,18 @@
 package GameAuthoringEnvironment.AuthoringScreen;
 
-import Configs.Configurable;
-import GameAuthoringEnvironment.AuthoringComponents.AlertScreen;
 import GameAuthoringEnvironment.AuthoringComponents.ConfigureImage;
 import javafx.event.EventHandler;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.List;
 import java.util.Map;
 
-public class ConfigureTile {
+public class ConfigurableTile {
     ConfigureImage configureImage;
     public static final int SCENE_BOUNDS=500;
     public static final int VBOX_VAL=10;
@@ -27,7 +21,7 @@ public class ConfigureTile {
     private Map<String, Integer> typeToImageMap;
     private Map<String, Boolean> typeToPath;
 
-    public ConfigureTile(ListView<String> listview, List<TerrainTile> terrainTileList, Map<String, Integer> map,Map<String, Boolean> boolMap){
+    public ConfigurableTile(ListView<String> listview, List<TerrainTile> terrainTileList, Map<String, Integer> map, Map<String, Boolean> boolMap){
         myTerrainTileList = terrainTileList;
         myListView = listview;
         typeToImageMap=map;
@@ -70,20 +64,41 @@ public class ConfigureTile {
             public void handle(MouseEvent mouseEvent) {
                 //TODO ADD the new terrain tile to the listview and terraintilelist.
                 //TerrainTile newTile = new TerrainTile(new Image());
-                if(tf.getText()!=null && imageTextField.getText()!=null) {
+                if(tf.getText()!=null && imageTextField.getText()!=null && !tf.getText().equals("")&& !imageTextField.equals("")) {
+                    System.out.println(tf.getText());
+                    System.out.println(imageTextField.getText());
+                    if(configureImage.getSelectedImage()==null){
+                        AlertFactory af = new AlertFactory();
+                        af.createAlert("Must choose image");
 
-                    TerrainTile newTile = new TerrainTile(configureImage.getSelectedImage(),typeToImageMap);
+                    }
+
                     if(trueButton.isSelected()){
+                        TerrainTile newTile = new TerrainTile(configureImage.getSelectedImage(), typeToImageMap);
+
                         typeToPath.put(tf.getText(),true);
                         newTile.setPath();
                     }
-                    else{
+                    else if(falseButton.isSelected()){
+                        TerrainTile newTile = new TerrainTile(configureImage.getSelectedImage(), typeToImageMap);
+
                         typeToPath.put(tf.getText(),false);
                         newTile.setPathFalse();
                     }
-                    myListView.getItems().add(tf.getText());
-                    typeToImageMap.put(tf.getText(),configureImage.getSelectedInteger());
-                    popUpWindow.close();
+                    else{
+                        AlertFactory af = new AlertFactory();
+                        af.createAlert("Must set tile as path or not!");
+                    }
+                    if(trueButton.isSelected()||falseButton.isSelected()) {
+                        myListView.getItems().add(tf.getText());
+                        typeToImageMap.put(tf.getText(), configureImage.getSelectedInteger());
+                        popUpWindow.close();
+                    }
+                }
+                else{
+                    //System.out.println("HELLO");
+                    AlertFactory af = new AlertFactory();
+                    af.createAlert("One or more fields empty");
                 }
             }
         });

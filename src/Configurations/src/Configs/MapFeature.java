@@ -181,6 +181,10 @@ public class MapFeature {
         this.displayState = displayState;
     }
 
+    public void setDisplayDirection(double displayDirection) {
+        this.displayDirection = displayDirection;
+    }
+
     /**
      *
      * @return this parameter

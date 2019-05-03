@@ -1,13 +1,12 @@
 package GameAuthoringEnvironment.AuthoringScreen;
 
-import BackendExternalAPI.Model;
+import BackendExternalAPI.AuthoringBackend;
 import Configs.GamePackage.Game;
 import GameAuthoringEnvironment.CloseStage;
 import GameAuthoringEnvironment.ImportGame;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -16,18 +15,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-
-import java.beans.EventHandler;
-import java.io.File;
-import java.util.List;
 
 public class StartingScreen {
 
@@ -42,7 +32,7 @@ public class StartingScreen {
     private double height = ScreenSize.getHeight() * 0.75;
     private Button loginButton;
     private Button createIDButton;
-    private Model myModel;
+    private AuthoringBackend myAuthoringBackend;
 
     public void start (Stage stage) {
         myStage = stage;
@@ -51,7 +41,7 @@ public class StartingScreen {
     }
     private void setScene(){
 
-        myModel = new Model();
+        myAuthoringBackend = new AuthoringBackend();
         final BooleanProperty firstTime = new SimpleBooleanProperty(true);
         myContatiner = new VBox();
         myContatiner.setSpacing(padding);
@@ -93,14 +83,14 @@ public class StartingScreen {
 
     private void handleCreateAccount(MouseEvent event){
         //TODO Complete this part
-        CreateAccount createAccount = new CreateAccount(this, myModel);
-        createAccount.start(new Stage());
+        CreateAccountScreen createAccountScreen = new CreateAccountScreen(this, myAuthoringBackend);
+        createAccountScreen.start(new Stage());
     }
 
     private void handleLogin(MouseEvent event){
         //TODO Call APIs to confirm password
         try {
-            if (myModel.authenticateUser(idTf.getText(), pwTf.getText())) {
+            if (myAuthoringBackend.authenticateUser(idTf.getText(), pwTf.getText())) {
                 Text instructions = new Text("Now Click New Game to make a new Game or click import Game to import a existing game");
                 instructions.setStyle("-fx-font-size: 10");
                 myContatiner.getChildren().removeAll(idTf, pwTf, loginButton, createIDButton, loginDescription);
@@ -121,7 +111,7 @@ public class StartingScreen {
     }
 
     private void makeGame(Game game){
-        AuthoringVisualization authoringVisualization = new AuthoringVisualization(game, myModel);
+        AuthoringVisualization authoringVisualization = new AuthoringVisualization(game, myAuthoringBackend);
         authoringVisualization.start(new Stage());
         myStage.close();
     }
@@ -132,7 +122,7 @@ public class StartingScreen {
     }
 
     private void importGame(MouseEvent evemt){
-        ImportGame importGame = new ImportGame(myModel.getAuthoredGameLibrary(), myModel);
+        ImportGame importGame = new ImportGame(myAuthoringBackend.getAuthoredGameLibrary(), myAuthoringBackend);
         importGame.start(new Stage());
         CloseStage eventHandler = () -> startGame();
         importGame.setEventHandler(eventHandler);

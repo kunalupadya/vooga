@@ -125,7 +125,8 @@ public class ConfigureBehavior extends Application {
                             }
 
                         } catch (Exception e) {
-
+                            AlertFactory af = new AlertFactory();
+                            af.createAlert("Configuration Not Completed Properly");
                         }
                     }
                 }}
@@ -162,7 +163,7 @@ public class ConfigureBehavior extends Application {
         root.setAlignment(Pos.CENTER);
         root.getChildren().addAll(pane);
 
-        Button setButton = new Button("This config completed");
+        Button setButton = new Button("Configuration Is Completed");
         setButton.setOnMouseClicked((new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -174,12 +175,13 @@ public class ConfigureBehavior extends Application {
                     alert.showAndWait();
                 }
                 else {
-                    //TODO Add THE TARGETVIEW LIST TO THE ATTRIBUTES BUT HOW?
+
                     Object[] ob = (Object[]) Array.newInstance(myType, tempList.size());
                     for(int a=0; a<tempList.size(); a++){
                         ob[a] = tempList.get(a);
                     }
                     if(myBoolean == true){
+                        //TODO Refactor this is not the clean way
                         myTempList.add(ob);
                         myMap.put(myKey, ob);}
                     else{

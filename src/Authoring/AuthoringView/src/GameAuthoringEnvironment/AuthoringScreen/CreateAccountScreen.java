@@ -1,34 +1,32 @@
 package GameAuthoringEnvironment.AuthoringScreen;
 
-import BackendExternalAPI.Model;
+import BackendExternalAPI.AuthoringBackend;
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class CreateAccount extends Application {
+public class CreateAccountScreen extends Application {
 
     private VBox layout;
     private TextField newIDTf, pwTf, confirmPwTf;
     private Button makeAccountButton;
     private Stage popupwindow;
-    private Model myModel;
+    private AuthoringBackend myAuthoringBackend;
 
-    public CreateAccount(StartingScreen startingScreen, Model model){
+    public CreateAccountScreen(StartingScreen startingScreen, AuthoringBackend authoringBackend){
         super();
-        myModel = model;
+        myAuthoringBackend = authoringBackend;
         layout = new VBox(10.00);
         layout.setMaxWidth(250);
         layout.setId("backdrop");
@@ -72,7 +70,7 @@ public class CreateAccount extends Application {
         try {
             if (pwTf.getText().equals(confirmPwTf.getText())) {
                 //TODO USE regex to check the id, pw etc
-                myModel.createNewUser(newIDTf.getText(), pwTf.getText(), confirmPwTf.getText());
+                myAuthoringBackend.createNewUser(newIDTf.getText(), pwTf.getText(), confirmPwTf.getText());
                 popupwindow.close();
             }
             else{
@@ -84,9 +82,6 @@ public class CreateAccount extends Application {
             Alert alert= new Alert(Alert.AlertType.WARNING,e.getMessage());
             alert.showAndWait();
         }
-//        else{
-//            //TODO Create Alert
-//        }
     }
 
 }

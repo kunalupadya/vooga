@@ -1,6 +1,6 @@
 package GameAuthoringEnvironment.AuthoringScreen;
 
-import BackendExternalAPI.Model;
+import BackendExternalAPI.AuthoringBackend;
 import ExternalAPIs.AuthoringData;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,9 +16,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.IOException;
 
-public class UploadImage {
+public class ImageUploader {
 
     private static Group myRoot;
 
@@ -26,22 +25,22 @@ public class UploadImage {
     private HBox fileSelectionHBox;
     private HBox typeSelectionHBox;
     private FileChooser myFileChooser;
-
     private File myImageFile;
     private AuthoringData.ImageType myImageType;
-    private final int MAX_FILE_SIZE = 16 * (10 ^ 6);
     private Stage popUpWindow;
     public static final String DEFAULT_FILE_TEXT = "Select a File to Upload";
     public static final String DEFAULT_TYPE_TEXT = "Select an Image Type";
     public static final String FILE_BUTTON_TXT = "Select File";
     public static final String SAVE_BUTTON_TXT = "Save Image File";
     public static final String DROPDOWN_TXT = "Type";
-    private Model myModel;
+    private AuthoringBackend myAuthoringBackend;
 
     private static int imageID;
 
-    public UploadImage(Model model){
-        myModel = model;
+    private TextField fileTextBox;
+
+    public ImageUploader(AuthoringBackend authoringBackend){
+        myAuthoringBackend = authoringBackend;
         setContent();
     }
 
@@ -71,20 +70,11 @@ public class UploadImage {
     }
 
     private void startFileChooser(){
-        TextField fileTextBox = new TextField(DEFAULT_FILE_TEXT);
+        fileTextBox = new TextField(DEFAULT_FILE_TEXT);
         Button fileButton = makeButton(FILE_BUTTON_TXT, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 myImageFile = myFileChooser.showOpenDialog(popUpWindow);
-                int fileSize = (int) myImageFile.length();
-                try{
-                    checkFileSize(fileSize);
-                }
-                catch (IllegalArgumentException e){
-                    System.out.println(e.getMessage());
-                    fileTextBox.setText(e.getMessage());
-                    return;
-                }
 
                 String fileName;
                 if (myImageFile.toString().indexOf('/') != -1){
@@ -133,17 +123,12 @@ public class UploadImage {
 
     private void testStoreImage(){
         try {
-            imageID = myModel.uploadImage(myImageFile,myImageType);
-        } catch (IOException e) {
-            e.printStackTrace();
+            imageID = myAuthoringBackend.uploadImage(myImageFile,myImageType);
+        } catch (Exception e) {
+            fileTextBox.setText(e.getMessage());
         }
     }
 
-    private void checkFileSize(int size){
-        if (size > MAX_FILE_SIZE){
-            throw new IllegalArgumentException("File too Large > 16MB");
-        }
-    }
     private static Button makeButton(String buttonString, EventHandler<ActionEvent> handler){
         var newButton = new Button(buttonString);
         newButton.setOnAction(handler);

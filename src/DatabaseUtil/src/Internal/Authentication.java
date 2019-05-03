@@ -43,18 +43,13 @@ public class Authentication {
      * @param salt - random 16 byte array concatenated with the password byte array for additional security
      * @return - hashed byte array of the concatenated password and salt
      */
-    public static byte[] hashPassword(String password, byte[] salt){
-        byte[] passwordBytes = password.getBytes();
-        byte[] plainTextBytes = new byte[passwordBytes.length + salt.length];
-        System.out.println(passwordBytes.length);
-        System.out.println(salt.length);
-        System.out.println(plainTextBytes.length);
-        System.arraycopy(passwordBytes, 0, plainTextBytes, 0, passwordBytes.length);
-        System.arraycopy(salt, 0, plainTextBytes, passwordBytes.length, salt.length);
+    public static String hashPassword(String password, String salt){
+        String plainText = password + salt;
         try {
             MessageDigest passwordDigest = MessageDigest.getInstance(HASHING_ALGORITHM);
-            passwordDigest.update(plainTextBytes);
-            return passwordDigest.digest();
+            passwordDigest.update(plainText.getBytes());
+            byte[] hashedBytes = passwordDigest.digest();
+            return new String(hashedBytes);
         } catch (NoSuchAlgorithmException e) {
             System.out.println("Incorrect Algorithm String");
         }

@@ -1,8 +1,11 @@
 package GameAuthoringEnvironment.AuthoringComponents;
 
-import BackendExternalAPI.Model;
+import BackendExternalAPI.AuthoringBackend;
+import GameAuthoringEnvironment.AuthoringScreen.AlertFactory;
 import GameAuthoringEnvironment.AuthoringScreen.GameController;
 import GameAuthoringEnvironment.AuthoringScreen.GameOutline;
+import GameAuthoringEnvironment.CloseStage;
+import GameAuthoringEnvironment.ImportGame;
 import Player.GamePlayMain;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -17,12 +20,12 @@ public class TopMenuBar {
     private HBox TopMenuBar;
     private GameController gameController;
     private GameOutline myGameOutline;
-    private Model myModel;
+    private AuthoringBackend myAuthoringBackend;
 
     //TODO @Hyunjae : Set Style for these buttons
 
-    public TopMenuBar(GameOutline gameOutline, Model model){
-        myModel = model;
+    public TopMenuBar(GameOutline gameOutline, AuthoringBackend authoringBackend){
+        myAuthoringBackend = authoringBackend;
         myGameOutline = gameOutline;
         TopMenuBar = new HBox();
         TopMenuBar.setSpacing(5);
@@ -34,8 +37,10 @@ public class TopMenuBar {
                 try {
                     gameController = new GameController();
                     gameController.createConfigurable(gameController.getMyGame());
-                } catch (NoSuchFieldException e) {
+                } catch (NumberFormatException | NoSuchFieldException n) {
                     handle(event);
+                    AlertFactory af = new AlertFactory();
+                    af.createAlert("Improper Field");
                 }
             }
         });
@@ -44,7 +49,7 @@ public class TopMenuBar {
         saveButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 if(gameController == null || gameController.getMyGame() == null){
-                    createAlert();}
+                    createAlert("Make a Game first");}
                 else{
                 myGameOutline.makeTreeView(gameController.getMyGame());}
             }
@@ -55,17 +60,17 @@ public class TopMenuBar {
         exportButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 if(gameController == null){
-                    createAlert();}
+                    createAlert("Make a Game first");}
                 else{
-                myModel.saveToXML(gameController.getMyGame());}
+                myAuthoringBackend.saveToXML(gameController.getMyGame());}
             }
         });
 
         Button loadButton = new Button("Load");
         loadButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
-
-
+                ImportGame importGame = new ImportGame(myAuthoringBackend.getAuthoredGameLibrary(), myAuthoringBackend);
+                importGame.start(new Stage());
             }
         });
 
@@ -91,7 +96,7 @@ public class TopMenuBar {
         refreshButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 if(gameController == null){
-                    createAlert();
+                    createAlert("Make a Game First");
                 }else{
                 myGameOutline.makeTreeView(gameController.getMyGame());}
             }
@@ -100,8 +105,10 @@ public class TopMenuBar {
         TopMenuBar.getChildren().addAll(newGameButton, saveButton, exportButton, loadButton, runButton, refreshButton);
     }
 
-    private void createAlert() {
-        AlertScreen alertScreen = new AlertScreen();
+
+    private void createAlert(String message) {
+        AlertFactory alertFactory = new AlertFactory();
+        alertFactory.createAlert(message);
     }
 
     public HBox getTopMenuBar(){

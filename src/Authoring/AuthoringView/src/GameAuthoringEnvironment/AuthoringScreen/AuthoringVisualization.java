@@ -1,18 +1,13 @@
 package GameAuthoringEnvironment.AuthoringScreen;
 
-import BackendExternalAPI.Model;
+import BackendExternalAPI.AuthoringBackend;
 import Configs.GamePackage.Game;
 import GameAuthoringEnvironment.AuthoringComponents.*;
 import javafx.application.Application;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class AuthoringVisualization extends Application {
@@ -27,7 +22,7 @@ public class AuthoringVisualization extends Application {
     private GameOutline gameOutline;
     private static final KeyCombination keyCombinationCommandN = new KeyCodeCombination(KeyCode.ESCAPE);
     private Game myGame;
-    private Model myModel;
+    private AuthoringBackend myAuthoringBackend;
 
     @Override
     public void start(Stage stage){
@@ -35,8 +30,8 @@ public class AuthoringVisualization extends Application {
         stage.setTitle(Title);
         stage.show();
     }
-    public AuthoringVisualization(Game game, Model model){
-        myModel = model;
+    public AuthoringVisualization(Game game, AuthoringBackend authoringBackend){
+        myAuthoringBackend = authoringBackend;
         myGame = game;
         myContainer = new VBox();
         setScene();
@@ -54,7 +49,7 @@ public class AuthoringVisualization extends Application {
         background.setId("image_backdrop");
         VBox myGameOutline = gameOutline.getModule();
         background.getChildren().add(myGameOutline);
-        TopMenuBar topMenuBar = new TopMenuBar(gameOutline, myModel);
+        TopMenuBar topMenuBar = new TopMenuBar(gameOutline, myAuthoringBackend);
         StackPane menu = new StackPane();
         StackPane colored = new StackPane();
         colored.setStyle("-fx-background-color: linear-gradient(rgb(90, 253, 255), rgb(98, 222, 230)); -fx-opacity: 0.4;");

@@ -56,15 +56,11 @@ public class UserData extends DBUtil {
             statement.setString(2, hashedPass);
             ResultSet results = statement.executeQuery();
             int userID = -1;
-            System.out.println(selectionQuery);
-            System.out.println(statement.toString());
             if(results.next()){
-                System.out.println(selectionQuery);
                 userID = results.getInt("userID");
             }
             results.close();
             statement.close();
-            System.out.println(userID);
             return userID;
         }
         catch (SQLException e){
@@ -85,7 +81,7 @@ public class UserData extends DBUtil {
             ResultSet results = statement.executeQuery();
             ArrayList<Integer> IDList = new ArrayList<>();
             while(results.next()){
-                IDList.add(results.getInt("authorID"));
+                IDList.add(results.getInt("gameID"));
             }
             results.close();
             statement.close();

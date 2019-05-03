@@ -6,28 +6,38 @@ import ExternalAPIs.GameInfo;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import javafx.scene.image.Image;
-
-import javax.print.DocFlavor;
 import java.io.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 
-public class Model {
+/**
+ * Project 4: VoogaSalad
+ * Duke CompSci 308 Spring 2019 - Duvall
+ * Date Created: 4/4/2019
+ * Date Last Modified: 5/2/2019
+ * @author Brian Jordan
+ */
 
-    private final String PROPERTIES_FILE_PATH = "games/GameInfo.properties";
+/**
+ * This class is the backend of the Game Authoring Environment.  The AuthoringView module creates a single instance of
+ * this when the application is run.  This class provides a means for the view end of the authoring environment to
+ * communicate with the DatabaseUtil module indirectly to ensure encapsulation.
+ */
+
+public class AuthoringBackend {
     private final String XML_FILE_PATH = "games/GameXMLs/";
-    private final String REGEX = "~";
-    private final String XML_TAG = "XML.xml";
-
     private Game myGame;
     private String myXMLFileName;
+    private final String XML_TAG = "XML.xml";
+
+
+    private final double MAX_FILE_SIZE = 16 * Math.pow(10,6);
     private AuthoringData myAuthoringData;
 
+    /**
+     * Creates a AuthoringBackend object to call the public methods.
+     */
 
-    public Model(){
+    public AuthoringBackend(){
         myAuthoringData = new AuthoringData();
     }
 
@@ -35,28 +45,30 @@ public class Model {
      * Takes in a configured game object, converts it to an XML string and extracts basic info to create GameInfo object to pass to database module
      * @param newGame - Game object created in authoring environment
      */
-    // TODO: Make this the called method
+
     public void saveToXML(Game newGame){
+        saveToXML2(newGame);
         XStream mySerializer = new XStream(new DomDriver());
         String gameXMLString = mySerializer.toXML(newGame);
-        System.out.println(myAuthoringData.getCurrentUserID());
         GameInfo savingInfo = new GameInfo(newGame.getTitle(), newGame.getThumbnailID(), newGame.getDescription());
         myAuthoringData.saveGame(gameXMLString, savingInfo);
     }
 
 //    // TODO: Remove this method and use one above
-//    public void saveToXML(Game newGame) {
-//        myGame = newGame;
-//        try {
-//            updatePropertiesFile();
-//            writeToXMLFile();
-//
-//        } catch (Exception e) {
-//            // TODO: For Testing Purposes
-//            e.printStackTrace();
-//        }
-//    }
+    public void saveToXML2(Game newGame) {
+        myGame = newGame;
+        myXMLFileName = myGame.getTitle() + XML_TAG;
 
+
+        try {
+          //  updatePropertiesFile();
+            writeToXMLFile();
+
+        } catch (Exception e) {
+            // TODO: For Testing Purposes
+            e.printStackTrace();
+        }
+    }
     /**
      * Receives user login input from the front-end and passes it to the database module to check against server data
      * @param username - User input for unique string to identify user
@@ -66,7 +78,6 @@ public class Model {
     public boolean authenticateUser(String username, String password){
         return myAuthoringData.authenticateUser(username, password);
     }
-
 
     /**
      * Receives user create account input from the front-end and passes it to save in the database
@@ -106,13 +117,9 @@ public class Model {
         return myAuthoringData.getImages(type);
     }
 
-    // Do Not Call Yet !!!!!!!!!!!!!!!
-    // Use file chooser and pass selected File object into this method
-    // TODO: Do not think we are going to use this method anymore
-    public int uploadImage(File newImageFile, AuthoringData.ImageType imageType) throws java.io.IOException{
-        // TODO: Check length of image file and throw exception if too large
+    public int uploadImage(File newImageFile, AuthoringData.ImageType imageType) throws java.io.IOException, IllegalArgumentException{
         int fileSize = (int) newImageFile.length();
-//        checkFileSize(fileSize);
+        checkFileSize(fileSize);
         byte[] fileBytes = new byte[fileSize];
         InputStream imageIS = new FileInputStream(newImageFile);
         imageIS.read(fileBytes);
@@ -120,7 +127,11 @@ public class Model {
     }
 
 
-
+    private void checkFileSize(int size) throws IllegalArgumentException{
+        if (size > MAX_FILE_SIZE){
+            throw new IllegalArgumentException("File too Large > 16MB");
+        }
+    }
 
     /**
      * Polls the database for the byte array associated with the specific imageID and converts it to a JavaFX Image object
@@ -133,24 +144,6 @@ public class Model {
         return new Image(byteIS);
     }
 
-//    // TODO: Remove Method call
-//    private void updatePropertiesFile() throws IOException{
-//        FileInputStream propertiesIS = new FileInputStream(PROPERTIES_FILE_PATH);
-//        Properties myGameDetails = new Properties();
-//        myGameDetails.load(propertiesIS);
-//        myXMLFileName = myGame.getTitle() + XML_TAG;
-//        String propertyValue = myGame.getThumbnail() + REGEX + myGame.getDescription() + REGEX + myXMLFileName;
-//
-//        //System.out.println(propertyValue);
-//
-//
-//
-//        myGameDetails.setProperty(myGame.getTitle(),propertyValue);
-//        FileOutputStream propertiesOS = new FileOutputStream(PROPERTIES_FILE_PATH);
-//        myGameDetails.store(propertiesOS, null);
-//    }
-
-    // TODO: Remove method call
     private void writeToXMLFile() throws IOException {
         XStream mySerializer = new XStream(new DomDriver());
         String gameString = mySerializer.toXML(myGame);

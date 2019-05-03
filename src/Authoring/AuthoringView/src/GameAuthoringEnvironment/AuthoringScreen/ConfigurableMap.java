@@ -1,18 +1,15 @@
 package GameAuthoringEnvironment.AuthoringScreen;
 
-import BackendExternalAPI.Model;
+import BackendExternalAPI.AuthoringBackend;
 import Configs.Configurable;
-import Configs.Configuration;
 import Configs.LevelPackage.Level;
 import Configs.MapPackage.MapConfig;
 import Configs.MapPackage.Terrain;
-import GameAuthoringEnvironment.AuthoringScreen.TerrainTile;
+import ExternalAPIs.Data;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -29,18 +26,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.text.TabExpander;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static Configs.MapPackage.MapConfig.GRID_HEIGHT;
-import static Configs.MapPackage.MapConfig.GRID_WIDTH;
 
 public class ConfigurableMap extends Application {
 
@@ -78,7 +69,8 @@ public class ConfigurableMap extends Application {
     private MapConfig myAttributesMapConfig;
     private Scene scene;
     private AlertFactory myAlertFactory = new AlertFactory();
-    private Model model;
+    private transient Map<Integer, Image> imageCache;
+    private AuthoringBackend authoringBackend;
 
     @Override
     public void start(Stage stage){
@@ -100,6 +92,20 @@ public class ConfigurableMap extends Application {
     public void setConfigurations(){
         initMap();
         addComponentToScreen();
+    }
+
+    public boolean hasImage(int imageID) {
+        if(imageCache==null) imageCache = new HashMap<>();
+        return imageCache.containsKey(imageID);
+    }
+
+    public Image getImage(int imageID) throws IllegalStateException{
+        if(!hasImage(imageID)) throw new IllegalStateException();
+        return imageCache.get(imageID);
+    }
+
+    public void addImage(int imageID, Image image) {
+        imageCache.put(imageID, image);
     }
 
     public void resetConfigurations(){
@@ -128,7 +134,7 @@ public class ConfigurableMap extends Application {
 
             for (int r = 0; r < GRID_WIDTH; r++) {
                 for (int c = 0; c < GRID_HEIGHT; c++) {
-                    TerrainTile myTile = new TerrainTile(r, c, image, typeToImagePathMap, typeToPath);
+                    TerrainTile myTile = new TerrainTile(r, c, image, typeToImagePathMap, typeToPath, this);
 //                    Tooltip tooltip = new Tooltip(myTile.getTileImString());
 //                    Tooltip.install(myTile,tooltip);
                     map.setStyle("-fx-background-color: white;");
@@ -191,7 +197,7 @@ public class ConfigurableMap extends Application {
         tileView.getItems().add(1,"Water");//        this.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
         tileView.getItems().add(2,"Dirt");
-        model = new Model();
+        authoringBackend = new AuthoringBackend();
         tileView.setCellFactory(param->new ListCell<String>(){
             private ImageView image = new ImageView();
             @Override
@@ -215,15 +221,19 @@ public class ConfigurableMap extends Application {
 
                     image.setFitHeight(IMAGE_HEIGHT);
                     image.setFitWidth(IMAGE_WIDTH);
-//                        if (name.equals("Grass"))
-//                            image.setImage(new Image(new FileInputStream("resources/grass.jpg")));
-//                        else if (name.equals("Water"))
-//                            image.setImage(new Image(new FileInputStream("resources/water.jpg")));
-//                        else if (name.equals("Dirt"))
-//                            image.setImage(new Image(new FileInputStream("resources/dirt.jpg")));
+
                     for(String s : typeToImagePathMap.keySet()){
                         if(name.equals(s)){
-                            image.setImage(model.getImage(typeToImagePathMap.get(s)));
+                            int imageId = typeToImagePathMap.get(s);
+                            Image loadedImage;
+                            if (hasImage(imageId)) {
+                                loadedImage = getImage(imageId);
+                            }
+                            else {
+                                loadedImage = Data.getImageStatic(imageId);
+                                addImage(imageId, loadedImage);
+                            }
+                            image.setImage(loadedImage);
                         }
                     }
 
@@ -248,7 +258,7 @@ public class ConfigurableMap extends Application {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 //TODO Create Pop up screen that can configure Tile and add that tile to the list of tiles
-                ConfigureTile configureTile = new ConfigureTile(tileView,terrainTileList,typeToImagePathMap,typeToPath);
+                ConfigurableTile configurableTile = new ConfigurableTile(tileView,terrainTileList,typeToImagePathMap,typeToPath);
 
             }
         });
@@ -277,6 +287,22 @@ public class ConfigurableMap extends Application {
 //            enterPosView.getItems().add("x:"+p.getX()+" y:"+p.getY());
 //        }
         enterPosView.getItems().addAll(enterPointsList);
+        enterPosView.setCellFactory(param->new ListCell<Point>() {
+                    @Override
+                    public void updateItem(Point name, boolean empty) {
+                        super.updateItem(name, empty);
+                        if(empty){
+                            setText(null);
+                            //setGraphic(null);
+                        }
+                        else{
+
+                            setText(Double.toString(name.getX())+", "+Double.toString(name.getY()));
+
+
+                        }
+                    }
+                });
         myVbox.getChildren().addAll(enterPosLabel, enterPosView);
         return myVbox;
     }
@@ -289,6 +315,22 @@ public class ConfigurableMap extends Application {
 //            exitPosView.getItems().add("x:"+p.getX()+" "+"y:"+p.getY());
 //        }
         exitPosView.getItems().addAll(exitPointsList);
+        exitPosView.setCellFactory(param->new ListCell<Point>() {
+            @Override
+            public void updateItem(Point exitPoint, boolean empty) {
+                super.updateItem(exitPoint, empty);
+                if(empty){
+                    setText(null);
+                    setGraphic(null);
+                }
+                else{
+
+                    setText(Double.toString(exitPoint.getX())+", "+Double.toString(exitPoint.getY()));
+
+
+                }
+            }
+        });
         myVbox.getChildren().addAll(exitPosLabel, exitPosView);
         return myVbox;
     }
@@ -308,7 +350,7 @@ public class ConfigurableMap extends Application {
                     alert.createAlert("File Not Found!");
                 }
                 Image image = new Image(fis);
-                TerrainTile myTile = new TerrainTile(r, c, image,typeToImagePathMap,typeToPath);
+                TerrainTile myTile = new TerrainTile(r, c, image,typeToImagePathMap,typeToPath, this);
                 map.add(myTile, r, c);
             }
         }
@@ -336,18 +378,36 @@ public class ConfigurableMap extends Application {
                     terrainTileList.add((TerrainTile) child);
                 }
                 MapConfig m = new MapConfig((Level) myLevel);
+                m.getConfiguration().getAttributes();
+                boolean hasPath =false;
                 for(TerrainTile t : terrainTileList){
+                    if(t.getIsPath()){
+                        hasPath=true;
+                    }
                     Terrain tile = new Terrain(m, t.getImageId(),(int) t.getY(), (int) t.getX(),t.getIsPath());
 
                     tileList.add(tile);
                 }
+//                if(hasPath==false){
+//                    AlertFactory af = new AlertFactory();
+//                    af.createAlert("Map must have at least one path tile!");
+//                }
 
 
                 enterPointsList = new ArrayList<>();
                 enterPosView.getItems().stream().forEach(obj->enterPointsList.add(obj));
+                if(enterPointsList.size()==0){
+                    AlertFactory af = new AlertFactory();
+                    af.createAlert("Must have at least one entry point for enemies!");
+                }
+
 
                 exitPointsList = new ArrayList<>();
                 exitPosView.getItems().stream().forEach(obj->exitPointsList.add(obj));
+//                if(exitPointsList.size()==0){
+//                    AlertFactory af = new AlertFactory();
+//                    af.createAlert("Must have at least one exit point for enemies!");
+//                }
                 //TODO Need to clean this up
                 passedMap=new HashMap<>();
                 passedMap.put("myName",mapName);
@@ -403,7 +463,8 @@ public class ConfigurableMap extends Application {
                                             terrainTile.setImage(new Image(new FileInputStream("resources/enter.jpg")));
                                         }
                                         catch(FileNotFoundException f){
-                                            System.out.println(f);
+                                            AlertFactory af = new AlertFactory();
+                                            af.createAlert("Could not load image from database!");
                                         }
 
                                     }
@@ -421,7 +482,8 @@ public class ConfigurableMap extends Application {
                                             terrainTile.setImage(new Image(new FileInputStream("resources/exit.jpg")));
                                         }
                                         catch(FileNotFoundException f){
-                                            System.out.println(f);
+                                            AlertFactory af = new AlertFactory();
+                                            af.createAlert("Could not load image from database!");
 
                                         }
                                     }

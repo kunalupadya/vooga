@@ -20,8 +20,7 @@ public class Arsenal implements Configurable, Updatable {
     @Configure
     private WeaponWave[] unlockableWeapons;
 
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
     private List<WeaponConfig> unlockedWeapons;
     private List<WeaponConfig> newUnlockedWeapons;
 
@@ -77,13 +76,12 @@ public class Arsenal implements Configurable, Updatable {
 
     //note: ID is the index of the weapon+1
     public Map<Integer, Info> getAllNewWeaponConfigOptions() {
-
-        //System.out.println(Arrays.asList(unlockedWeapons));
-
-
         if(unlockedWeapons.isEmpty()) {
             newUnlockedWeapons.addAll(Arrays.asList(defaultWeapons));
         }
+        Arrays.asList(unlockableWeapons).stream().filter(weaponWave -> !weaponWave.isUnlocked()).forEach(weaponWave -> weaponWave.update(0, this));
+
+
         Map<Integer, Info> weaponInfoMap = new HashMap<>();
         for(int i = 0; i< newUnlockedWeapons.size(); i++) {
             weaponInfoMap.put(unlockedWeapons.size()+i+1, newUnlockedWeapons.get(i));
@@ -94,15 +92,15 @@ public class Arsenal implements Configurable, Updatable {
         return Collections.unmodifiableMap(weaponInfoMap);
     }
 
-    public TransferImageView generateNewWeapon(int ID, double pixelX, double pixelY, int direction){
+    public Optional<TransferImageView> generateNewWeapon(int ID, double pixelX, double pixelY, int direction){
         WeaponConfig myWeaponConfig = unlockedWeapons.get(ID-1);
         ActiveWeapon activeWeapon = new ActiveWeapon(myWeaponConfig, myGame.getActiveLevel());
-        MapFeature mapFeature = new MapFeature(pixelX, pixelY, direction, myWeaponConfig.getView(), myGame.getActiveLevel().getPaneWidth(), myGame.getActiveLevel().getPaneHeight(), myGame.getActiveLevel().getGridWidth(), myGame.getActiveLevel().getGridHeight(), activeWeapon);
-        activeWeapon.setMyMapFeature(mapFeature);
-        myGame.getActiveLevel().addToActiveWeapons(activeWeapon);
-        myGame.addToCash(-1);//TODO: DO THIS BASED ON HOW MUCH THE WEAPON COSTS
-        return activeWeapon.getMapFeature().getImageView();
+        if (myGame.buy(activeWeapon.getWeaponCost())) {
+            MapFeature mapFeature = new MapFeature(pixelX, pixelY, direction, myWeaponConfig.getView(), myGame.getActiveLevel().getPaneWidth(), myGame.getActiveLevel().getPaneHeight(), myGame.getActiveLevel().getGridWidth(), myGame.getActiveLevel().getGridHeight(), activeWeapon);
+            activeWeapon.setMyMapFeature(mapFeature);
+            myGame.getActiveLevel().addToActiveWeapons(activeWeapon);
+            return Optional.of(activeWeapon.getMapFeature().getImageView());
+        }
+        return Optional.empty();
     }
-
-
 }

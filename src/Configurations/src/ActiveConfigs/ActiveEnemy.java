@@ -3,6 +3,8 @@ package ActiveConfigs;
 import Configs.*;
 import Configs.Behaviors.Behavior;
 import Configs.EnemyPackage.EnemyBehaviors.AIOptions;
+import Configs.EnemyPackage.EnemyBehaviors.EnemyBehavior;
+import Configs.EnemyPackage.EnemyBehaviors.SpawnEnemiesWhenKilled;
 import Configs.EnemyPackage.EnemyConfig;
 import Configs.MapPackage.Terrain;
 //import Configs.MapPackage.TerrainBehaviors.SpeedModifier;
@@ -14,18 +16,20 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import Configs.EnemyPackage.EnemyBehaviors.AIOptions.*;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 
 public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable, Attackable {
     public static final double CONVERSION_TO_SECONDS = .001;
     private MapFeature myMapFeature;
-//    private Cell[][] activeMapGrid;
-//    private double distance = 0;
     private ActiveLevel myActiveLevel;
     private double startTime = -Integer.MAX_VALUE;
     private LinkedList<Point> prevLocations = new LinkedList<>();
     private double effectiveSpeed;
     private List<SpeedModifier> speedModifiers = new ArrayList<>();
+    private int currentHealth;
+    @XStreamOmitField
+    private transient boolean isDead;
 
 
     enum MovementDirection {
@@ -65,6 +69,7 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
     public ActiveEnemy(EnemyConfig enemyConfig,ActiveLevel activeLevel) {
         super(enemyConfig);
         myActiveLevel = activeLevel;
+        currentHealth = getHealth();
     }
 
     /**
@@ -78,7 +83,13 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
 
     @Override
     public void attack(int damage) {
-        //TODO: FINISH
+        currentHealth -= damage;
+        if (currentHealth<0){
+            if (!isDead) {
+                getActiveLevel().killEnemy(this);
+            }
+            isDead = true;
+        }
     }
 
     @Override
@@ -87,8 +98,7 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
     }
 
 
-//    public void addInstantiationModifier(InstantiationModifier instantiationModifier){
-//        instantiationModifier.apply(this);
+
 //    }
     public void addSpeedModifier(SpeedModifier speedModifier){
         speedModifiers.add(speedModifier);
@@ -96,22 +106,6 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
 
     @Override
     public void update(double ms, Updatable parent) {
-//        System.out.println("HERE");
-//        System.out.println(myMapFeature.getMyCells().size());
-//        TerrainBehavior[] tbs = myActiveLevel.getGridCell(myMapFeature.getGridXPos(), myMapFeature.getGridYPos()).getMyTerrain().getTerrainBehaviors() ;
-//        if (tbs!=null) {
-//            ArrayList<TerrainBehavior> behaviorsList = new ArrayList<TerrainBehavior>(Arrays.asList(tbs));
-//            for (TerrainBehavior b : behaviorsList) {
-//                if (b.getClass() == SpeedModifier.class) {
-//                    effectiveSpeed = this.getUnitSpeedPerSecond() * ((SpeedModifier) (b)).getSpeedMultiplier();
-//                    break;
-//                }
-//                effectiveSpeed = this.getUnitSpeedPerSecond();
-//            }
-//        }
-        //get x, y from myMapFeature and do logic using the map within the activeLevel
-//        if
-        //dont forget to update state to PRESENT or DIED in myMapFeature
         Arrays.stream(getMyBehaviors())
                 .forEach(b -> b.update(ms, this));
         effectiveSpeed = getUnitSpeedPerSecond();
@@ -132,7 +126,7 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
             startTime = ms;
         }
 
-        double numMovements = getUnitSpeedPerSecond();
+        double numMovements = effectiveSpeed;
 
         for (int i = 0; i < numMovements; i++) {
             MovementDirection movementDirection = determineMovementDirection(getAiType());
@@ -141,7 +135,7 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
             int heuristicValue = getAiType().getGetter().apply(myActiveLevel.getGridCell(newX+getView().getWidth()/2,newY+getView().getHeight()/2));
             if (heuristicValue ==0 ){
                 myActiveLevel.incrementEscapedEnemies();
-                killMe();
+                getActiveLevel().killEnemy(this);
             }
             prevLocations.addFirst(new Point(newX, newY));
             if (prevLocations.size()>5){
@@ -154,7 +148,6 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
 
 
     private MovementDirection determineMovementDirection(AIOptions aiTypes){
-        System.out.println(aiTypes);
         return moveShortestDistance(aiTypes.getGetter());
     }
 
@@ -208,6 +201,11 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
     }
 
     public void killMe(){
+        Arrays.stream(getMyBehaviors()).forEach(enemyBehavior ->{
+            if (enemyBehavior instanceof SpawnEnemiesWhenKilled){
+                ((SpawnEnemiesWhenKilled)enemyBehavior).spawnOnDeath(this);
+            }
+        });
         myMapFeature.setDisplayState(DisplayState.DIED);
         myActiveLevel.addGameCash(1*getRewardForKilling());
         myActiveLevel.addGameScore(5*getRewardForKilling());

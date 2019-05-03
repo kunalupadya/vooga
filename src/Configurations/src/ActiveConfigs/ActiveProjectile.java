@@ -11,6 +11,7 @@ public class ActiveProjectile extends ProjectileConfig implements Updatable, Map
     private double distanceLeft;
     private ActiveLevel myActiveLevel;
     private double previousMs=0;
+    //true if the projectile was shot by a weapon and seeks out enemies
     private boolean team;
 
 
@@ -29,6 +30,7 @@ public class ActiveProjectile extends ProjectileConfig implements Updatable, Map
 
     @Override
     public void update(double ms, Updatable parent) {
+        Arrays.stream(getMyBehaviors()).forEach(obj->obj.update(ms, this));
         if(distanceLeft>0 && myMapFeature.getGridXPos() < myActiveLevel.getGridWidth() && myMapFeature.getGridYPos() < myActiveLevel.getGridHeight()) {
             move(ms);
 
@@ -40,9 +42,13 @@ public class ActiveProjectile extends ProjectileConfig implements Updatable, Map
             checkForCollisions();
         }
         else {
-            myMapFeature.setDisplayState(DisplayState.DIED);
+            getActiveLevel().killProjectile(this);
         }
 
+    }
+
+    public boolean isTeam() {
+        return team;
     }
 
     @Override
@@ -68,15 +74,15 @@ public class ActiveProjectile extends ProjectileConfig implements Updatable, Map
 
     private void handleWeaponCollision(ActiveWeapon aes){
         if (myMapFeature.getImageView().intersects(aes.getMapFeature().getImageView().getBoundsInParent())) {
-            myActiveLevel.removeWeapon(aes);
-            myMapFeature.setDisplayState(DisplayState.DIED);
+            aes.attack((int) getStrength());
+//            killMe();
         }
     }
 
     private void handleEnemyCollision(ActiveEnemy aes){
-        if (myMapFeature.getImageView().intersects(aes.getMapFeature().getImageView().getBoundsInParent())) {
-            myActiveLevel.killEnemy(aes);
-            myMapFeature.setDisplayState(DisplayState.DIED);
+        if (myMapFeature.getImageView().intersects(aes.getMapFeature().getImageView().getBoundsInParent())&&aes.getMapFeature().getDisplayState()!=DisplayState.DIED) {
+            aes.attack((int) getStrength());
+//            killMe();
         }
     }
 
@@ -91,6 +97,11 @@ public class ActiveProjectile extends ProjectileConfig implements Updatable, Map
         double changeY = distanceToTravel*Math.sin(Math.toRadians(myMapFeature.getTrigDirection()));
         myMapFeature.moveRelatively(changeX,changeY);
         distanceLeft-=distanceToTravel;
+    }
+
+    public void killMe(){
+        myMapFeature.setDisplayState(DisplayState.DIED);
+//        getActiveLevel().removeFromActiveProjectiles(this);
     }
 
     @Override

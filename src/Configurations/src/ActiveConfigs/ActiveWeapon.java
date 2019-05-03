@@ -48,7 +48,8 @@ public class ActiveWeapon extends WeaponConfig implements Updatable, MapFeaturab
     }
 
     public void killMe(){
-        getActiveLevel().removeWeapon(this);
+        myMapFeature.setDisplayState(DisplayState.DIED);
+//        getActiveLevel().removeWeapon(this);
     }
 
 

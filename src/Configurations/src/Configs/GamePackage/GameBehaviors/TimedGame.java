@@ -8,6 +8,8 @@ import Configs.GamePackage.GameStatus;
 import Configs.Updatable;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Predicate;
 
 /**
@@ -21,10 +23,13 @@ public class TimedGame extends GameBehavior{
     @XStreamOmitField
     private transient Configuration myConfiguration;
 
+    private int timeLeft;
+
 
     public TimedGame(Game game) {
         super(game);
         myConfiguration = new Configuration(this);
+        timeLeft = totalTimeInSec;
     }
 
     @Override
@@ -36,6 +41,7 @@ public class TimedGame extends GameBehavior{
             }
             else game.setGameStatus(GameStatus.LEVELOVER);
         }
+        timeLeft = totalTimeInSec-(int) ms;
 
     }
 
@@ -43,6 +49,13 @@ public class TimedGame extends GameBehavior{
     public Behavior copy() {
         TimedGame ret = new TimedGame(getMyGame());
         ret.totalTimeInSec = totalTimeInSec;
+        return ret;
+    }
+
+    @Override
+    public Map<String, Integer> getSpecialValueForDisplay() {
+        Map<String, Integer> ret = new HashMap<>();
+        ret.put("Time Remaining:", totalTimeInSec);
         return ret;
     }
 

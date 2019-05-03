@@ -7,6 +7,9 @@ import Configs.Updatable;
 import Configs.Waves.Wave;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+/**
+ * when applied to a wave, this behavior changes the effective helath
+ */
 public class HealthMultiplier extends WaveBehavior{
     public static final String DISPLAY_LABEL = "Health Multiplier";
     @Configure

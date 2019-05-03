@@ -1,6 +1,6 @@
 package GameAuthoringEnvironment;
 
-import BackendExternalAPI.Model;
+import BackendExternalAPI.AuthoringBackend;
 import Configs.GamePackage.Game;
 import ExternalAPIs.GameInfo;
 import GameAuthoringEnvironment.AuthoringScreen.AuthoringVisualization;
@@ -19,16 +19,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.beans.EventHandler;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.List;
-import java.util.Stack;
 
 public class ImportGame extends Application {
     private Stage stage;
     private List<GameInfo> gameInfoList;
-    private Model model;
+    private AuthoringBackend authoringBackend;
     private final String title = "Import Game";
     private ScrollPane scrollPane;
     public static final String RESOURCES_PATH = "resources/";
@@ -47,10 +43,10 @@ public class ImportGame extends Application {
         stage.setScene(scene);
         stage.show();
     }
-    public ImportGame(List<GameInfo> gameInfo, Model model){
+    public ImportGame(List<GameInfo> gameInfo, AuthoringBackend authoringBackend){
         super();
         this.gameInfoList = gameInfo;
-        this.model = model;
+        this.authoringBackend = authoringBackend;
     }
     public void setEventHandler(CloseStage eventHandler){
         this.eventHandler = eventHandler;
@@ -78,7 +74,7 @@ public class ImportGame extends Application {
         return scrollPane;
     }
     private void startSelectedGame(GameInfo gameInfo){
-        Game game = model.loadGameObject(gameInfo);
+        Game game = authoringBackend.loadGameObject(gameInfo);
         makeGame(game);
         eventHandler.close();
     }
@@ -101,12 +97,7 @@ public class ImportGame extends Application {
     private ImageView createImageView(GameInfo gameInfo){
         ImageView imageView = new ImageView();
         Image image;
-//        try {
-            image = model.getImage(gameInfo.getGameThumbnailID());
-//            image = new Image(new FileInputStream(RESOURCES_PATH + gameInfo.getGameThumbnail()));
-//        }catch (IOException e){
-//            return imageView;
-//        }
+        image = authoringBackend.getImage(gameInfo.getGameThumbnailID());
         imageView.setImage(image);
         return imageView;
     }
@@ -121,7 +112,7 @@ public class ImportGame extends Application {
     }
 
     private void makeGame(Game game){
-        AuthoringVisualization authoringVisualization = new AuthoringVisualization(game, model);
+        AuthoringVisualization authoringVisualization = new AuthoringVisualization(game, authoringBackend);
         authoringVisualization.start(new Stage());
         this.stage.close();
     }

@@ -7,7 +7,9 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-public class MovementHeuristicGeneration extends Task {
+import static ActiveConfigs.UtilityClass.pointMaker;
+
+public class MovementHeuristicGeneration {
     public static final int DISTANCE_HEURISTIC = 1;
 
     private Cell[][] myGrid;
@@ -24,12 +26,6 @@ public class MovementHeuristicGeneration extends Task {
         }
     }
 
-
-    @Override
-    protected Cell[][] call() {
-        return null;
-    }
-
     private void astar(Cell[][] grid, int startX, int startY, AIOptions heuristicType){
         Cell startCell = grid[startX][startY];
         startCell.setShortestDistanceHeuristic(0);
@@ -39,7 +35,6 @@ public class MovementHeuristicGeneration extends Task {
         PriorityQueue<Cell> pq = new PriorityQueue<>();
         pq.add(startCell);
         Set<Point> visited = new HashSet<>();
-//        visited.contains()
         visited.add(pointMaker(startCell));
         HashMap<Point, Boolean> startLocs = new HashMap<>();
         for (Point point:endPositions){
@@ -49,11 +44,6 @@ public class MovementHeuristicGeneration extends Task {
             popCellsAndRecalculateHeuristic(pq, visited, heuristicType, startLocs);
         }
     }
-
-    private Point pointMaker(Cell cell){
-        return new Point(cell.getX(), cell.getY());
-    }
-
     private void popCellsAndRecalculateHeuristic(PriorityQueue<Cell> pq, Set<Point> visited, AIOptions heuristicType, HashMap<Point, Boolean> startLocs) {
         Cell expandedCell = pq.remove();
         int[]xAdditions = new int[]{0,0,-1,1};
@@ -72,17 +62,6 @@ public class MovementHeuristicGeneration extends Task {
                 if(startLocs.containsKey(point)){
                     startLocs.put(point,true);
                 }
-//                if (heuristicType == AIOptions.SHORTEST_PATH) {
-//                }
-//                else if (heuristicType== AIOptions.SHORTEST_IGNORE_PATH){
-//                    calculateShortestDistanceHeuristicIgnorePath(pq, myGrid[x][y], expandedCell.getShortestDistanceHeuristicIgnorePath() + DISTANCE_HEURISTIC);
-//                }
-//                else if (heuristicType== AIOptions.SHORTEST_PATH_AVOID_WEAPON){
-//                    calculateShortestDistanceHeuristicWeapons(pq, myGrid[x][y], expandedCell.getShortestDistanceHeuristicAvoidWeapons() + DISTANCE_HEURISTIC + myGrid[x][y].getWeaponCoverage());
-//                }
-//                else if (heuristicType==AIOptions.SHORTEST_IGNORE_PATH_AVOID_WEAPON){
-//                    calculateShortestDistanceHeuristicIgnorePathWeapons(pq, myGrid[x][y], expandedCell.getShortestDistanceHeuristicAvoidWeaponsIgnorePath() + DISTANCE_HEURISTIC + myGrid[x][y].getWeaponCoverage());
-//                }
             }
         }
     }

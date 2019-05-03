@@ -6,6 +6,9 @@ import Configs.ShooterConfig.Shooter;
 import Configs.Updatable;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+/**
+ * Allows a shooter to shoot one weapon in a specified direction
+ */
 public class Linear extends ShooterBehavior {
     public static final String DISPLAY_LABEL = "Linear Shooter";
     @XStreamOmitField
@@ -32,7 +35,7 @@ public class Linear extends ShooterBehavior {
     public void update(double ms, Updatable parent) {
         if((int)(ms/(1000/((Shooter)parent).getRateOfFire()))>startRound) {
             startRound = (int)(ms/(1000/((Shooter)parent).getRateOfFire()));
-            shoot(parent,((Shooter)parent).getMyShootable().getPossibleShooter().getMapFeature().getDirection());
+            shoot(parent, direction);
         }
     }
 
