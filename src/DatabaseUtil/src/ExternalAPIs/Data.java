@@ -43,19 +43,12 @@ public abstract class Data {
     protected UserData getUserData() {
         return userData;
     }
-
     protected GameData getGameData() {
         return gameData;
     }
-
-    public int getCurrentUserID() {
-        return currentUserID;
-    }
-
     protected SessionData getSessionData() {
         return sessionData;
     }
-    
     protected ImageData getImageData() {
         return imageData;
     }
@@ -73,10 +66,9 @@ public abstract class Data {
             throw new IllegalAccessError("You have used up all of your login attempts");
         }
         try {
-            byte[] salt = userData.getSalt(username).getBytes();
-           // String hashedPass =  new String(hashPassword(password, salt));
-            currentUserID = userData.login(username, password);
-            System.out.println(currentUserID);
+            String salt = userData.getSalt(username);
+            String hashedPass =  hashPassword(password, salt);
+            currentUserID = userData.login(username, hashedPass);
             if (currentUserID == -1){
                 return false;
             }
@@ -98,12 +90,10 @@ public abstract class Data {
     public void createNewUser(String username, String password, String passwordRepeated)throws RuntimeException{
         checkArgumentLengths(username, password, passwordRepeated);
         passwordErrorChecking(password, passwordRepeated);
-        byte[] salt = new byte[16];
-        saltGenerator.nextBytes(salt);
-        System.out.println(username+" " +password);
-        byte[] hashedPassword = hashPassword(password, salt);
-        //currentUserID = userData.addUser(username, new String(hashedPassword), new String(salt));
-        currentUserID = userData.addUser(username, password, new String(salt));
+        byte[] saltBytes = new byte[16];
+        saltGenerator.nextBytes(saltBytes);
+        String hashedPassword = hashPassword(password, new String(saltBytes));
+        currentUserID = userData.addUser(username, hashedPassword, new String(saltBytes));
 
     }
 
