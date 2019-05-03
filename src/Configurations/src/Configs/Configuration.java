@@ -10,16 +10,11 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 public class Configuration {
-    @XStreamOmitField
-    private transient Map<String,Class> myAttributeTypes;
-    @XStreamOmitField
-    private transient Map<String,Object> myAttributes = new HashMap<>();
-    @XStreamOmitField
-    private transient boolean isComplete = true;
-    @XStreamOmitField
-    private transient Configurable myConfigurable;
-    @XStreamOmitField
-    private transient Class myConfigurableClass;
+    private Map<String,Class> myAttributeTypes;
+    private Map<String,Object> myAttributes = new HashMap<>();
+    private boolean isComplete = true;
+    private Configurable myConfigurable;
+    private Class myConfigurableClass;
 
     public Configuration(Configurable configurable) {
         myConfigurable = configurable;
@@ -136,7 +131,7 @@ public class Configuration {
      *
      */
     public Map<String,Object> getDefinedAttributes() throws IllegalStateException {
-        if (!isComplete) throw new IllegalStateException();
+//        if (!isComplete) throw new IllegalStateException();
         return myAttributes;
     }
 
