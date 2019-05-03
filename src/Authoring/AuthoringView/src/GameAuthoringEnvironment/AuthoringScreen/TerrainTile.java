@@ -1,10 +1,6 @@
 package GameAuthoringEnvironment.AuthoringScreen;
 
-//import BackendExternalAPI.Model;
 import ExternalAPIs.Data;
-import GameAuthoringEnvironment.AuthoringComponents.ConfigureImage;
-import javafx.event.EventHandler;
-import BackendExternalAPI.AuthoringBackend;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

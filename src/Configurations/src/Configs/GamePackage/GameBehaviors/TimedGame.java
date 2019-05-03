@@ -22,10 +22,13 @@ public class TimedGame extends GameBehavior{
 
     private Configuration myConfiguration;
 
+    private int timeLeft;
+
 
     public TimedGame(Game game) {
         super(game);
         myConfiguration = new Configuration(this);
+        timeLeft = totalTimeInSec;
     }
 
     @Override
@@ -37,6 +40,7 @@ public class TimedGame extends GameBehavior{
             }
             else game.setGameStatus(GameStatus.LEVELOVER);
         }
+        timeLeft = totalTimeInSec-(int) ms;
 
     }
 

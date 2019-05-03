@@ -37,12 +37,8 @@ public class TopMenuBar {
                 try {
                     gameController = new GameController();
                     gameController.createConfigurable(gameController.getMyGame());
-                } catch (NumberFormatException n) {
+                } catch (NumberFormatException | NoSuchFieldException n) {
                     handle(event);
-                    AlertFactory af = new AlertFactory();
-                    af.createAlert("Improper Field");
-                }
-                catch(NoSuchFieldException e){
                     AlertFactory af = new AlertFactory();
                     af.createAlert("Improper Field");
                 }
@@ -53,7 +49,7 @@ public class TopMenuBar {
         saveButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 if(gameController == null || gameController.getMyGame() == null){
-                    createAlert();}
+                    createAlert("Make a Game first");}
                 else{
                 myGameOutline.makeTreeView(gameController.getMyGame());}
             }
@@ -64,7 +60,7 @@ public class TopMenuBar {
         exportButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 if(gameController == null){
-                    createAlert();}
+                    createAlert("Make a Game first");}
                 else{
                 myAuthoringBackend.saveToXML(gameController.getMyGame());}
             }
@@ -75,7 +71,6 @@ public class TopMenuBar {
             public void handle(MouseEvent event) {
                 ImportGame importGame = new ImportGame(myAuthoringBackend.getAuthoredGameLibrary(), myAuthoringBackend);
                 importGame.start(new Stage());
-                saveButton.fireEvent(event);
             }
         });
 
@@ -101,7 +96,7 @@ public class TopMenuBar {
         refreshButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 if(gameController == null){
-                    createAlert();
+                    createAlert("Make a Game First");
                 }else{
                 myGameOutline.makeTreeView(gameController.getMyGame());}
             }
@@ -111,8 +106,9 @@ public class TopMenuBar {
     }
 
 
-    private void createAlert() {
+    private void createAlert(String message) {
         AlertFactory alertFactory = new AlertFactory();
+        alertFactory.createAlert(message);
     }
 
     public HBox getTopMenuBar(){

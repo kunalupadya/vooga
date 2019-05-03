@@ -25,7 +25,6 @@ public class ImageUploader {
     private HBox fileSelectionHBox;
     private HBox typeSelectionHBox;
     private FileChooser myFileChooser;
-
     private File myImageFile;
     private AuthoringData.ImageType myImageType;
     private Stage popUpWindow;
@@ -127,7 +126,6 @@ public class ImageUploader {
             imageID = myAuthoringBackend.uploadImage(myImageFile,myImageType);
         } catch (Exception e) {
             fileTextBox.setText(e.getMessage());
-            System.out.println("File too large");
         }
     }
 

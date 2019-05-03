@@ -31,6 +31,7 @@ public class WeaponWave implements Updatable, Configurable {
     @Override
     public void update(double ms, Updatable parent) {
         //parent is arsenal
+        System.out.println(weaponWaveBehavior);
         weaponWaveBehavior.update(ms, this);
         if(unlocked) {
             myArsenal.addToUnlockedWeapons(Arrays.asList(weaponOptions));

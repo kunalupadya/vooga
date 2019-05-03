@@ -21,6 +21,8 @@ public class LevelSpawner implements Updatable {
     public LevelSpawner(Game game, int levelIndex, Level[] levels) {
         this.myGame = game;
         this.levelIndex = levelIndex;
+        //TODO: REMOVE
+        this.levelIndex = 1;
         myLevels = new ArrayList<>(Arrays.asList(levels));
         currLevel = new ActiveLevel(levels[levelIndex], game);
         levelOver = false;
