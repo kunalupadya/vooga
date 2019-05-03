@@ -16,8 +16,7 @@ import java.util.List;
  */
 public class Radial extends ShooterBehavior {
     public static final String DISPLAY_LABEL = "Radial Shooting";
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
 
 
     public Radial(Shooter shooter){

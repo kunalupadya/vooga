@@ -34,7 +34,7 @@ public class Wave implements Updatable, Configurable {
     @Configure
     private WaveBehavior[] myWaveBehaviors = new WaveBehavior[0];
 
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
 
 
     private double[] startTimes;

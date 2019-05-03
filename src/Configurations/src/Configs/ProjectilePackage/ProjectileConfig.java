@@ -15,13 +15,13 @@ import java.util.stream.Collectors;
 public class ProjectileConfig implements Configurable, Viewable {
     private Shooter myShooter;
 
-    Configuration myConfiguration;
+    private Configuration myConfiguration;
     public static final String DISPLAY_LABEL="Projectile";
     @Configure
     private String myName;
     @Configure
     private View view;
-    @Slider(min = 5, max = 20)
+    @Slider(min = 15, max = 30)
     @Configure
     private double velocityInSeconds;
     @Slider(min = 50, max = 10000)

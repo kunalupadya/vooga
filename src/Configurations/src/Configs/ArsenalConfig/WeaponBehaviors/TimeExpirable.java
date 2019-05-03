@@ -20,8 +20,7 @@ public class TimeExpirable extends WeaponBehavior{
     private double timeAlive;
     private double birthTime;
 
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
 
     public TimeExpirable(WeaponConfig weaponConfig){
         super(weaponConfig);

@@ -20,8 +20,7 @@ public class TimedGame extends GameBehavior{
     @Configure
     private int totalTimeInSec;
 
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
 
     private int timeLeft;
 
@@ -29,19 +28,21 @@ public class TimedGame extends GameBehavior{
     public TimedGame(Game game) {
         super(game);
         myConfiguration = new Configuration(this);
-        timeLeft = totalTimeInSec;
+        timeLeft = totalTimeInSec*1000;
     }
 
     @Override
     public void update(double ms, Updatable parent) {
         Game game = (Game) parent;
-        if(ms>=totalTimeInSec*1000) {
+        if(timeLeft<0) {
             if(game.isLastLevel()) {
                 game.setGameStatus(GameStatus.OVER);
             }
-            else game.setGameStatus(GameStatus.LEVELOVER);
+            else {
+                game.setGameStatus(GameStatus.LEVELOVER);
+            }
         }
-        timeLeft = totalTimeInSec-(int) ms;
+        timeLeft = totalTimeInSec- (int) ms;
 
     }
 
@@ -55,7 +56,7 @@ public class TimedGame extends GameBehavior{
     @Override
     public Map<String, Integer> getSpecialValueForDisplay() {
         Map<String, Integer> ret = new HashMap<>();
-        ret.put("Time Remaining:", totalTimeInSec);
+        ret.put("Time Remaining:", timeLeft/1000);
         return ret;
     }
 

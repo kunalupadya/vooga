@@ -33,7 +33,7 @@ public class EnemyConfig implements Configurable, Viewable {
     @Configure
     private AIOptions aiType;
 
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
 
     public EnemyConfig(Wave wave) {
         myWave = wave;
