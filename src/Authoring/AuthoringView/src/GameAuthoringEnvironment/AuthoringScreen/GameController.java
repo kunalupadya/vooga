@@ -366,7 +366,9 @@ public class GameController {
     private void handleArrayRemoveButton(ListView sourceView, List<Object> tempList) {
         int index = sourceView.getSelectionModel().getSelectedIndex();
         sourceView.getItems().remove(index);
-        tempList.remove(index);
+        if (!tempList.isEmpty()) {
+            tempList.remove(index);
+        }
     }
 
     private void handleArrayConfirmButton(Class value, List<Object> tempList, Map<String, Object> myAttributesMap, String key) {
