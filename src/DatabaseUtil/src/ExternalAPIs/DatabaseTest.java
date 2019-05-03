@@ -293,7 +293,7 @@ public class DatabaseTest extends Application {
         String password = "password";
         byte[] salt = new byte[16];
 
-        Authentication.hashPassword(password, salt);
+        Authentication.hashPassword(password, new String(salt));
     }
 
 

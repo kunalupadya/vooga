@@ -22,7 +22,7 @@ Our next module is the Configurations module. This can be divided into two modul
 
 A key design feature that we think provides us nearly unlimited extensibility is that all of our configurations that need to end up displayed on the player essentially start with the same components in their configuration- a label(name), a Image, and a list of behaviors. The behaviors part is key since it provides a uniform interface to interact with and add functionality to any component. We plan to implement many more behaviors during the second sprint.
 
-The second portion of our Configurations model is the ActiveConfigs package. These are the components that need to be alive and updated during the playing of the game. We decided to separate these from the 'template' style of configurations found in the Configuration folder due to the fact that a good amount of our functionality for actually playing the game is impossible to configure in the authoring environment and makes it more difficult to serialize. All the ActiveObjects are only loaded in and utilized in the ActiveLevel, which is an instance variable of a Game that is being played (only given a value in player). Many of these objects implement Updatable, and Updatable is what ends up determining how the component will act while the GameLoop is run from the frontend. Based on the hierarchies enumerated above, when Game.update() is called, the update method will cascade down to the ActiveLevel.update(), which will continue the cascade down to the individual components update() methods, like Weapons, Enemies, etc
+The second portion of our Configurations authoringBackend is the ActiveConfigs package. These are the components that need to be alive and updated during the playing of the game. We decided to separate these from the 'template' style of configurations found in the Configuration folder due to the fact that a good amount of our functionality for actually playing the game is impossible to configure in the authoring environment and makes it more difficult to serialize. All the ActiveObjects are only loaded in and utilized in the ActiveLevel, which is an instance variable of a Game that is being played (only given a value in player). Many of these objects implement Updatable, and Updatable is what ends up determining how the component will act while the GameLoop is run from the frontend. Based on the hierarchies enumerated above, when Game.update() is called, the update method will cascade down to the ActiveLevel.update(), which will continue the cascade down to the individual components update() methods, like Weapons, Enemies, etc
 
 
 
@@ -40,7 +40,7 @@ Here are UMLs that further elaborate our design and structure
 This section describes what components the user will interact with in your program (keep it simple to start) and how a game is represented to the designer and what support is provided to make it easy to create a game. Include design goals for the implementation of the UI that shows the kind of abstractions you plan to build on top of OpenJFX's standard components and how they can be flexibily exchanged within the GUI itself. Finally, describe any erroneous situations that are reported to the user (i.e., bad input data, empty data, etc.).
 
 
-The User will end up interacting with either of our modules through their Views, as part of an MVC model. 
+The User will end up interacting with either of our modules through their Views, as part of an MVC authoringBackend. 
 
 Here is a mockup of what we envision the authoring environment will look like. 
 

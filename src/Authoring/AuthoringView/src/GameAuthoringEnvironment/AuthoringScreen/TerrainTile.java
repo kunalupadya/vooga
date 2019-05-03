@@ -1,19 +1,12 @@
 package GameAuthoringEnvironment.AuthoringScreen;
 
-import BackendExternalAPI.Model;
-import GameAuthoringEnvironment.AuthoringComponents.ConfigureImage;
-import javafx.event.EventHandler;
+import BackendExternalAPI.AuthoringBackend;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 public class TerrainTile extends ImageView {
@@ -66,8 +59,8 @@ public class TerrainTile extends ImageView {
 //        else if(type.equals("Dirt")){
 //            changeToDirt();
 //        }
-        Model model = new Model();
-        this.setImage(model.getImage(typeToImageMap.get(myType)));
+        AuthoringBackend authoringBackend = new AuthoringBackend();
+        this.setImage(authoringBackend.getImage(typeToImageMap.get(myType)));
 
 
 //        if(!type.equals("Grass")){
