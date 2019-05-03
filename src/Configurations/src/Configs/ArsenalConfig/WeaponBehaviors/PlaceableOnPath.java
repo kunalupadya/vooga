@@ -18,9 +18,8 @@ public class PlaceableOnPath extends WeaponBehavior {
     public static final String DISPLAY_LABEL = "Placeable On Path";
     @Slider(min = 50,max = 10000)
     @Configure
-    protected int damage;
+    private int damage;
 
-    @XStreamOmitField
     private transient Configuration myConfiguration;
 
     public PlaceableOnPath(WeaponConfig weaponConfig){
