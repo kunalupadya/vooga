@@ -244,10 +244,8 @@ public class GameSelection extends Application {
     }
     private void transitionToScreen(GameInfo gameInfo, boolean saved){
         GamePlayMain gamePlayMain = new GamePlayMain();
+        gamePlayMain.setLogic(logic);
         gamePlayMain.setGameInfo(gameInfo, saved);
-        if(saved){
-            gamePlayMain.setLogic(logic);
-        }
         gamePlayMain.start(new Stage());
     }
 }

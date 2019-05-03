@@ -19,7 +19,7 @@ public class Tester{
 
     private int validUserID = 7;
     private int validImageID = 7;
-    private int validGameID = 3;
+    private int validGameID = 2;
     private int validSessionID = 2;
 
     private String gameString = "test";
@@ -43,7 +43,7 @@ public class Tester{
 
     @Test
     public void fetchGame(){
-        String input = new String(gameData.fetchGame(3).getBinary());
+        String input = new String(gameData.fetchGame(validGameID).getBinary());
         String output = new String(gameString.getBytes());
         assertEquals(input, output);
     }
@@ -61,7 +61,7 @@ public class Tester{
     }
 
     @Test
-    @Disabled
+//    @Disabled
     public void AddSession(){
         sessionData.addSession((int)(Math.random()*5000),(int)(Math.random()*5000), validGameID, validUserID);
     }

@@ -1,6 +1,7 @@
 package Player;
 
 import BackendExternal.Logic;
+import Player.GamePlay.LeaderBoard;
 import Player.SetUp.GameSelection;
 import Player.SetUp.LogInPreloader;
 import javafx.animation.*;
@@ -82,12 +83,11 @@ public class LoadingSplashScreen extends Application{
         Button start = createStartButton( START_BUTTON_TITLE, BUTTON_X_POS, BUTTON_Y_POS);
         start.setOnAction(e -> transitionToLogIn(start));
         root.getChildren().add(start);
-
         stage.setX(ScreenSize.getWidth());
         stage.setY(ScreenSize.getHeight());
         var scene = createScene();
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        stage.setScene(scene);
+        stage.show();
     }
     private void addElementsToRoot(){
         root.setId(PANE_ID);
