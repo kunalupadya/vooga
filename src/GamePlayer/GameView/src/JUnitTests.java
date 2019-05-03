@@ -29,6 +29,6 @@ public class JUnitTests {
         game.getConfiguration().setOneAttribute("gameType", lives);
         myLogic.setGameFromAuthoring(game);
         ArrayList<Integer> integers = new ArrayList<>(myLogic.getSpecialParameterToDisplay().values());
-        assertEquals(integers.get(0), 1);
+        assertEquals((int) integers.get(0), 1);
     }
 }
