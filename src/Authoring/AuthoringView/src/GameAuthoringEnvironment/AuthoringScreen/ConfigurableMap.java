@@ -5,6 +5,7 @@ import Configs.Configurable;
 import Configs.LevelPackage.Level;
 import Configs.MapPackage.MapConfig;
 import Configs.MapPackage.Terrain;
+import ExternalAPIs.Data;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -68,6 +69,7 @@ public class ConfigurableMap extends Application {
     private MapConfig myAttributesMapConfig;
     private Scene scene;
     private AlertFactory myAlertFactory = new AlertFactory();
+    private transient Map<Integer, Image> imageCache;
     private AuthoringBackend authoringBackend;
 
     @Override
@@ -90,6 +92,20 @@ public class ConfigurableMap extends Application {
     public void setConfigurations(){
         initMap();
         addComponentToScreen();
+    }
+
+    public boolean hasImage(int imageID) {
+        if(imageCache==null) imageCache = new HashMap<>();
+        return imageCache.containsKey(imageID);
+    }
+
+    public Image getImage(int imageID) throws IllegalStateException{
+        if(!hasImage(imageID)) throw new IllegalStateException();
+        return imageCache.get(imageID);
+    }
+
+    public void addImage(int imageID, Image image) {
+        imageCache.put(imageID, image);
     }
 
     public void resetConfigurations(){
@@ -118,7 +134,7 @@ public class ConfigurableMap extends Application {
 
             for (int r = 0; r < GRID_WIDTH; r++) {
                 for (int c = 0; c < GRID_HEIGHT; c++) {
-                    TerrainTile myTile = new TerrainTile(r, c, image, typeToImagePathMap, typeToPath);
+                    TerrainTile myTile = new TerrainTile(r, c, image, typeToImagePathMap, typeToPath, this);
 //                    Tooltip tooltip = new Tooltip(myTile.getTileImString());
 //                    Tooltip.install(myTile,tooltip);
                     map.setStyle("-fx-background-color: white;");
@@ -205,15 +221,19 @@ public class ConfigurableMap extends Application {
 
                     image.setFitHeight(IMAGE_HEIGHT);
                     image.setFitWidth(IMAGE_WIDTH);
-//                        if (name.equals("Grass"))
-//                            image.setImage(new Image(new FileInputStream("resources/grass.jpg")));
-//                        else if (name.equals("Water"))
-//                            image.setImage(new Image(new FileInputStream("resources/water.jpg")));
-//                        else if (name.equals("Dirt"))
-//                            image.setImage(new Image(new FileInputStream("resources/dirt.jpg")));
+
                     for(String s : typeToImagePathMap.keySet()){
                         if(name.equals(s)){
-                            image.setImage(authoringBackend.getImage(typeToImagePathMap.get(s)));
+                            int imageId = typeToImagePathMap.get(s);
+                            Image loadedImage;
+                            if (hasImage(imageId)) {
+                                loadedImage = getImage(imageId);
+                            }
+                            else {
+                                loadedImage = Data.getImageStatic(imageId);
+                                addImage(imageId, loadedImage);
+                            }
+                            image.setImage(loadedImage);
                         }
                     }
 
@@ -267,6 +287,22 @@ public class ConfigurableMap extends Application {
 //            enterPosView.getItems().add("x:"+p.getX()+" y:"+p.getY());
 //        }
         enterPosView.getItems().addAll(enterPointsList);
+        enterPosView.setCellFactory(param->new ListCell<Point>() {
+                    @Override
+                    public void updateItem(Point name, boolean empty) {
+                        super.updateItem(name, empty);
+                        if(empty){
+                            setText(null);
+                            //setGraphic(null);
+                        }
+                        else{
+
+                            setText(Double.toString(name.getX())+", "+Double.toString(name.getY()));
+
+
+                        }
+                    }
+                });
         myVbox.getChildren().addAll(enterPosLabel, enterPosView);
         return myVbox;
     }
@@ -279,6 +315,22 @@ public class ConfigurableMap extends Application {
 //            exitPosView.getItems().add("x:"+p.getX()+" "+"y:"+p.getY());
 //        }
         exitPosView.getItems().addAll(exitPointsList);
+        exitPosView.setCellFactory(param->new ListCell<Point>() {
+            @Override
+            public void updateItem(Point exitPoint, boolean empty) {
+                super.updateItem(exitPoint, empty);
+                if(empty){
+                    setText(null);
+                    setGraphic(null);
+                }
+                else{
+
+                    setText(Double.toString(exitPoint.getX())+", "+Double.toString(exitPoint.getY()));
+
+
+                }
+            }
+        });
         myVbox.getChildren().addAll(exitPosLabel, exitPosView);
         return myVbox;
     }
@@ -298,7 +350,7 @@ public class ConfigurableMap extends Application {
                     alert.createAlert("File Not Found!");
                 }
                 Image image = new Image(fis);
-                TerrainTile myTile = new TerrainTile(r, c, image,typeToImagePathMap,typeToPath);
+                TerrainTile myTile = new TerrainTile(r, c, image,typeToImagePathMap,typeToPath, this);
                 map.add(myTile, r, c);
             }
         }

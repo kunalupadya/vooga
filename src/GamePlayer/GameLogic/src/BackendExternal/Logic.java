@@ -15,6 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -208,8 +209,9 @@ public class Logic {
      * @throws NotEnoughCashException - Exception denoting user has run out of cash
      */
     public ImmutableImageView instantiateWeapon(int weaponID, double xPixel, double yPixel, int direction) throws NotEnoughCashException {
-        if (myGame.getCash()>0){//TODO: Check for price of weapon
-        return myGame.getArsenal().generateNewWeapon(weaponID, xPixel, yPixel, direction);
+        Optional<TransferImageView> optionalImmutableImageView = myGame.getArsenal().generateNewWeapon(weaponID, xPixel, yPixel, direction);
+        if (optionalImmutableImageView.isPresent()) {
+            return myGame.getArsenal().generateNewWeapon(weaponID, xPixel, yPixel, direction).get();
         }
         else throw new NotEnoughCashException("Not Enough Cash");
     }

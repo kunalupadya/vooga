@@ -93,13 +93,15 @@ public class Arsenal implements Configurable, Updatable {
         return Collections.unmodifiableMap(weaponInfoMap);
     }
 
-    public TransferImageView generateNewWeapon(int ID, double pixelX, double pixelY, int direction){
+    public Optional<TransferImageView> generateNewWeapon(int ID, double pixelX, double pixelY, int direction){
         WeaponConfig myWeaponConfig = unlockedWeapons.get(ID-1);
         ActiveWeapon activeWeapon = new ActiveWeapon(myWeaponConfig, myGame.getActiveLevel());
-        MapFeature mapFeature = new MapFeature(pixelX, pixelY, direction, myWeaponConfig.getView(), myGame.getActiveLevel().getPaneWidth(), myGame.getActiveLevel().getPaneHeight(), myGame.getActiveLevel().getGridWidth(), myGame.getActiveLevel().getGridHeight(), activeWeapon);
-        activeWeapon.setMyMapFeature(mapFeature);
-        myGame.getActiveLevel().addToActiveWeapons(activeWeapon);
-        myGame.addToCash(-activeWeapon.getWeaponCost());
-        return activeWeapon.getMapFeature().getImageView();
+        if (myGame.buy(activeWeapon.getWeaponCost())) {
+            MapFeature mapFeature = new MapFeature(pixelX, pixelY, direction, myWeaponConfig.getView(), myGame.getActiveLevel().getPaneWidth(), myGame.getActiveLevel().getPaneHeight(), myGame.getActiveLevel().getGridWidth(), myGame.getActiveLevel().getGridHeight(), activeWeapon);
+            activeWeapon.setMyMapFeature(mapFeature);
+            myGame.getActiveLevel().addToActiveWeapons(activeWeapon);
+            return Optional.of(activeWeapon.getMapFeature().getImageView());
+        }
+        return Optional.empty();
     }
 }

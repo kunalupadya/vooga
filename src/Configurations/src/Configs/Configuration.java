@@ -4,6 +4,7 @@
 package Configs;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+//import javafx.scene.control.Alert;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -30,9 +31,9 @@ public class Configuration {
     }
 
     private void validateAttributes(Map<String,Object> attributeInputs) throws IllegalArgumentException{
-        /*if(!isAttributesComplete(attributeInputs)) {
+        if(!isAttributesComplete(attributeInputs)) {
             throw new IllegalArgumentException();
-        }*/
+        }
         myAttributes.keySet().stream().forEach(key -> validateType(key,attributeInputs.get(key)));
     }
 
@@ -61,7 +62,18 @@ public class Configuration {
      * @param attributes
      */
     public void setAllAttributes(Map<String,Object> attributes) {
-        validateAttributes(attributes);
+        try {
+
+            validateAttributes(attributes);
+        }
+        catch(IllegalArgumentException i){
+//            Alert alert = new Alert();
+//            alert.setTitle("Information Dialog");
+//            alert.setHeaderText("Error during Configuration");
+//            alert.setContentText("Attributes not set up properly");
+//            alert.showAndWait();
+
+        }
 //        for (String key:attributes.keySet()) {
 //            if(attributes.get(key) instanceof Behavior[]) {
 //                attributes.put(key,new BehaviorManager(new ArrayList<>(Arrays.asList(attributes.get(key)))));
@@ -124,7 +136,7 @@ public class Configuration {
      *
      */
     public Map<String,Object> getDefinedAttributes() throws IllegalStateException {
-       /* if (!isComplete) throw new IllegalStateException();*/
+        if (!isComplete) throw new IllegalStateException();
         return myAttributes;
     }
 

@@ -131,7 +131,7 @@ public class GameController {
         Label DISPLAY_LABEL = new Label("Choose the Enemy AI options");
         Button confirmButton = new Button("Confirm");
         var nameAndTfBar = new HBox(10);
-        AIOptions[] allOptions = AIOptions.values();
+        Enum[] allOptions = AIOptions.values();
         MenuButton menuButton = new MenuButton();
         for(int a=0 ; a<allOptions.length; a++){
             MenuItem menuItem = new MenuItem(allOptions[a].toString());
@@ -139,7 +139,10 @@ public class GameController {
                 @Override
                 public void handle(ActionEvent actionEvent) {
                     String selectedTypeString = menuItem.getText();
-                    myEnumType = AIOptions.valueOf(selectedTypeString);
+                    if (selectedTypeString.equals("Shortest Path AI")) myEnumType = AIOptions.SHORTEST_PATH;
+                    if (selectedTypeString.equals("Shortest Path AI, Ignore Path")) myEnumType = AIOptions.SHORTEST_IGNORE_PATH;
+                    if (selectedTypeString.equals("Shortest Path, Avoid Weapons")) myEnumType = AIOptions.SHORTEST_PATH_AVOID_WEAPON;
+                    if (selectedTypeString.equals("Shortest Path, Avoid Weapons, Ignore Path")) myEnumType = AIOptions.SHORTEST_IGNORE_PATH_AVOID_WEAPON;
                 }
             });
             menuButton.getItems().add(menuItem);

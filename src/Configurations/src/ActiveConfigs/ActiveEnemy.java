@@ -83,7 +83,6 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
 
     @Override
     public void attack(int damage) {
-        //TODO: FINISH
         currentHealth -= damage;
         if (currentHealth<0){
             if (!isDead) {
@@ -127,7 +126,7 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
             startTime = ms;
         }
 
-        double numMovements = getUnitSpeedPerSecond();
+        double numMovements = effectiveSpeed;
 
         for (int i = 0; i < numMovements; i++) {
             MovementDirection movementDirection = determineMovementDirection(getAiType());

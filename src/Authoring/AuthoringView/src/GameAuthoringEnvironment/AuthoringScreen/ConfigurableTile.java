@@ -96,7 +96,7 @@ public class ConfigurableTile {
                     }
                 }
                 else{
-                    System.out.println("HELLO");
+                    //System.out.println("HELLO");
                     AlertFactory af = new AlertFactory();
                     af.createAlert("One or more fields empty");
                 }
