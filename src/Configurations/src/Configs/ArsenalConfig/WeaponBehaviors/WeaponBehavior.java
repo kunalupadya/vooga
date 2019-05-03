@@ -16,7 +16,6 @@ public abstract class WeaponBehavior implements Behavior<WeaponConfig> {
     public static final List<Class> IMPLEMENTING_BEHAVIORS = List.of(
             AmmoExpirable.class,
             HealthExpirable.class,
-            Movable.class,
             PlaceableOnPath.class,
             ShootableWeapon.class,
             TimeExpirable.class);

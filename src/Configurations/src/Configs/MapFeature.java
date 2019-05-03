@@ -288,18 +288,20 @@ public class MapFeature {
     public void setGridPos(int gridXPos, int gridYPos, double direction) {
         updateSafeBoxBounds();
         removeFromCell();
+
+        this.gridXPos = gridXPos;
+        this.gridYPos = gridYPos;
+        this.displayDirection = direction;
+        pixelXPos = (paneWidth/gridXSize)*gridXPos;
+        pixelYPos = (paneHeight/gridYSize)*gridYPos;
         if(isOutOfBounds(gridXPos,gridYPos)) {
             displayState = DisplayState.DIED;
         }
         else {
-            this.gridXPos = gridXPos;
-            this.gridYPos = gridYPos;
-            this.displayDirection = direction;
-            pixelXPos = (paneWidth/gridXSize)*gridXPos;
-            pixelYPos = (paneHeight/gridYSize)*gridYPos;
             setImageView(pixelXPos,pixelYPos,direction);
             setInCell(gridYPos, gridXPos);
         }
+
     }
 
     /**
@@ -374,16 +376,16 @@ public class MapFeature {
     private void setPixelPos(double pixelXPos, double pixelYPos, double direction) {
         updateSafeBoxBounds();
         removeFromCell();
-        if(isOutOfBoundsPixel(pixelXPos,pixelYPos)) {
-            displayState = DisplayState.DIED;
-        }
-        else {
             this.pixelYPos = pixelYPos;
             this.pixelXPos = pixelXPos;
             this.displayDirection = direction;
             this.gridXPos = (int) (pixelXPos*(gridXSize/paneWidth));
             this.gridYPos = (int) (pixelYPos*(gridYSize/paneHeight));
-            setImageView(pixelXPos,pixelYPos,direction);
+        if(isOutOfBoundsPixel(gridXPos,gridYPos)) {
+            displayState = DisplayState.DIED;
+        }
+        else {
+            setImageView(pixelXPos, pixelYPos, direction);
             setInCell(gridYPos, gridXPos);
         }
     }
