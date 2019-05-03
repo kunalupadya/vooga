@@ -20,8 +20,7 @@ public class ShootableWeapon extends WeaponBehavior implements Shootable {
     @Configure
     private Shooter myShooter;
 
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
     private WeaponConfig weaponConfig;
     @XStreamOmitField
     private ActiveWeapon activeWeapon;

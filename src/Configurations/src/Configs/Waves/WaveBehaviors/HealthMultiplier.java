@@ -16,8 +16,7 @@ public class HealthMultiplier extends WaveBehavior{
     private double healthMultiplier;
 
 
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
 
     public HealthMultiplier(Wave wave) {
         super(wave);

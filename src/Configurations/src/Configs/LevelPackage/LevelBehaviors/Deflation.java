@@ -7,8 +7,7 @@ import Configs.Updatable;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class Deflation extends LevelBehavior{
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
 
 
     public Deflation(Level level) {
@@ -22,8 +21,7 @@ public class Deflation extends LevelBehavior{
 
     @Override
     public void update(double ms, Updatable parent) {
-        //unneeded
-
+        //unneeded, this works!
     }
 
     @Override

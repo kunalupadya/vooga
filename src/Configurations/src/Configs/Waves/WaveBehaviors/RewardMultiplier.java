@@ -14,8 +14,7 @@ public class RewardMultiplier extends WaveBehavior{
     private double rewardMultiplier;
 
 
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
 
     public RewardMultiplier(Wave wave) {
         super(wave);

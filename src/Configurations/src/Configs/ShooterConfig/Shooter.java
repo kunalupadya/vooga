@@ -29,8 +29,7 @@ public class Shooter implements Updatable , Configurable {
     @Configure
     private ShooterBehavior shooterBehavior;
 
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
     private int projectilesFired;
 
     public Shooter(ShootableEnemy shootable){

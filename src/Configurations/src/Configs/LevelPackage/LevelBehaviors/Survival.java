@@ -7,8 +7,7 @@ import Configs.Updatable;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class Survival extends LevelBehavior{
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
 
 
     public Survival(Level level) {

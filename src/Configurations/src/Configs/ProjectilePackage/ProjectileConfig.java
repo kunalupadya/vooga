@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class ProjectileConfig implements Configurable, Viewable {
     private Shooter myShooter;
 
-    Configuration myConfiguration;
+    private Configuration myConfiguration;
     public static final String DISPLAY_LABEL="Projectile";
     @Configure
     private String myName;

@@ -15,6 +15,7 @@ public class View implements Configurable {
     @Slider(min=5, max = 95)
     @Configure
     private int height;
+
     private Configurable myConfigurable;
 
 
