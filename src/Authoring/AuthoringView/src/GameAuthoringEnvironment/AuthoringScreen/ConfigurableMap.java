@@ -287,6 +287,22 @@ public class ConfigurableMap extends Application {
 //            enterPosView.getItems().add("x:"+p.getX()+" y:"+p.getY());
 //        }
         enterPosView.getItems().addAll(enterPointsList);
+        enterPosView.setCellFactory(param->new ListCell<Point>() {
+                    @Override
+                    public void updateItem(Point name, boolean empty) {
+                        super.updateItem(name, empty);
+                        if(empty){
+                            setText(null);
+                            //setGraphic(null);
+                        }
+                        else{
+
+                            setText(Double.toString(name.getX())+", "+Double.toString(name.getY()));
+
+
+                        }
+                    }
+                });
         myVbox.getChildren().addAll(enterPosLabel, enterPosView);
         return myVbox;
     }
@@ -299,6 +315,22 @@ public class ConfigurableMap extends Application {
 //            exitPosView.getItems().add("x:"+p.getX()+" "+"y:"+p.getY());
 //        }
         exitPosView.getItems().addAll(exitPointsList);
+        exitPosView.setCellFactory(param->new ListCell<Point>() {
+            @Override
+            public void updateItem(Point exitPoint, boolean empty) {
+                super.updateItem(exitPoint, empty);
+                if(empty){
+                    setText(null);
+                    setGraphic(null);
+                }
+                else{
+
+                    setText(Double.toString(exitPoint.getX())+", "+Double.toString(exitPoint.getY()));
+
+
+                }
+            }
+        });
         myVbox.getChildren().addAll(exitPosLabel, exitPosView);
         return myVbox;
     }
