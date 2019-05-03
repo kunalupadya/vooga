@@ -1,5 +1,7 @@
 package Configs.ArsenalConfig.WeaponBehaviors;
 
+import ActiveConfigs.ActiveEnemy;
+import ActiveConfigs.ActiveWeapon;
 import Configs.Behaviors.Behavior;
 import Configs.Configurable;
 import Configs.Configuration;
@@ -30,7 +32,7 @@ public class PlaceableOnPath extends WeaponBehavior {
 
     @Override
     public void update(double ms, Updatable parent) {
-        //TODO: does anything even have to be in here?
+        ((ActiveWeapon) parent).getActiveLevel().getActiveEnemies().stream().forEach(enemy -> ((ActiveEnemy) enemy).attack(getDamage()));
     }
 
     public int getDamage() {
