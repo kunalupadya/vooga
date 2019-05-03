@@ -97,12 +97,7 @@ public class ImportGame extends Application {
     private ImageView createImageView(GameInfo gameInfo){
         ImageView imageView = new ImageView();
         Image image;
-//        try {
-            image = authoringBackend.getImage(gameInfo.getGameThumbnailID());
-//            image = new Image(new FileInputStream(RESOURCES_PATH + gameInfo.getGameThumbnail()));
-//        }catch (IOException e){
-//            return imageView;
-//        }
+        image = authoringBackend.getImage(gameInfo.getGameThumbnailID());
         imageView.setImage(image);
         return imageView;
     }

@@ -76,7 +76,7 @@ public class GameController {
         Scene scene= new Scene(layout, 500, 500);
         scene.getStylesheets().add("authoring_style.css");
         popupwindow.setScene(scene);
-        popupwindow.showAndWait();
+        popupwindow.show();
 
     }
 
@@ -508,7 +508,6 @@ public class GameController {
         Button confirmButton = new Button("Confirm");
 
         var nameAndTfBar = new HBox();
-        nameAndTfBar.setAlignment(Pos.CENTER);
         nameAndTfBar.getChildren().addAll(DISPLAY_LABEL, myTextField, chooseImageButton, confirmButton);
         chooseImageButton.setOnMouseClicked((new EventHandler<MouseEvent>() {
             @Override

@@ -71,7 +71,6 @@ public class TopMenuBar {
             public void handle(MouseEvent event) {
                 ImportGame importGame = new ImportGame(myAuthoringBackend.getAuthoredGameLibrary(), myAuthoringBackend);
                 importGame.start(new Stage());
-                saveButton.fireEvent(event);
             }
         });
 
