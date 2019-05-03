@@ -30,10 +30,13 @@ public class GamePlayMap extends Pane{
     private SelectionInterface homeStage;
     private GameStatus gameStatus;
     private GamePlaySettingsBar myData;
-
+    private double width;
+    private double height;
 
     GamePlayMap(double width, double height, Logic logic, EndLoopInterface endLoop,
                 SelectionInterface stage, GamePlaySettingsBar data) {
+        this.width = width;
+        this.height = height;
         myData = data;
         homeStage = stage;
         endGame = endLoop;
@@ -75,7 +78,11 @@ public class GamePlayMap extends Pane{
                 break;
             case PLAYING:
                 if (gameStatus == GameStatus.LEVELOVER) {
+                    System.out.println("Level ended");
                     myData.updateLevel(myLogic.startNextLevel());
+                    terrainList.clear();
+                    terrainList = myLogic.getLevelTerrain(width, height);
+                    terrainList.stream().forEach(img -> getChildren().add(img.getAsNode()));
                 }
                 myLogic.update(elapsedTime);
                 List<ImmutableImageView> imageToAdd = myLogic.getObjectsToAdd();
