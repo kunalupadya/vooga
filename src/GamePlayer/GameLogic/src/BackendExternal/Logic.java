@@ -111,7 +111,7 @@ public class Logic {
      */
     public int startAtUserState(){
         UserState gameState = myPlayerData.getCurrentUserState();
-        System.out.println(gameState);
+//        System.out.println(gameState);
         int levelIndex = gameState.getMyCurrentScore();
         myGame.setScore(levelIndex);
         myGame.startGame(levelIndex, PANE_WIDTH, PANE_HEIGHT);

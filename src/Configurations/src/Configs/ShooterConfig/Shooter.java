@@ -17,7 +17,7 @@ public class Shooter implements Updatable , Configurable {
     public static final String DISPLAY_LABEL="Shooter";
     @Configure
     private String myName;
-    @Slider(min=0.2,max = 3)
+    @Slider(min=0.2,max = 1)
     @Configure
     private double rateOfFire;
     @Configure

@@ -30,37 +30,37 @@ public class GameLibrary {
     private Map<String,String> myXMLFileNames;
 
 
-//    public GameLibrary(){
-//        myGames = new ArrayList<>();
-//        myXMLFileNames = new HashMap<>();
-//        try {
-//            populateLibrary();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public GameLibrary(){
+        myGames = new ArrayList<>();
+        myXMLFileNames = new HashMap<>();
+        try {
+            populateLibrary();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
-//    private void populateLibrary() throws IOException {
-//        FileInputStream propertiesIS = new FileInputStream(PROPERTIES_FILE_PATH);
-//        Properties myGameDetails = new Properties();
-//        myGameDetails.load(propertiesIS);
-//        for (String s : myGameDetails.stringPropertyNames()){
-//            String[] gameDetails = myGameDetails.getProperty(s).split(REGEX);
-//            GameInfo newGameInfo = new GameInfo(s, gameDetails[0], gameDetails[1]);
-//            myXMLFileNames.put(s,gameDetails[2]);
-//            myGames.add(newGameInfo);
-//        }
-//    }
+    private void populateLibrary() throws IOException {
+        FileInputStream propertiesIS = new FileInputStream(PROPERTIES_FILE_PATH);
+        Properties myGameDetails = new Properties();
+        myGameDetails.load(propertiesIS);
+        for (String s : myGameDetails.stringPropertyNames()){
+            String[] gameDetails = myGameDetails.getProperty(s).split(REGEX);
+            GameInfo newGameInfo = new GameInfo(s, gameDetails[0], gameDetails[1]);
+            myXMLFileNames.put(s,gameDetails[2]);
+            myGames.add(newGameInfo);
+        }
+    }
 
-//    public List<GameInfo> getImmutableGameList(){
-//        return Collections.unmodifiableList(myGames);
-//    }
-//
-//    public Game getGame(GameInfo chosenGameInfo){
-//        XStream serializer = new XStream(new DomDriver());
-//        String gameXMLFileName = myXMLFileNames.get(chosenGameInfo.getGameTitle());
-//        File xmlFile = new File(XML_FILE_PATH + gameXMLFileName);
-//        return (Game)serializer.fromXML(xmlFile);
-//    }
+    public List<GameInfo> getImmutableGameList(){
+        return Collections.unmodifiableList(myGames);
+    }
+
+    public Game getGame(GameInfo chosenGameInfo){
+        XStream serializer = new XStream(new DomDriver());
+        String gameXMLFileName = myXMLFileNames.get(chosenGameInfo.getGameTitle());
+        File xmlFile = new File(XML_FILE_PATH + gameXMLFileName);
+        return (Game)serializer.fromXML(xmlFile);
+    }
 }

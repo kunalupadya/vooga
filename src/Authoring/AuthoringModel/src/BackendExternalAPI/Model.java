@@ -40,25 +40,26 @@ public class Model {
      */
     // TODO: Make this the called method
     public void saveToXML(Game newGame){
+        saveToXML2(newGame);
         XStream mySerializer = new XStream(new DomDriver());
         String gameXMLString = mySerializer.toXML(newGame);
-        System.out.println(myAuthoringData.getCurrentUserID());
+//        System.out.println(myAuthoringData.getCurrentUserID());
         GameInfo savingInfo = new GameInfo(newGame.getTitle(), newGame.getThumbnailID(), newGame.getDescription());
         myAuthoringData.saveGame(gameXMLString, savingInfo);
     }
 
 //    // TODO: Remove this method and use one above
-//    public void saveToXML(Game newGame) {
-//        myGame = newGame;
-//        try {
-//            updatePropertiesFile();
-//            writeToXMLFile();
-//
-//        } catch (Exception e) {
-//            // TODO: For Testing Purposes
-//            e.printStackTrace();
-//        }
-//    }
+    public void saveToXML2(Game newGame) {
+        myGame = newGame;
+        try {
+          //  updatePropertiesFile();
+            writeToXMLFile();
+
+        } catch (Exception e) {
+            // TODO: For Testing Purposes
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Receives user login input from the front-end and passes it to the database module to check against server data
