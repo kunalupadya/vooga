@@ -1,6 +1,7 @@
 package GameAuthoringEnvironment.AuthoringComponents;
 
 import BackendExternalAPI.AuthoringBackend;
+import Configs.GamePackage.Game;
 import GameAuthoringEnvironment.AuthoringScreen.AlertFactory;
 import GameAuthoringEnvironment.AuthoringScreen.GameController;
 import GameAuthoringEnvironment.AuthoringScreen.GameOutline;
@@ -21,6 +22,7 @@ public class TopMenuBar {
     private GameController gameController;
     private GameOutline myGameOutline;
     private AuthoringBackend myAuthoringBackend;
+    private TopMenuBar myself;
 
     //TODO @Hyunjae : Set Style for these buttons
 
@@ -32,6 +34,7 @@ public class TopMenuBar {
         TopMenuBar.setPadding(new Insets(10,5,5,5));
         TopMenuBar.setAlignment(Pos.CENTER);
         Button newGameButton = new Button("New Game");
+        myself = this;
         newGameButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 try {
@@ -69,7 +72,7 @@ public class TopMenuBar {
         Button loadButton = new Button("Load");
         loadButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
-                ImportGame importGame = new ImportGame(myAuthoringBackend.getAuthoredGameLibrary(), myAuthoringBackend);
+                ImportGame importGame = new ImportGame(myAuthoringBackend.getAuthoredGameLibrary(), myAuthoringBackend, myself);
                 importGame.start(new Stage());
             }
         });
@@ -103,6 +106,12 @@ public class TopMenuBar {
         });
 
         TopMenuBar.getChildren().addAll(newGameButton, saveButton, exportButton, loadButton, runButton, refreshButton);
+    }
+
+    public void loadGame(Game game){
+//        gameController = new GameController();
+//        gameController.setMyGame(game);
+        myGameOutline.makeTreeView(game);
     }
 
 
