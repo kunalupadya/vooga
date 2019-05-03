@@ -29,6 +29,9 @@ import javafx.util.Duration;
 
 import java.io.File;
 
+import static Player.GamePlay.GamePlayGUI.LEFT_RATIO;
+import static Player.GamePlay.GamePlayLeft.GamePlayLeftSide.TOP_RATIO;
+
 
 public class LoadingSplashScreen extends Application{
 
@@ -75,7 +78,7 @@ public class LoadingSplashScreen extends Application{
     @Override
     public void start(Stage primaryStage) {
         stage = primaryStage;
-        logic = new Logic(ScreenSize.getWidth(), ScreenSize.getHeight());
+        logic = new Logic(ScreenSize.getWidth()*LEFT_RATIO, ScreenSize.getHeight()*TOP_RATIO);
         background = new StackPane();
         root = new StackPane();
         background.getChildren().add(root);
