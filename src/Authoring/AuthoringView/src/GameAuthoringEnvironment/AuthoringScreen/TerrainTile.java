@@ -1,6 +1,7 @@
 package GameAuthoringEnvironment.AuthoringScreen;
 
 import BackendExternalAPI.Model;
+import ExternalAPIs.Data;
 import GameAuthoringEnvironment.AuthoringComponents.ConfigureImage;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
@@ -25,9 +26,10 @@ public class TerrainTile extends ImageView {
     private String type;
     private TextField tf;
     private int imageId;
+    private ConfigurableMap configurableMap;
 
 
-    public TerrainTile(int x, int y, Image image, Map<String, Integer> map, Map<String, Boolean> boolMap){
+    public TerrainTile(int x, int y, Image image, Map<String, Integer> map, Map<String, Boolean> boolMap, ConfigurableMap configurableMap){
         super(image);
         this.setX(x);
         this.setY(y);
@@ -44,6 +46,7 @@ public class TerrainTile extends ImageView {
         typeToPath=boolMap;
         tf=new TextField();
         tf.setText("hello");
+        this.configurableMap = configurableMap;
 
     }
     public TerrainTile(Image image,Map<String,Integer> map){
@@ -66,9 +69,16 @@ public class TerrainTile extends ImageView {
 //        else if(type.equals("Dirt")){
 //            changeToDirt();
 //        }
-        Model model = new Model();
-        this.setImage(model.getImage(typeToImageMap.get(myType)));
-
+        int imageId = typeToImageMap.get(myType);
+        Image loadedImage;
+        if (configurableMap.hasImage(imageId)) {
+            loadedImage = configurableMap.getImage(imageId);
+        }
+        else {
+            loadedImage = Data.getImageStatic(imageId);
+            configurableMap.addImage(imageId, loadedImage);
+        }
+        this.setImage(loadedImage);
 
 //        if(!type.equals("Grass")){
 //            setPath();
