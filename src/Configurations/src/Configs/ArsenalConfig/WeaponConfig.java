@@ -28,13 +28,11 @@ public class WeaponConfig implements  Configurable, Viewable, Info {
     @Configure
     private View view;
 
-    private Arsenal myArsenal;
     @XStreamOmitField
     private int weaponId;
 
     public WeaponConfig(Arsenal myArsenal) {
         myConfiguration=new Configuration(this);
-        this.myArsenal = myArsenal;
     }
 
     public WeaponConfig(WeaponConfig weaponConfig) {
@@ -47,6 +45,10 @@ public class WeaponConfig implements  Configurable, Viewable, Info {
             behaviors[i] = arrayList.get(i);
         }
         this.view = weaponConfig.getView();
+    }
+
+    public WeaponConfig(WeaponWave weaponWave) {
+        myConfiguration = new Configuration(this);
     }
 
     public boolean isPathWeapon() {
@@ -111,7 +113,4 @@ public class WeaponConfig implements  Configurable, Viewable, Info {
         return view;
     }
 
-    public Arsenal getMyArsenal() {
-        return myArsenal;
-    }
 }

@@ -1,24 +1,18 @@
 package GameAuthoringEnvironment.AuthoringScreen;
 
-import Configs.Configurable;
-import GameAuthoringEnvironment.AuthoringComponents.AlertScreen;
 import GameAuthoringEnvironment.AuthoringComponents.ConfigureImage;
 import javafx.event.EventHandler;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.List;
 import java.util.Map;
 
-public class ConfigureTile {
+public class ConfigurableTile {
     ConfigureImage configureImage;
     public static final int SCENE_BOUNDS=500;
     public static final int VBOX_VAL=10;
@@ -27,7 +21,7 @@ public class ConfigureTile {
     private Map<String, Integer> typeToImageMap;
     private Map<String, Boolean> typeToPath;
 
-    public ConfigureTile(ListView<String> listview, List<TerrainTile> terrainTileList, Map<String, Integer> map,Map<String, Boolean> boolMap){
+    public ConfigurableTile(ListView<String> listview, List<TerrainTile> terrainTileList, Map<String, Integer> map, Map<String, Boolean> boolMap){
         myTerrainTileList = terrainTileList;
         myListView = listview;
         typeToImageMap=map;

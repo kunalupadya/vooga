@@ -16,7 +16,6 @@ public class WaveSpawner implements Updatable {
         noMoreEnemies = false;
     }
 
-
     @Override
     public void update(double ms, Updatable parent) {
         ActiveLevel activeLevel = (ActiveLevel) parent;
@@ -34,7 +33,6 @@ public class WaveSpawner implements Updatable {
         );
         if(myWaves.isEmpty()) noMoreEnemies = true;
     }
-
 
     public boolean isNoMoreEnemies() {
         return noMoreEnemies;

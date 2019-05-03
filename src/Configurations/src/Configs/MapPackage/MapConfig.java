@@ -13,6 +13,9 @@ import java.util.stream.Collectors;
 
 import static Configs.MapPackage.Terrain.TERRAIN_SIZE;
 
+/**
+ * Template for the map for eaach level that users will configure
+ */
 public class MapConfig implements Configurable {
     public static final String DISPLAY_LABEL = "Map";
     public static final int GRID_HEIGHT = 20;

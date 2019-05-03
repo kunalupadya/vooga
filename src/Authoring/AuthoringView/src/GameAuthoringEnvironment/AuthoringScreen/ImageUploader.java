@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 
-public class UploadImage {
+public class ImageUploader {
 
     private static Group myRoot;
 
@@ -41,7 +41,7 @@ public class UploadImage {
 
     private TextField fileTextBox;
 
-    public UploadImage(Model model){
+    public ImageUploader(Model model){
         myModel = model;
         setContent();
     }
