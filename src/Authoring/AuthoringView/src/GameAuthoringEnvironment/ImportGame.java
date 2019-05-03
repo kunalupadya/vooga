@@ -123,10 +123,10 @@ public class ImportGame extends Application {
         rect.getStyleClass().add("my-rect");
         return rect;
     }
-//
-//    private void makeGame(Game game){
-//        AuthoringVisualization authoringVisualization = new AuthoringVisualization(game, authoringBackend);
-//        authoringVisualization.start(new Stage());
-//        this.stage.close();
-//    }
+
+    private void makeGame(Game game){
+        AuthoringVisualization authoringVisualization = new AuthoringVisualization(game, authoringBackend);
+        authoringVisualization.start(new Stage());
+        this.stage.close();
+    }
 }
