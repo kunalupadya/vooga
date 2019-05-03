@@ -33,7 +33,8 @@ public class TimeExpirable extends WeaponBehavior{
     @Override
     public void update(double ms, Updatable parent) {
         if(ms>=birthTime+timeAlive) {
-            ((ActiveWeapon) parent).killMe();
+            ActiveWeapon activeWeapon = ((ActiveWeapon) parent);
+            activeWeapon.getActiveLevel().removeWeapon(activeWeapon);
         }
     }
 

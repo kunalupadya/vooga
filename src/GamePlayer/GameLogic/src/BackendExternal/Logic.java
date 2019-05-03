@@ -11,12 +11,11 @@ import ExternalAPIs.*;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import javafx.scene.image.Image;
-
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -33,15 +32,10 @@ public class Logic {
     private final double PANE_WIDTH;
     private final double PANE_HEIGHT;
 
-
-
     private Game myGame;
-    private GameLibrary myGameLibrary;
     private PlayerData myPlayerData;
 
-
     public Logic(double paneWidth, double paneHeight) {
-        myGameLibrary = new GameLibrary();
         myPlayerData = new PlayerData();
         PANE_WIDTH = paneWidth;
         PANE_HEIGHT = paneHeight;
@@ -66,14 +60,6 @@ public class Logic {
     public void createNewUser(String username, String password, String passwordRepeated)throws IllegalArgumentException{
         myPlayerData.createNewUser(username, password, passwordRepeated);
     }
-
-    // View will call this first to get the name and thumbnail file name of each game
-    // No Input
-    // Return: List of GameInfo objects
-    // TODO: Remove this method call
-//    public List<GameInfo> getGameOptions(){
-//        return myGameLibrary.getImmutableGameList();
-//    }
 
     /**
      * Polls the database to return the list of games that can be played by the user.
@@ -111,7 +97,7 @@ public class Logic {
      */
     public int startAtUserState(){
         UserState gameState = myPlayerData.getCurrentUserState();
-        System.out.println(gameState);
+//        System.out.println(gameState);
         int levelIndex = gameState.getMyCurrentScore();
         myGame.setScore(levelIndex);
         myGame.startGame(levelIndex, PANE_WIDTH, PANE_HEIGHT);
@@ -141,8 +127,6 @@ public class Logic {
         return myGame.getSpecialParameter();
     }
 
-
-
     /**
      * Gets current user game session level index and score to pass to the database to store
      */
@@ -151,19 +135,11 @@ public class Logic {
         myPlayerData.saveUserState(currentUserState);
     }
 
-
-    // View calls this when user select a game to play
-    // Input: Selected GameInfo Object
-    // No Return Value
-//    // TODO: Remove this method call
-//    public void createGameInstance(GameInfo selectedGame, double paneWidth, double paneHeight) {
-//        myGame = myGameLibrary.getGame(selectedGame);
-//        myGame.startGame(DEFAULT_START_LEVEL, paneWidth, paneHeight);
-//    }
-
-    // View calls to get the current level of the game when moving between levels
-    // No Input
-    // Return: integer Level number
+    @Deprecated
+    public void createGameInstance(GameInfo selectedGame, double paneWidth, double paneHeight) {
+      //  myGame = myGameLibrary.getGame(selectedGame);
+        myGame.startGame(DEFAULT_START_LEVEL, paneWidth, paneHeight);
+    }
 
     /**
      * Calls method in Game object to begin the next level
@@ -215,10 +191,6 @@ public class Logic {
         return mapFeature.getImageView();
     }
 
-    // View call this when the user presses play or a level is over
-    // Return: ID and image file of available weapons
-    // TODO: Change Info to return an integer rather than a string file path
-
     /**
      * Fetches a Map of weapon ID to the weapons basic info
      * @return - map of int weapon ID and Info instance
@@ -226,10 +198,6 @@ public class Logic {
     public Map<Integer, Info> getMyArsenal(){
         return myGame.getArsenal().getAllNewWeaponConfigOptions();
     }
-
-    // View calls this when a weapon is placed onto the map
-    // Input: WeaponInfo Object
-    // Return: ImageView corresponding to the weapon
 
     /**
      * Calls the Game instance to create an Image View for the specified weapon
@@ -241,15 +209,12 @@ public class Logic {
      * @throws NotEnoughCashException - Exception denoting user has run out of cash
      */
     public ImmutableImageView instantiateWeapon(int weaponID, double xPixel, double yPixel, int direction) throws NotEnoughCashException {
-        if (myGame.getCash()>0){//TODO: Check for price of weapon
-        return myGame.getArsenal().generateNewWeapon(weaponID, xPixel, yPixel, direction);
+        Optional<TransferImageView> optionalImmutableImageView = myGame.getArsenal().generateNewWeapon(weaponID, xPixel, yPixel, direction);
+        if (optionalImmutableImageView.isPresent()) {
+            return myGame.getArsenal().generateNewWeapon(weaponID, xPixel, yPixel, direction).get();
         }
         else throw new NotEnoughCashException("Not Enough Cash");
     }
-
-    // View calls to update the state of the Dynamic parts of the level in the game loop
-    // Input: Time the method is called
-    // No Return
 
     /**
      * Calls update on the Game object which propagates update down to each part of the game
@@ -259,10 +224,6 @@ public class Logic {
         myGame.update(currentTime, null);
     }
 
-    // View calls to get objects to add to the view
-    // No Input
-    // Return: List of Viewable instances
-
     /**
      * Calls the Game object to return any objects that have been created since last time method was called
      * @return - List of ImmutableImageView instances of objects to add to display
@@ -270,10 +231,6 @@ public class Logic {
     public List<ImmutableImageView> getObjectsToAdd(){
         return myGame.getActiveLevel().getViewsToBeAdded();
     }
-
-    // View calls to get objects to remove from the view
-    // No Input
-    // Return: List of Viewable instances
 
     /**
      * Polls the Game object to return any objects that should be removed from the visualization
@@ -283,10 +240,6 @@ public class Logic {
         return myGame.getActiveLevel().getViewsToBeRemoved();
     }
 
-    // View calls to check the current score of the game in the game loop
-    // No Input
-    // Return: integer score
-
     /**
      * Returns current score of the user from the Game object
      * @return - integer current score
@@ -295,26 +248,11 @@ public class Logic {
         return myGame.getScore();
     }
 
-    //view calls to check the current amount of cash
-
     /**
      * Returns current Cash amount of the user from the Game object
      * @return - double cash amount remaining
      */
     public double getCash(){return myGame.getCash();}
-    // View calls to check the current lives of the game in the game loop
-    // No Input
-    // Return: integer lives
-
-//    public int getNumLives(){
-//        return myGame.getActiveLevel().get;
-//    }
-
-
-
-    // View calls to check if a location is valid to place a weapon
-    // Input: WeaponInfo object, x and y coordinate
-    // Return: boolean
 
     /**
      * Checks the validity of the placement location of the weapon object on the map
@@ -339,8 +277,6 @@ public class Logic {
         }
         Cell[][] grid = myGame.getActiveLevel().getMyGrid();
 
-
-
         int x = (int) (xPixel*(myGame.getActiveLevel().getGridWidth()/myGame.getActiveLevel().getPaneWidth()));
         int y = (int) (yPixel*(myGame.getActiveLevel().getGridHeight()/myGame.getActiveLevel().getPaneHeight()));
 
@@ -348,8 +284,6 @@ public class Logic {
 
         for(int col = x;col<x+width;col++) {
             for(int row = y;row<y+height;row++) {
-//                System.out.println(col);
-//                System.out.println(row);
                 if (myGame.getActiveLevel().isCellValid(col, row)) {
                     if (!grid[col][row].isValidWeaponPlacement(weapon.isPathWeapon())) return false;
                 }
@@ -369,27 +303,12 @@ public class Logic {
         return myGame.getGameStatus();
     }
 
-
-    // View calls to move a dynamic object that has already been instantiated
-    // Input: WeaponInfo object, x and y coordinate
-    // No return
-    // TODO: Second Sprint move objects mid level
-    // TODO: Remove method call
-//    public void placeMovingObject(WeaponInfo placedWeapon, double x, double y){
-//
-//    }
-
-    // View calls this in game Loop to check if the level has ended
-    // No input
-    // Return: Boolean value indicating the status of the running level
-    // TODO: Remove method call
+    @Deprecated
     public boolean checkIfLevelEnd(){
         return myGame.getLevelSpawner().isLevelOver();
     }
 
-    // TODO: Remove Method call
-    //TODO: i changed the status of the game into an enum so this should get the actual enum value instead of just if its over
-    // for example, the time expirable game mode is only based on if the game is over or not, but everything else has a lost or won status
+    @Deprecated
     public boolean checkIfGameEnd(){
         return myGame.getGameStatus()== GameStatus.OVER;
     }

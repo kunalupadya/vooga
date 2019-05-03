@@ -58,8 +58,8 @@ public class Homing extends ProjectileBehavior{
                 }
                 continue;
             }
-            int[] xAdditions = new int[]{0, 0, -1, 1};
-            int[] yAdditions = new int[]{1, -1, 0, 0};
+            int[] xAdditions = new int[]{0, 0, -10, 10};
+            int[] yAdditions = new int[]{10, -10, 0, 0};
             for (int i = 0; i < 4; i++) {
                 int x = expanded.getX() + xAdditions[i];
                 int y = expanded.getY() + yAdditions[i];
@@ -68,11 +68,11 @@ public class Homing extends ProjectileBehavior{
                     visited.add(point);
                     Cell inspectedCell = activeLevel.getGridCell(x,y);
                     if ((team&&(!inspectedCell.getMyEnemies().isEmpty()))||(!team&&(inspectedCell.getMyWeapon()!=null))){
-                        projectileParent.getMapFeature().setDisplayDirection(Math.atan2((y-startPoint.y),(x-startPoint.x)));
+                        double directionInDegrees = Math.toDegrees(Math.atan2(-(y-startPoint.y),(x-startPoint.x)))+90;
+                        projectileParent.getMapFeature().setDisplayDirection(directionInDegrees);
                         break bfs;
                     }
                     queue.addLast(inspectedCell);
-
                 }
             }
         }

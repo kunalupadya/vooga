@@ -30,7 +30,8 @@ public class AmmoExpirable extends WeaponBehavior {
         try {
 //            System.out.println(((ActiveWeapon)parent).getShooter().getProjectilesFired());
             if (((ActiveWeapon)parent).getShooter().getProjectilesFired()>=ammoLimit) {
-                ((ActiveWeapon)parent).killMe();
+                ActiveWeapon activeWeapon = ((ActiveWeapon) parent);
+                activeWeapon.getActiveLevel().removeWeapon(activeWeapon);
             }
         }
         catch (IllegalStateException e) {
