@@ -17,8 +17,7 @@ public class AmmoExpirable extends WeaponBehavior {
     @Configure
     private int ammoLimit;
 
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
 
     public AmmoExpirable(WeaponConfig weaponConfig){
         super(weaponConfig);

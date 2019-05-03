@@ -60,6 +60,7 @@ public class GamePlayMap extends Pane{
      */
     public void update(double elapsedTime){
         gameStatus = myLogic.getGameStatus();
+        System.out.println(gameStatus);
         switch (gameStatus){
             case OVER:
                 displayGameOver("Game Over! ");

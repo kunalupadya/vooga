@@ -18,7 +18,7 @@ public class Shooter implements Updatable , Configurable {
     public static final String DISPLAY_LABEL="Shooter";
     @Configure
     private String myName;
-    @Slider(min=0.2,max = 1)
+    @Slider(min=0.01,max = 0.5)
     @Configure
     private double rateOfFire;
     @Configure
@@ -29,8 +29,7 @@ public class Shooter implements Updatable , Configurable {
     @Configure
     private ShooterBehavior shooterBehavior;
 
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
     private int projectilesFired;
 
     public Shooter(ShootableEnemy shootable){

@@ -20,8 +20,7 @@ public class Random extends WaveBehavior{
 
     public static final String DISPLAY_LABEL = "Wave Attribute Randomizer";
 
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
 
     public Random(Wave wave) {
         super(wave);

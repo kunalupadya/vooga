@@ -11,8 +11,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
  */
 public class Linear extends ShooterBehavior {
     public static final String DISPLAY_LABEL = "Linear Shooter";
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
 
     @Configure
     private int direction;

@@ -20,8 +20,7 @@ public class WeaponWave implements Updatable, Configurable {
 
     private Arsenal myArsenal;
     private boolean unlocked;
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
 
     public WeaponWave(Arsenal arsenal) {
         myArsenal = arsenal;

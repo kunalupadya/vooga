@@ -50,9 +50,10 @@ public class GameController {
         myGame = new Game();
         configuredObjects = new HashMap<>();
         try{
-             File propFile = new File("./src/Authoring/AuthoringView/resources/authoringvars.properties");
+            File propFile = new File("./src/Authoring/AuthoringView/resources/authoringvars.properties");
             authoringProps.load(new FileInputStream(propFile.getPath()));
-     }catch (Exception e){
+        }
+        catch (Exception e){
 
         }
     }
@@ -61,6 +62,9 @@ public class GameController {
         return myGame;
     }
 
+    public void setMyGame(Game myGame) {
+        this.myGame = myGame;
+    }
 
     public void createConfigurable(Configurable myConfigurable) throws NoSuchFieldException {
         Stage popupwindow = new Stage();
@@ -121,8 +125,8 @@ public class GameController {
             //handle Array
             else{
                 handleConfigurableArray(myConfigurable, allButton, layout, myAttributesMap, key, value, definedAttributesMap);
-                }
             }
+        }
 
         return myAttributesMap;
     }
@@ -193,11 +197,11 @@ public class GameController {
                 mySlider.setMax(annotation.max());
                 mySlider.setMin(annotation.min());
                 nameAndTfBar.getChildren().addAll(mySlider, infoLabel);
-                }
+            }
             else if(aaa[a].getName().toLowerCase().contains(key.toLowerCase())){
                 nameAndTfBar.getChildren().add(myTextField);
-                }
             }
+        }
         if (definedAttributesMap.keySet().contains(key)) {
             mySlider.setValue(Double.parseDouble(definedAttributesMap.get(key).toString()));
         }
@@ -213,7 +217,7 @@ public class GameController {
                     myValue = mySlider.getValue();}
                 else{
                     myValue = Double.parseDouble(myTextField.getText());
-                    }
+                }
 
                 if(value.getName().equals("int")){
                     int a = (int) myValue;
@@ -225,8 +229,8 @@ public class GameController {
                 }
                 else{
                     myAttributesMap.put(key, myValue);
-                    }
                 }
+            }
 
         }));
         allButton.add(confirmButton);
@@ -246,7 +250,7 @@ public class GameController {
             //TODO DO Errorchecking/Refactor
             @Override
             public void handle(MouseEvent event) {
-                    myAttributesMap.put(key, myTextField.getText());
+                myAttributesMap.put(key, myTextField.getText());
             }
         }));
         allButton.add(confirmButton);
@@ -370,9 +374,9 @@ public class GameController {
                     ob[a] = ob1[a];
                 }
             }else{
-            for(int a=0; a<tempList.size() ; a++){
-                ob[a] = tempList.get(a);
-            }}
+                for(int a=0; a<tempList.size() ; a++){
+                    ob[a] = tempList.get(a);
+                }}
             myAttributesMap.put(key, ob);
             List<Object> newObjects = new ArrayList<>(Arrays.asList(ob));
             if(configuredObjects.get(key) != null){
@@ -439,13 +443,13 @@ public class GameController {
                             ConfigurableMap configurableMap = new ConfigurableMap(myAttributesMap, myConfigurable);
                             configurableMap.setConfigurations();
                         }
-                    //Special case : View because view is being used in multiple places
+                        //Special case : View because view is being used in multiple places
                     } else if (clazz.getSimpleName().equals("View")) {
                         Constructor<?> cons = clazz.getConstructor(Configurable.class);
                         var object = cons.newInstance(myConfigurable);
                         createConfigurable((Configurable) object);
                         myAttributesMap.put(key, object);
-                    //Speical case : Behavior is different since drag and drop is required
+                        //Speical case : Behavior is different since drag and drop is required
                     } else if(clazz.getSimpleName().toLowerCase().contains("behavior")){
                         //multiple behaviors allowed
                         List<Object> emptyList = new ArrayList<>();
@@ -559,12 +563,12 @@ public class GameController {
         confirmButton.setOnMouseClicked((new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                    if(trueButton.isSelected()) {
-                        myAttributesMap.put(key, true);
-                    }
-                    else {
-                        myAttributesMap.put(key, false);
-                    }
+                if(trueButton.isSelected()) {
+                    myAttributesMap.put(key, true);
+                }
+                else {
+                    myAttributesMap.put(key, false);
+                }
 
             }
         }));

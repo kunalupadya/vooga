@@ -20,8 +20,7 @@ public class HealthExpirable extends WeaponBehavior {
     @Configure
     private int amountOfHealth;
 
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
     @XStreamOmitField
     private transient int damage;
 

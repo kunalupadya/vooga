@@ -171,6 +171,8 @@ public class Game implements Updatable, Configurable {
      * @return
      */
     public boolean isLastLevel() {
+        System.out.println(myLevelSpawner.getLevelIndex());
+        System.out.println(levelList.length-1);
         return myLevelSpawner.getLevelIndex()==levelList.length-1;
     }
 
@@ -194,11 +196,6 @@ public class Game implements Updatable, Configurable {
     public String getDescription(){
         return myDescription;
     }
-
-//    // TODO: Get rid of this method
-//    public int getThumbnail(){
-//        return myThumbnailID;
-//    }
 
     public int getThumbnailID(){
         return myThumbnailID;
