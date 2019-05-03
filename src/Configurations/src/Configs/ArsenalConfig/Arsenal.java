@@ -20,8 +20,7 @@ public class Arsenal implements Configurable, Updatable {
     @Configure
     private WeaponWave[] unlockableWeapons;
 
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
     private List<WeaponConfig> unlockedWeapons;
     private List<WeaponConfig> newUnlockedWeapons;
 

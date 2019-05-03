@@ -29,8 +29,8 @@ public class Level implements Configurable{
 
     @Configure
     private LevelBehavior[] levelBehaviors;
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+
+    private Configuration myConfiguration;
 
     public Level(Game game) {
         myGame = game;

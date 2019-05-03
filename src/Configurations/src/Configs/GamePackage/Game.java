@@ -25,7 +25,7 @@ public class Game implements Updatable, Configurable {
     public static final double gridPixelWidth = 585;
     public static final double gridPixelHeight = 585;
     private static final double STARTING_CASH = 500;
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
 
     public static final String DISPLAY_LABEL = "Game";
 
