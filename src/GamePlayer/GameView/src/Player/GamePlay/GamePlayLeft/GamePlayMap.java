@@ -77,19 +77,18 @@ public class GamePlayMap extends Pane{
                 leaderBoard2.start(new Stage());
                 break;
             case PLAYING:
-                if (gameStatus == GameStatus.LEVELOVER) {
-                    System.out.println("Level ended");
-                    myData.updateLevel(myLogic.startNextLevel());
-                    terrainList.clear();
-                    terrainList = myLogic.getLevelTerrain(width, height);
-                    terrainList.stream().forEach(img -> getChildren().add(img.getAsNode()));
-                }
                 myLogic.update(elapsedTime);
                 List<ImmutableImageView> imageToAdd = myLogic.getObjectsToAdd();
                 List<ImmutableImageView> imageToRemove = myLogic.getObjectsToRemove();
                 imageToRemove.stream().forEach(img -> getChildren().remove(img.getAsNode()));
                 imageToAdd.stream().forEach(img -> getChildren().add(img.getAsNode()));
                 break;
+            case LEVELOVER:
+                System.out.println("Level ended");
+                myData.updateLevel(myLogic.startNextLevel());
+                terrainList.clear();
+                terrainList = myLogic.getLevelTerrain(width, height);
+                terrainList.stream().forEach(img -> getChildren().add(img.getAsNode()));
         }
     }
 
