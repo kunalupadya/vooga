@@ -42,6 +42,7 @@ public class LevelSpawner implements Updatable {
         if(gameOver) throw new IllegalStateException();
         levelIndex++;
         currLevel = new ActiveLevel(myLevels.get(levelIndex), myGame);
+        myGame.setGameStatus(GameStatus.PLAYING);
         return levelIndex;
     }
 

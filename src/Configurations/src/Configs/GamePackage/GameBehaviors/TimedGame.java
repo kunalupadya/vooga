@@ -40,9 +40,12 @@ public class TimedGame extends GameBehavior{
             }
             else {
                 game.setGameStatus(GameStatus.LEVELOVER);
+                timeLeft = totalTimeInSec;
             }
         }
-        timeLeft = totalTimeInSec- (int) ms;
+        else {
+            timeLeft = totalTimeInSec- (int) ms;
+        }
 
     }
 
