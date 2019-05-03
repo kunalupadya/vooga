@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import Configs.EnemyPackage.EnemyBehaviors.AIOptions.*;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 
 public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable, Attackable {
@@ -28,6 +29,9 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
     private LinkedList<Point> prevLocations = new LinkedList<>();
     private double effectiveSpeed;
     private List<SpeedModifier> speedModifiers = new ArrayList<>();
+    private int currentHealth;
+    @XStreamOmitField
+    private transient boolean isDead;
 
 
     enum MovementDirection {
@@ -67,6 +71,7 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
     public ActiveEnemy(EnemyConfig enemyConfig,ActiveLevel activeLevel) {
         super(enemyConfig);
         myActiveLevel = activeLevel;
+        currentHealth = getHealth();
     }
 
     /**
@@ -81,6 +86,13 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
     @Override
     public void attack(int damage) {
         //TODO: FINISH
+        currentHealth -= damage;
+        if (currentHealth<0){
+            if (!isDead) {
+                getActiveLevel().killEnemy(this);
+            }
+            isDead = true;
+        }
     }
 
     @Override
@@ -126,7 +138,7 @@ public class ActiveEnemy extends EnemyConfig implements Updatable, MapFeaturable
             int heuristicValue = getAiType().getGetter().apply(myActiveLevel.getGridCell(newX+getView().getWidth()/2,newY+getView().getHeight()/2));
             if (heuristicValue ==0 ){
                 myActiveLevel.incrementEscapedEnemies();
-                killMe();
+                getActiveLevel().killEnemy(this);
             }
             prevLocations.addFirst(new Point(newX, newY));
             if (prevLocations.size()>5){
