@@ -63,8 +63,8 @@ public class GameOutline extends Screen {
                 try {
                     TreeItem<Configurable> treeItem = new TreeItem<>((Configurable) value);
                     myConfigurable.getChildren().add(treeItem);
-                    //don't create  additional treeitem for mymap
-                    if(!key.toLowerCase().equals("mymap")){
+                    //don't create  additional treeitems for map and the behavior
+                    if(!key.toLowerCase().equals("mymap") && key.toLowerCase().contains("behavior")){
                         createTreeView(treeItem);
                     }
                 } catch (Exception e) {
@@ -77,7 +77,7 @@ public class GameOutline extends Screen {
 
                 Object[] valueArray = (Object[]) value;
                 for (Object object : valueArray) {
-                    if(object instanceof Configurable) {
+                    if(object instanceof Configurable && !((Configurable) object).getName().toLowerCase().contains("behavior")) {
                         TreeItem<Configurable> treeItem = new TreeItem<>((Configurable) object);
                         myConfigurable.getChildren().add(treeItem);
                         createTreeView(treeItem);
@@ -102,13 +102,11 @@ public class GameOutline extends Screen {
                             try {
                                 setText(item.getClass().getDeclaredField("DISPLAY_LABEL").get(null) + ": " + item.getName());
                             } catch (IllegalAccessException | NoSuchFieldException e) {
-                                //TODO Error checking
                                 AlertFactory af = new AlertFactory();
                                 af.createAlert("Illegal Access Attempted!");
                             }
                         setGraphic(getMyImage());
                         }
-
                 }
             };
             controlTreeCellMouseClick(cell);
@@ -141,32 +139,31 @@ public class GameOutline extends Screen {
             showTheScreen((Configurable) myObject);
         }
 
-        Map<String, Object> myMap = configurable.getConfiguration().getDefinedAttributes();
+        else {
 
-        //System.out.println(myMap);
+            Map<String, Object> myMap = configurable.getConfiguration().getDefinedAttributes();
 
+            for (String key : myMap.keySet()) {
+                var value = myMap.get(key);
+                //base case
+                if (value.equals(myObject)) {
+                    showTheScreen((Configurable) value);
+                }
+                // if value configurable recurse!
+                else if (!value.getClass().isArray() && value instanceof Configurable) {
+                    Configurable temp = (Configurable) value;
+                    findMyClass(myObject, temp);
+                    // if value is an array
+                } else if (value.getClass().isArray()) {
 
-
-        for (String key : myMap.keySet()) {
-            var value = myMap.get(key);
-            //base case
-            if (value.equals(myObject)) {
-                showTheScreen((Configurable) value);
-            }
-            // if value configurable recurse!
-            else if (!value.getClass().isArray() && value instanceof Configurable) {
-                Configurable temp = (Configurable) value;
-                findMyClass(myObject, temp);
-                // if value is an array
-            } else if (value.getClass().isArray()) {
-
-                Object[] valueArray = (Object[]) value;
-                for (int b = 0; b < valueArray.length; b++) {
-                    if (valueArray[b].equals(myObject)) {
-                        showTheScreen((Configurable) valueArray[b]);
-                    } else {
-                        Configurable myConfigurable = (Configurable) valueArray[b];
-                        findMyClass(myObject, myConfigurable);
+                    Object[] valueArray = (Object[]) value;
+                    for (int b = 0; b < valueArray.length; b++) {
+                        if (valueArray[b].equals(myObject)) {
+                            showTheScreen((Configurable) valueArray[b]);
+                        } else {
+                            Configurable myConfigurable = (Configurable) valueArray[b];
+                            findMyClass(myObject, myConfigurable);
+                        }
                     }
                 }
             }
@@ -203,17 +200,6 @@ public class GameOutline extends Screen {
                configurableMap.setConfigurations();
            }
        }
-
-       else if(myConfigurable.getClass().isArray() && myConfigurable.getClass().getComponentType().getSimpleName().toLowerCase().contains("behavior")){
-           if (!definedAttributesMap.keySet().equals(null)) {
-               MapConfig mapConfig = (MapConfig) myConfigurable;
-               Map<String, Object> levelMap = mapConfig.getLevel().getConfiguration().getDefinedAttributes();
-               ConfigurableMap configurableMap = new ConfigurableMap(mapConfig, levelMap, ((MapConfig) myConfigurable).getLevel());
-               configurableMap.resetConfigurations();
-           } else {
-               ConfigurableMap configurableMap = new ConfigurableMap(myAttributesMap, myConfigurable);
-               configurableMap.setConfigurations();
-           }
        }*/
        else {
            GameController gameController = new GameController();

@@ -53,7 +53,7 @@ public class GameController {
              File propFile = new File("./src/Authoring/AuthoringView/resources/authoringvars.properties");
             authoringProps.load(new FileInputStream(propFile.getPath()));
      }catch (Exception e){
-            System.out.print("No Properties File Found");
+
         }
     }
 
@@ -195,11 +195,9 @@ public class GameController {
                 nameAndTfBar.getChildren().add(myTextField);
                 }
             }
-/*
         if (definedAttributesMap.keySet().contains(key)) {
-            //TODO Set the slider
             mySlider.setValue(Double.parseDouble(definedAttributesMap.get(key).toString()));
-        }*/
+        }
 
         Button confirmButton = new Button("Confirm");
         nameAndTfBar.getChildren().add(confirmButton);
@@ -478,7 +476,6 @@ public class GameController {
 
     private Label getLabel(String key) {
         if (authoringProps.getProperty(key)==null){
-            System.out.println("LABEL NOT DEFINED: "+key);
             AlertFactory af = new AlertFactory();
             af.createAlert("Label Not Defined: "+key);
         }
@@ -486,7 +483,6 @@ public class GameController {
     }
 
     private void handleImageField(Stage popupwindow, List<Button> allButton, VBox layout, Map<String, Object> myAttributesMap, String key, Class value,  Map<String, Object> definedAttributesMap, Configurable myConfigurable) {
-        System.out.println(myConfigurable);
         String imageType;
         if(key.toLowerCase().contains("thumbnail")){
             imageType = "THUMBNAIL";

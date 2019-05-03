@@ -84,9 +84,6 @@ public class CreateAccountScreen extends Application {
             Alert alert= new Alert(Alert.AlertType.WARNING,e.getMessage());
             alert.showAndWait();
         }
-//        else{
-//            //TODO Create Alert
-//        }
     }
 
 }
