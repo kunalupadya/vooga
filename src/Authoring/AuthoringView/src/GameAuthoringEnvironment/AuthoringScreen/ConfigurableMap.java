@@ -388,10 +388,10 @@ public class ConfigurableMap extends Application {
 
                     tileList.add(tile);
                 }
-                if(hasPath==false){
-                    AlertFactory af = new AlertFactory();
-                    af.createAlert("Map must have at least one path tile!");
-                }
+//                if(hasPath==false){
+//                    AlertFactory af = new AlertFactory();
+//                    af.createAlert("Map must have at least one path tile!");
+//                }
 
 
                 enterPointsList = new ArrayList<>();
@@ -404,10 +404,10 @@ public class ConfigurableMap extends Application {
 
                 exitPointsList = new ArrayList<>();
                 exitPosView.getItems().stream().forEach(obj->exitPointsList.add(obj));
-                if(exitPointsList.size()==0){
-                    AlertFactory af = new AlertFactory();
-                    af.createAlert("Must have at least one exit point for enemies!");
-                }
+//                if(exitPointsList.size()==0){
+//                    AlertFactory af = new AlertFactory();
+//                    af.createAlert("Must have at least one exit point for enemies!");
+//                }
                 //TODO Need to clean this up
                 passedMap=new HashMap<>();
                 passedMap.put("myName",mapName);
