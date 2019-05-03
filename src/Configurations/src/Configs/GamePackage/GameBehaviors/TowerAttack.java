@@ -4,6 +4,7 @@ import ActiveConfigs.ActiveWeapon;
 import Configs.ArsenalConfig.WeaponConfig;
 import Configs.Behaviors.Behavior;
 import Configs.Configuration;
+import Configs.DisplayState;
 import Configs.GamePackage.Game;
 import Configs.GamePackage.GameStatus;
 import Configs.MapFeature;
@@ -45,7 +46,10 @@ public class TowerAttack extends GameBehavior{
             activeWeapon.setMyMapFeature(mapFeature);
             game.getActiveLevel().addToActiveWeapons(activeWeapon);
         }
-        if (getMyGame().getActiveLevel().getGoalPositions().isEmpty()){
+        if (activeWeapon.getMapFeature().getDisplayState()== DisplayState.DIED){
+            getMyGame().setGameStatus(GameStatus.GAMELOST);
+        }
+        else if (getMyGame().getActiveLevel().getGoalPositions().isEmpty()){
             getMyGame().setGameStatus(GameStatus.GAMELOST);
         }
         else if (getMyGame().getActiveLevel().noMoreEnemiesLeft()) {
