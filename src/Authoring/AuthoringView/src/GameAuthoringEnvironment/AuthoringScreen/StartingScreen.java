@@ -68,10 +68,10 @@ public class StartingScreen {
         createIDButton = new Button("Create Account");
         createIDButton.setOnMouseClicked(this::handleCreateAccount);
         createIDButton.setTranslateX(createIDButton.getWidth());
-        newGameButton = new Button("Create New Game");
+        newGameButton = new Button("Explore");
         newGameButton.setOnMouseClicked(this:: handleNewGameButton);
-        importGameButton = new Button("Import Game");
-        importGameButton.setOnMouseClicked(this::importGame);
+//        importGameButton = new Button("Import Game");
+//        importGameButton.setOnMouseClicked(this::importGame);
 
         loginDescription = new Text("Welcome to NoMergeConflicts. First login or create your new account");
         loginDescription.setStyle("-fx-font-size: 10");
@@ -91,10 +91,10 @@ public class StartingScreen {
         //TODO Call APIs to confirm password
         try {
             if (myAuthoringBackend.authenticateUser(idTf.getText(), pwTf.getText())) {
-                Text instructions = new Text("Now Click New Game to make a new Game or click import Game to import a existing game");
+                Text instructions = new Text("Login Successful! Click above to create a new game or to load in an existing game.");
                 instructions.setStyle("-fx-font-size: 10");
                 myContatiner.getChildren().removeAll(idTf, pwTf, loginButton, createIDButton, loginDescription);
-                myContatiner.getChildren().addAll(newGameButton, importGameButton, instructions);
+                myContatiner.getChildren().addAll(newGameButton, instructions);
             }
             else{
                 Alert alert = new Alert(Alert.AlertType.WARNING,"Wrong Username or Password");
@@ -121,12 +121,12 @@ public class StartingScreen {
         makeGame(newGame);
     }
 
-    private void importGame(MouseEvent evemt){
-        ImportGame importGame = new ImportGame(myAuthoringBackend.getAuthoredGameLibrary(), myAuthoringBackend);
-        importGame.start(new Stage());
-        CloseStage eventHandler = () -> startGame();
-        importGame.setEventHandler(eventHandler);
-    }
+//    private void importGame(MouseEvent evemt){
+//        ImportGame importGame = new ImportGame(myAuthoringBackend.getAuthoredGameLibrary(), myAuthoringBackend);
+//        importGame.start(new Stage());
+//        CloseStage eventHandler = () -> startGame();
+//        importGame.setEventHandler(eventHandler);
+//    }
     private void startGame(){
         this.myStage.close();
     }
