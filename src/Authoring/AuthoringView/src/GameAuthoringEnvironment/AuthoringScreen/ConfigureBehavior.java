@@ -163,7 +163,7 @@ public class ConfigureBehavior extends Application {
         root.setAlignment(Pos.CENTER);
         root.getChildren().addAll(pane);
 
-        Button setButton = new Button("This config completed");
+        Button setButton = new Button("Configuration Is Completed");
         setButton.setOnMouseClicked((new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
