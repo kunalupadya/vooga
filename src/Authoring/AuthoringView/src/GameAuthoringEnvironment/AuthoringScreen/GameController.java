@@ -431,6 +431,18 @@ public class GameController {
             AlertFactory af = new AlertFactory();
             af.createAlert("Illegal Access!");
         }
+        try {
+            Class<?> clazz = Class.forName(value.getName());
+            if (clazz.getSimpleName().equals("MapConfig")) {
+                if (definedAttributesMap.keySet().contains(key)) {
+                    myAttributesMap.put(key, definedAttributesMap.get(key));
+                }
+            }
+        }
+        catch (Exception e){
+            myAlertFactory.createAlert("Currently Configured Map is invalid!");
+        }
+
         //TODO Should refactor
         myButton.setOnMouseClicked((new EventHandler<>() {
             @Override
@@ -440,69 +452,71 @@ public class GameController {
                     Class<?> clazz = Class.forName(value.getName());
                     //Special Case: Map
                     if (clazz.getSimpleName().equals("MapConfig")) {
-                        if (definedAttributesMap.keySet().contains(key)) {
-                            MapConfig mapConfig = (MapConfig) definedAttributesMap.get(key);
-                            ConfigurableMap configurableMap = new ConfigurableMap(mapConfig, myAttributesMap, myConfigurable);
-                            configurableMap.resetConfigurations();
-                        } else {
+//                        if (definedAttributesMap.keySet().contains(key)) {
+//                            MapConfig mapConfig = (MapConfig) definedAttributesMap.get(key);
+//                            ConfigurableMap configurableMap = new ConfigurableMap(mapConfig, myAttributesMap, myConfigurable);
+//                            configurableMap.resetConfigurations();
+//                        }
+//                        else{
                             ConfigurableMap configurableMap = new ConfigurableMap(myAttributesMap, myConfigurable);
                             configurableMap.setConfigurations();
-                        }
-                        //Special case : View because view is being used in multiple places
-                    } else if (clazz.getSimpleName().equals("View")) {
-                        if (definedAttributesMap.keySet().contains(key)) {
-                            createConfigurable((Configurable) definedAttributesMap.get(key));
-                            myAttributesMap.put(key, definedAttributesMap.get(key));
-                        }
-                        else {
-                            Constructor<?> cons = clazz.getConstructor(Configurable.class);
-                            var object = cons.newInstance(myConfigurable);
-                            createConfigurable((Configurable) object);
-                            myAttributesMap.put(key, object);
-                        }
-                        //Speical case : Behavior is different since drag and drop is required
-                    } else if(clazz.getSimpleName().toLowerCase().contains("behavior")){
-                        //multiple behaviors allowed
-                        if (definedAttributesMap.keySet().contains(key)) {
-                            configureBehavior(clazz, myConfigurable, definedAttributesMap, key, (List<Object>) definedAttributesMap.get(key), false);
-                            myAttributesMap.put(key, definedAttributesMap.get(key));
-                        }
-                        else {
-                            List<Object> emptyList = new ArrayList<>();
-                            configureBehavior(clazz, myConfigurable, myAttributesMap, key, emptyList, false);
-                        }
+//                        }
                     }
-                    else if(myConfigurable instanceof SpawnEnemiesWhenKilled){
-                        EnemyConfig enemyConfig = new EnemyConfig((Wave) null);
-                        createConfigurable(enemyConfig);
-                        myAttributesMap.put(key, enemyConfig);
+                    //Special case : View because view is being used in multiple places
+                 else if (clazz.getSimpleName().equals("View")) {
+                    if (definedAttributesMap.keySet().contains(key)) {
+                        createConfigurable((Configurable) definedAttributesMap.get(key));
+                        myAttributesMap.put(key, definedAttributesMap.get(key));
                     }
-                    else if(myConfigurable instanceof TowerAttack){
-                        WeaponConfig weaponConfig = new WeaponConfig((Arsenal) null);
-                        createConfigurable(weaponConfig);
-                        myAttributesMap.put(key, weaponConfig);
-                    }
-                    //rest should follow this
                     else {
-                        if (definedAttributesMap.keySet().contains(key)) {
-                            createConfigurable((Configurable) definedAttributesMap.get(key));
-                            myAttributesMap.put(key, definedAttributesMap.get(key));
-                        }
-                        else {
-                            Constructor<?> cons = clazz.getConstructor(myConfigurable.getClass());
-                            var object = cons.newInstance(myConfigurable);
-                            createConfigurable((Configurable) object);
-                            myAttributesMap.put(key, object);
-                        }
+                        Constructor<?> cons = clazz.getConstructor(Configurable.class);
+                        var object = cons.newInstance(myConfigurable);
+                        createConfigurable((Configurable) object);
+                        myAttributesMap.put(key, object);
                     }
-                } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
-                    myAlertFactory.createAlert("Something went wrong! Please try again");
+                    //Speical case : Behavior is different since drag and drop is required
+                } else if(clazz.getSimpleName().toLowerCase().contains("behavior")){
+                    //multiple behaviors allowed
+                    if (definedAttributesMap.keySet().contains(key)) {
+                        configureBehavior(clazz, myConfigurable, definedAttributesMap, key, (List<Object>) definedAttributesMap.get(key), false);
+                        myAttributesMap.put(key, definedAttributesMap.get(key));
+                    }
+                    else {
+                        List<Object> emptyList = new ArrayList<>();
+                        configureBehavior(clazz, myConfigurable, myAttributesMap, key, emptyList, false);
+                    }
                 }
-
+                else if(myConfigurable instanceof SpawnEnemiesWhenKilled){
+                    EnemyConfig enemyConfig = new EnemyConfig((Wave) null);
+                    createConfigurable(enemyConfig);
+                    myAttributesMap.put(key, enemyConfig);
+                }
+                else if(myConfigurable instanceof TowerAttack){
+                    WeaponConfig weaponConfig = new WeaponConfig((Arsenal) null);
+                    createConfigurable(weaponConfig);
+                    myAttributesMap.put(key, weaponConfig);
+                }
+                //rest should follow this
+                else {
+                    if (definedAttributesMap.keySet().contains(key)) {
+                        createConfigurable((Configurable) definedAttributesMap.get(key));
+                        myAttributesMap.put(key, definedAttributesMap.get(key));
+                    }
+                    else {
+                        Constructor<?> cons = clazz.getConstructor(myConfigurable.getClass());
+                        var object = cons.newInstance(myConfigurable);
+                        createConfigurable((Configurable) object);
+                        myAttributesMap.put(key, object);
+                    }
+                }
+            } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
+                myAlertFactory.createAlert("Something went wrong! Please try again");
             }
-        }));
+
+        }
+    }));
         layout.getChildren().add(myButton);
-    }
+}
 
     private Label getLabel(String key) {
         if (authoringProps.getProperty(key)==null){

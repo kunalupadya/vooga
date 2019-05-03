@@ -109,8 +109,8 @@ public class ConfigurableMap extends Application {
     }
 
     public void resetConfigurations(){
-        reinitMap();
-        addComponentToScreen();
+        /*reinitMap();
+        addComponentToScreen();*/
     }
     public void initMap() {
         popUpWindow = new Stage();
@@ -335,21 +335,32 @@ public class ConfigurableMap extends Application {
         return myVbox;
     }
 
-    private void reinitMap(){
+   /* private void reinitMap(){
         List<Terrain> existingTerrainList = myAttributesMapConfig.getTerrain();
         map = new GridPane();
 
         for(int r=0; r< GRID_WIDTH; r++){
             for(int c=0; c<GRID_HEIGHT; c++){
                 Terrain myTerrain = existingTerrainList.get(r*GRID_WIDTH + c);
-                FileInputStream fis = null;
+                Image image;
                 try {
-                    fis = new FileInputStream("resources/" + myTerrain.getView().getImage());
+//                    fis = new FileInputStream("resources/" + myTerrain.getView().getImage());
+                    int imageId = myTerrain.getView().getImage();
+                    Image loadedImage;
+                    if (hasImage(imageId)) {
+                        loadedImage = getImage(imageId);
+                    }
+                    else {
+                        loadedImage = Data.getImageStatic(imageId);
+                        addImage(imageId, loadedImage);
+                    }
+                    image.setImage(loadedImage);
+
                 } catch (FileNotFoundException e) {
                     AlertFactory alert = new AlertFactory();
                     alert.createAlert("File Not Found!");
                 }
-                Image image = new Image(fis);
+//                Image image = new Image(fis);
                 TerrainTile myTile = new TerrainTile(r, c, image,typeToImagePathMap,typeToPath, this);
                 map.add(myTile, r, c);
             }
@@ -359,7 +370,7 @@ public class ConfigurableMap extends Application {
         //map.setLayoutX();
         //map.setLayoutY();
     }
-
+*/
 
     public void handleConfirmButton(MouseEvent event){
         mapName = nameTf.getText();
