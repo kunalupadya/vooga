@@ -23,7 +23,7 @@ public class CompleteButton {
     }
 
     public Button invoke() {
-        Button setButton = new Button("This config completed");
+        Button setButton = new Button("Configuration Is Completed");
         setButton.setOnMouseClicked((new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {

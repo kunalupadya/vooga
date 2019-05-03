@@ -260,7 +260,7 @@ public class GameController {
             objectLabel = value.getComponentType().getDeclaredField("DISPLAY_LABEL").get(null).toString();
         } catch (IllegalAccessException | NoSuchFieldException e) {
             myAlertFactory.createAlert("Incorrect Field Entered! Try making that again");
-            handleConfigurableArray(myConfigurable, allButton, layout, myAttributesMap, key, value, definedAttributesMap);
+//            handleConfigurableArray(myConfigurable, allButton, layout, myAttributesMap, key, value, definedAttributesMap);
         }
         Label listLabel = new Label("Add new " + objectLabel + " here");
         VBox tempVBOx  = new VBox();

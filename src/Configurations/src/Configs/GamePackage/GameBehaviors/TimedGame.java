@@ -23,10 +23,13 @@ public class TimedGame extends GameBehavior{
     @XStreamOmitField
     private transient Configuration myConfiguration;
 
+    private int timeLeft;
+
 
     public TimedGame(Game game) {
         super(game);
         myConfiguration = new Configuration(this);
+        timeLeft = totalTimeInSec;
     }
 
     @Override
@@ -38,6 +41,7 @@ public class TimedGame extends GameBehavior{
             }
             else game.setGameStatus(GameStatus.LEVELOVER);
         }
+        timeLeft = totalTimeInSec-(int) ms;
 
     }
 
