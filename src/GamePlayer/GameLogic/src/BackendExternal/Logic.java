@@ -146,7 +146,7 @@ public class Logic {
      * @return - int level index
      */
     public int startNextLevel(){
-        return myGame.getLevelSpawner().startNextLevel();
+        return myGame.getLevelSpawner().startNextLevel()+1;
     }
 
     @Deprecated
