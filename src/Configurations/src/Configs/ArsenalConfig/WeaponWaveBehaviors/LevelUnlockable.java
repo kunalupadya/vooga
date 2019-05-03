@@ -14,7 +14,7 @@ public class LevelUnlockable extends WeaponWaveBehavior {
     private int levelToBeUnlocked;
 
     private WeaponWave myWeaponWave;
-    private transient Configuration myConfiguration;
+    private  Configuration myConfiguration;
 
     public LevelUnlockable(WeaponWave weaponWave) {
         this.myWeaponWave = weaponWave;

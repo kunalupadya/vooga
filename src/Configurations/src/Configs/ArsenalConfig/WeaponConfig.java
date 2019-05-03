@@ -16,8 +16,7 @@ import java.util.stream.Collectors;
  */
 
 public class WeaponConfig implements  Configurable, Viewable, Info {
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
     public static final String DISPLAY_LABEL= "Weapon";
     @Configure
     private String myName;
