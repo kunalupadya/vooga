@@ -54,36 +54,41 @@ public class GameOutline extends Screen {
 
     //recursively creates a treeview - only creates something that has been defined
     private void createTreeView(TreeItem<Configurable> myConfigurable) {
-        Map<String, Object> myMap = myConfigurable.getValue().getConfiguration().getDefinedAttributes();
+        try {
+            Map<String, Object> myMap = myConfigurable.getValue().getConfiguration().getDefinedAttributes();
 
-        for (String key : myMap.keySet()) {
-            var value = myMap.get(key);
-            //value is not an array, just a single object
-            if (value instanceof Configurable) {
-                try {
-                    TreeItem<Configurable> treeItem = new TreeItem<>((Configurable) value);
-                    myConfigurable.getChildren().add(treeItem);
-                    //don't create  additional treeitems for map and the behavior
-                    if(!key.toLowerCase().equals("mymap") && key.toLowerCase().contains("behavior")){
-                        createTreeView(treeItem);
-                    }
-                } catch (Exception e) {
-                    //TODO Handle Error
-                    AlertFactory af = new AlertFactory();
-                    af.createAlert("Tree View Couldn't be Created");
-                }
-            //value is an array
-            } else if (value.getClass().isArray()) {
-
-                Object[] valueArray = (Object[]) value;
-                for (Object object : valueArray) {
-                    if(object instanceof Configurable && !((Configurable) object).getName().toLowerCase().contains("behavior")) {
-                        TreeItem<Configurable> treeItem = new TreeItem<>((Configurable) object);
+            for (String key : myMap.keySet()) {
+                var value = myMap.get(key);
+                //value is not an array, just a single object
+                if (value instanceof Configurable) {
+                    try {
+                        TreeItem<Configurable> treeItem = new TreeItem<>((Configurable) value);
                         myConfigurable.getChildren().add(treeItem);
-                        createTreeView(treeItem);
+                        //don't create  additional treeitems for map and the behavior
+                        if (!key.toLowerCase().equals("mymap") && key.toLowerCase().contains("behavior")) {
+                            createTreeView(treeItem);
+                        }
+                    } catch (Exception e) {
+                        //TODO Handle Error
+                        AlertFactory af = new AlertFactory();
+                        af.createAlert("Tree View Couldn't be Created");
+                    }
+                    //value is an array
+                } else if (value.getClass().isArray()) {
+
+                    Object[] valueArray = (Object[]) value;
+                    for (Object object : valueArray) {
+                        if (object instanceof Configurable && !((Configurable) object).getName().toLowerCase().contains("behavior")) {
+                            TreeItem<Configurable> treeItem = new TreeItem<>((Configurable) object);
+                            myConfigurable.getChildren().add(treeItem);
+                            createTreeView(treeItem);
+                        }
                     }
                 }
             }
+        }
+        catch (NullPointerException e){
+            System.out.println(myConfigurable.getValue());
         }
     }
 

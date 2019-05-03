@@ -171,8 +171,8 @@ public class Game implements Updatable, Configurable {
      * @return
      */
     public boolean isLastLevel() {
-        System.out.println(myLevelSpawner.getLevelIndex());
-        System.out.println(levelList.length-1);
+//        System.out.println(myLevelSpawner.getLevelIndex());
+//        System.out.println(levelList.length-1);
         return myLevelSpawner.getLevelIndex()==levelList.length-1;
     }
 

@@ -112,6 +112,7 @@ public class GamePlayMain extends Application {
 
     private void restartTime(){
         currMilliSecond = 0;
+        animation.pause();
     }
 
     private void endLoop(){

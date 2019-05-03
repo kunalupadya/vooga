@@ -83,6 +83,7 @@ public class TopMenuBar {
             public void handle(MouseEvent event) {
                 GamePlayMain gamePlayMain = new GamePlayMain();
                 gamePlayMain.setGameFromAuthoring(gameController.getMyGame());
+//                gamePlayMain.setGameFromAuthoring(authoringBackend.loadFromXML());
                 gamePlayMain.start(new Stage());
             }
         });

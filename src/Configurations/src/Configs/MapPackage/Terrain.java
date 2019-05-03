@@ -30,8 +30,7 @@ public class Terrain implements Configurable, Viewable, MapFeaturable{
     @Configure
     private TerrainBehavior[] terrainBehaviors = new TerrainBehavior[0];
 
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
     private MapConfig myMapConfig;
     private Game myGame;
     @XStreamOmitField

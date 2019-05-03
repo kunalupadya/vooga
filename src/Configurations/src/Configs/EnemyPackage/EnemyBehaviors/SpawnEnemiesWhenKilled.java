@@ -20,7 +20,7 @@ public class SpawnEnemiesWhenKilled extends EnemyBehavior{
     EnemyConfig spawnedEnemy;
 
     private transient boolean isRun;
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
 
     public SpawnEnemiesWhenKilled(EnemyConfig enemyConfig){
         super(enemyConfig);

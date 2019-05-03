@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import static Configs.MapPackage.Terrain.TERRAIN_SIZE;
+
 /**
  * Specifies a wave of enemies that will be deployed by a wavespawner on each level
  * a wave holds multiple enemies
@@ -103,11 +105,17 @@ public class Wave implements Updatable, Configurable {
             List<Point> enterPositions = activeLevel.getMyMapConfig().getEnemyEnteringGridPosList();
             Random random = new Random();
             Point point = enterPositions.get(random.nextInt(enterPositions.size()));
+            while (point.equals(new Point( 16*TERRAIN_SIZE,19*TERRAIN_SIZE))){
+                point = enterPositions.get(random.nextInt(enterPositions.size()));
+            }
             int direction = activeLevel.getMyMapConfig().getEnemyEnteringDirection();
             EnemyConfig enemyConfig = enemies[currentEnemyIndex];
             ActiveEnemy activeEnemy = new ActiveEnemy(enemyConfig, activeLevel);
             for (WaveBehavior waveBehavior: myWaveBehaviors){
                 waveBehavior.apply(activeEnemy);
+            }
+            if (enemyConfig.getView() == null){
+                return;
             }
             MapFeature newMapFeature = new MapFeature( point.x, point.y,direction,enemyConfig.getView(), activeLevel.getPaneWidth(), activeLevel.getPaneHeight(), activeLevel.getGridWidth(), activeLevel.getGridHeight(), activeEnemy);
             activeEnemy.setMyMapFeature(newMapFeature);

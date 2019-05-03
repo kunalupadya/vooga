@@ -22,7 +22,7 @@ public class PlaceableOnPath extends WeaponBehavior {
     @Configure
     private int damage;
 
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
 
     public PlaceableOnPath(WeaponConfig weaponConfig){
         super(weaponConfig);
@@ -31,7 +31,7 @@ public class PlaceableOnPath extends WeaponBehavior {
 
     @Override
     public void update(double ms, Updatable parent) {
-        ((ActiveWeapon) parent).getActiveLevel().getActiveEnemies().stream().forEach(enemy -> ((ActiveEnemy) enemy).attack(getDamage()));
+//        ((ActiveWeapon) parent).getActiveLevel().getActiveEnemies().stream().forEach(enemy -> ((ActiveEnemy) enemy).attack(getDamage()));
     }
 
     public int getDamage() {

@@ -44,15 +44,16 @@ public class Random extends WaveBehavior{
 
     @Override
     public void apply(ActiveEnemy enemy) {
-         java.util.Random randomizer = new java.util.Random();
+//         java.util.Random randomizer = new java.util.Random();
          enemy.multiplyHealth(getRandomPercent(healthRandomization));
          enemy.multiplyRewardForKilling(getRandomPercent(rewardRandomization));
-         enemy.multiplyUnitSpeedPerSecond(getRandomPercent(speedRandomization));
+//         enemy.multiplyUnitSpeedPerSecond(getRandomPercent(speedRandomization));
     }
 
     public double getRandomPercent(int percentToRandomize){
         java.util.Random randomizer = new java.util.Random();
-        return ((randomizer.nextInt(2*percentToRandomize)-percentToRandomize)+100)/100.0;
+        int randInt = (randomizer.nextInt(2*percentToRandomize+1));
+        return ((randInt-percentToRandomize)+100)/100.0;
     }
 
     @Override

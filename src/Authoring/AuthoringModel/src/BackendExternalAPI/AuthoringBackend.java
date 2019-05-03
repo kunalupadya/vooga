@@ -154,8 +154,11 @@ public class AuthoringBackend {
         FileWriter xmlFW = new FileWriter(XML_FILE_PATH + myXMLFileName);
         xmlFW.write(gameString);
         xmlFW.close();
-
     }
 
-
+//    public Game loadFromXML(){
+//        XStream serializer = new XStream(new DomDriver());
+//        String gameXMLString = "Kunal's GameXML.xml";
+//        return (Game)serializer.fromXML(gameXMLString);
+//    }
 }

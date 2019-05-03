@@ -1,0 +1,42 @@
+<Configs.GamePackage.Game>
+  <myConfiguration>
+    <myAttributeTypes class="linked-hash-map">
+      <entry>
+        <string>myName</string>
+        <java-class>java.lang.String</java-class>
+      </entry>
+      <entry>
+        <string>myDescription</string>
+        <java-class>java.lang.String</java-class>
+      </entry>
+      <entry>
+        <string>myThumbnailID</string>
+        <java-class>int</java-class>
+      </entry>
+      <entry>
+        <string>levelList</string>
+        <java-class>[LConfigs.LevelPackage.Level;</java-class>
+      </entry>
+      <entry>
+        <string>myArsenal</string>
+        <java-class>Configs.ArsenalConfig.Arsenal</java-class>
+      </entry>
+      <entry>
+        <string>gameType</string>
+        <java-class>Configs.GamePackage.GameBehaviors.GameBehavior</java-class>
+      </entry>
+      <entry>
+        <string>myCash</string>
+        <java-class>double</java-class>
+      </entry>
+    </myAttributeTypes>
+    <myAttributes/>
+    <isComplete>true</isComplete>
+    <myConfigurable class="Configs.GamePackage.Game" reference="../.."/>
+    <myConfigurableClass>Configs.GamePackage.Game</myConfigurableClass>
+  </myConfiguration>
+  <myThumbnailID>0</myThumbnailID>
+  <levelList/>
+  <myCash>500.0</myCash>
+  <myScore>0</myScore>
+</Configs.GamePackage.Game>

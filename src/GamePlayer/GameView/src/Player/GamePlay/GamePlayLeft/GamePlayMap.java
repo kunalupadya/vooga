@@ -8,11 +8,14 @@ import Player.GamePlay.EndLoopInterface;
 import Player.GamePlay.LeaderBoard;
 import Player.GamePlay.SelectionInterface;
 import Player.SetUp.GameSelection;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -54,6 +57,22 @@ public class GamePlayMap extends Pane{
         setPrefHeight(height);
         mapRoot.prefWidth(width);
         mapRoot.prefHeight(height);
+        setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.N){
+                    myReset.actionButton();
+                    System.out.println("Level ended");
+
+                    int level = myLogic.startNextLevel();
+                    System.out.println(level);
+                    myData.updateLevel(level);
+                    terrainList.clear();
+                    terrainList = myLogic.getLevelTerrain(width, height);
+                    terrainList.stream().forEach(img -> getChildren().add(img.getAsNode()));
+                }
+            }
+        });
     }
 
     /**
@@ -90,12 +109,14 @@ public class GamePlayMap extends Pane{
             case LEVELOVER:
                 myReset.actionButton();
                 System.out.println("Level ended");
+
                 int level = myLogic.startNextLevel();
                 System.out.println(level);
                 myData.updateLevel(level);
                 terrainList.clear();
                 terrainList = myLogic.getLevelTerrain(width, height);
                 terrainList.stream().forEach(img -> getChildren().add(img.getAsNode()));
+
                 break;
         }
     }

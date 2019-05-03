@@ -71,7 +71,8 @@ public class GameLibrary {
      */
     public Game getGame(GameInfo chosenGameInfo){
         XStream serializer = new XStream(new DomDriver());
-        String gameXMLFileName = myXMLFileNames.get(chosenGameInfo.getGameTitle());
+        String gameXMLFileName = myXMLFileNames.get("Kunal's GameXML.xml");
+        System.out.println(gameXMLFileName);
         File xmlFile = new File(XML_FILE_PATH + gameXMLFileName);
         return (Game)serializer.fromXML(xmlFile);
     }

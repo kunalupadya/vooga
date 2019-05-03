@@ -6,6 +6,7 @@ import Configs.EnemyPackage.EnemyBehaviors.AIOptions;
 import Configs.EnemyPackage.EnemyBehaviors.EnemyBehavior;
 import Configs.Waves.Wave;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,9 +42,18 @@ public class EnemyConfig implements Configurable, Viewable {
     }
 
     public EnemyConfig(EnemyConfig enemyConfig){
-        List<EnemyBehavior> arrayList= Arrays.stream(enemyConfig.getMyBehaviors())
-                .map(behavior->(EnemyBehavior) behavior.copy())
-                .collect(Collectors.toList());
+        if (enemyConfig == null){
+            return;
+        }
+        List<EnemyBehavior> arrayList;
+        if (enemyConfig.getMyBehaviors()!=null) {
+            arrayList = Arrays.stream(enemyConfig.getMyBehaviors())
+                    .map(behavior -> (EnemyBehavior) behavior.copy())
+                    .collect(Collectors.toList());
+        }
+        else {
+            arrayList = new ArrayList<>();
+        }
         myBehaviors = new EnemyBehavior[arrayList.size()];
         for (int i=0; i<arrayList.size(); i++){
             myBehaviors[i] = arrayList.get(i);

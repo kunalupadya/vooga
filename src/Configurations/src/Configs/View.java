@@ -4,7 +4,7 @@ package Configs;
  * Object that holds everything about how an object should look when rendered
  */
 public class View implements Configurable {
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
 
     public static final String DISPLAY_LABEL = "Image";
     @Configure

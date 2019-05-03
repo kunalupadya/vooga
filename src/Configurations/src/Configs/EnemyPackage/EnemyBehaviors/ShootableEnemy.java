@@ -21,8 +21,7 @@ public class ShootableEnemy extends EnemyBehavior implements Shootable {
     @Configure
     private Shooter myShooter;
 
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
     private ActiveEnemy activeEnemy;
 
     public ShootableEnemy(EnemyConfig enemyConfig){
