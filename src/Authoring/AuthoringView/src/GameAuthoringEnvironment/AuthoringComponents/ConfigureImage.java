@@ -1,6 +1,6 @@
 package GameAuthoringEnvironment.AuthoringComponents;
 
-import BackendExternalAPI.Model;
+import BackendExternalAPI.AuthoringBackend;
 import Configs.Configurable;
 import ExternalAPIs.AuthoringData;
 import GameAuthoringEnvironment.AuthoringScreen.GameController;
@@ -76,14 +76,14 @@ public class ConfigureImage {
         layout.setAlignment(Pos.CENTER);
         Label databaseLabel = new Label("Images from our Database");
         databaseLabel.setFont(Font.font("Veranda", FontWeight.BOLD, 10));
-        Model model = new Model();
+        AuthoringBackend authoringBackend = new AuthoringBackend();
 
         //TODO CHANGE This
-        //List<Integer> allImages = model.getImageOptions(AuthoringData.ImageType.TERRAIN);
-        List<Integer> allImages = model.getImageOptions(myImageType);
+        //List<Integer> allImages = authoringBackend.getImageOptions(AuthoringData.ImageType.TERRAIN);
+        List<Integer> allImages = authoringBackend.getImageOptions(myImageType);
         List<Image> allImagesList = new ArrayList<>();
         for(int a=0; a< allImages.size(); a++) {
-            allImagesList.add(model.getImage(allImages.get(a)));
+            allImagesList.add(authoringBackend.getImage(allImages.get(a)));
         }
         for(int x = 0; x< allImages.size(); x ++){
             selectedImage = allImagesList.get(x);
@@ -110,7 +110,7 @@ public class ConfigureImage {
             //TODO DO Errorchecking/Refactor
             @Override
             public void handle(MouseEvent event) {
-                ImageUploader imageUploader = new ImageUploader(model);
+                ImageUploader imageUploader = new ImageUploader(authoringBackend);
             }
         }));
         finished.setOnAction(e->finish());
