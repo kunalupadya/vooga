@@ -21,10 +21,11 @@ public class WaveSpawner implements Updatable {
         ActiveLevel activeLevel = (ActiveLevel) parent;
         List<Wave> myWavesToRemove = new ArrayList<>();
         myWaves.stream().forEach(wave -> {
+            System.out.println(wave);
             if(wave.getTimeToReleaseInMs()<=ms) {
                 wave.update(ms, this);
             }
-            if(wave.isFinished())
+            if(wave.isFinished()&&activeLevel.getActiveEnemies().isEmpty())
                 if(!activeLevel.isSurvival()) myWavesToRemove.add(wave);
                 else wave.setTimeToReleaseInMs(ms+wave.getTimeToReleaseInMs());
         });

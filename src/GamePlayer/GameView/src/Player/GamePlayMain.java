@@ -36,7 +36,7 @@ public class GamePlayMain extends Application {
     private static final Paint backgroundColor = Color.NAVY;
     private double screenWidth = ScreenSize.getWidth();
     private double screenHeight = ScreenSize.getHeight();
-    private Logic myLogic = new Logic(screenWidth * LEFT_RATIO, screenHeight * TOP_RATIO);
+    private Logic myLogic;
     private Timeline animation;
     private GamePlayGUI myGameGUI;
     private Group root;
@@ -56,7 +56,7 @@ public class GamePlayMain extends Application {
         MediaView music = createWelcomeMusic();
         root.getChildren().add(music);
         myGameGUI = new GamePlayGUI(myLogic, () -> startLoop(), () -> fastFoward(), () -> endLoop(),
-                () -> closeStage(),
+                () -> closeStage(), () -> restartTime(),
                 root,
                 mediaPlayer);
         root.getChildren().add(myGameGUI);
@@ -107,8 +107,11 @@ public class GamePlayMain extends Application {
         if (!gameOver) {
             myGameGUI.update(currMilliSecond);
             currMilliSecond += MILLISECOND_DELAY;
-
         }
+    }
+
+    private void restartTime(){
+        currMilliSecond = 0;
     }
 
     private void endLoop(){

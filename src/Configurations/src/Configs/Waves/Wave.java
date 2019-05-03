@@ -118,6 +118,7 @@ public class Wave implements Updatable, Configurable {
         if(currentEnemyIndex>=enemies.length) {
             isFinished= true;
         }
+        System.out.println(isFinished);
     }
 
 }

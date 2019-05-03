@@ -21,7 +21,7 @@ public class Deflation extends LevelBehavior{
 
     @Override
     public void update(double ms, Updatable parent) {
-        //uneeded, this works!
+        //unneeded, this works!
     }
 
     @Override
