@@ -3,6 +3,7 @@ package GameAuthoringEnvironment;
 import BackendExternalAPI.AuthoringBackend;
 import Configs.GamePackage.Game;
 import ExternalAPIs.GameInfo;
+import GameAuthoringEnvironment.AuthoringComponents.TopMenuBar;
 import GameAuthoringEnvironment.AuthoringScreen.AuthoringVisualization;
 import GameAuthoringEnvironment.AuthoringScreen.ScreenSize;
 import javafx.application.Application;
@@ -31,6 +32,9 @@ public class ImportGame extends Application {
     private CloseStage eventHandler;
     private HBox gameSelector;
     private VBox rightSide;
+    private Game myGame;
+    private TopMenuBar topMenuBar;
+
     @Override
     public void start(Stage stage){
         this.stage = stage;
@@ -43,10 +47,11 @@ public class ImportGame extends Application {
         stage.setScene(scene);
         stage.show();
     }
-    public ImportGame(List<GameInfo> gameInfo, AuthoringBackend authoringBackend){
+    public ImportGame(List<GameInfo> gameInfo, AuthoringBackend authoringBackend, TopMenuBar topMenuBar){
         super();
         this.gameInfoList = gameInfo;
         this.authoringBackend = authoringBackend;
+        this.topMenuBar = topMenuBar;
     }
     public void setEventHandler(CloseStage eventHandler){
         this.eventHandler = eventHandler;
@@ -74,8 +79,8 @@ public class ImportGame extends Application {
         return scrollPane;
     }
     private void startSelectedGame(GameInfo gameInfo){
-        Game game = authoringBackend.loadGameObject(gameInfo);
-        makeGame(game);
+        myGame = authoringBackend.loadGameObject(gameInfo);
+        topMenuBar.loadGame(myGame);
         eventHandler.close();
     }
     private void createPrompt(GameInfo gameInfo, ImageView imageView){
@@ -110,10 +115,10 @@ public class ImportGame extends Application {
         rect.getStyleClass().add("my-rect");
         return rect;
     }
-
-    private void makeGame(Game game){
-        AuthoringVisualization authoringVisualization = new AuthoringVisualization(game, authoringBackend);
-        authoringVisualization.start(new Stage());
-        this.stage.close();
-    }
+//
+//    private void makeGame(Game game){
+//        AuthoringVisualization authoringVisualization = new AuthoringVisualization(game, authoringBackend);
+//        authoringVisualization.start(new Stage());
+//        this.stage.close();
+//    }
 }

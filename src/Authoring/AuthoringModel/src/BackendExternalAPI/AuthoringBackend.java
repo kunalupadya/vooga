@@ -105,7 +105,11 @@ public class AuthoringBackend {
     public Game loadGameObject(GameInfo selectedGame){
         XStream serializer = new XStream(new DomDriver());
         String gameXMLString = myAuthoringData.getGameString(selectedGame);
+//        System.out.println(gameXMLString);
         return (Game)serializer.fromXML(gameXMLString);
+//        XStream serializer = new XStream(new DomDriver());
+//        String gameXMLString = myPlayerData.getGameString(selectedGame);
+//        myGame =  (Game)serializer.fromXML(gameXMLString);
     }
 
     /**
