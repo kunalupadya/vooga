@@ -22,8 +22,7 @@ public class TowerAttack extends GameBehavior{
 
     @Configure
     WeaponConfig towerToProtect;
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
     @XStreamOmitField
     private transient ActiveWeapon activeWeapon;
 

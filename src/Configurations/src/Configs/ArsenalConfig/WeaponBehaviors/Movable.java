@@ -19,8 +19,8 @@ public class Movable extends WeaponBehavior{
     private double movingSpeed;
     @Configure
     private Point[] movingPattern;
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+
+    private Configuration myConfiguration;
 
     public Movable(WeaponConfig weaponConfig){
         super(weaponConfig);

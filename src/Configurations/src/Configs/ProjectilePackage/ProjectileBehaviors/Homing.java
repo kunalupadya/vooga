@@ -17,7 +17,7 @@ import static ActiveConfigs.UtilityClass.pointMaker;
 
 public class Homing extends ProjectileBehavior{
     public static final String DISPLAY_LABEL = "Homing Behavior";
-    public transient Configuration myConfiguration;
+    public Configuration myConfiguration;
     @Configure
     private int lockOnRange;
 

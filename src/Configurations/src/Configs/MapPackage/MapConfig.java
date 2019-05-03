@@ -31,9 +31,7 @@ public class MapConfig implements Configurable {
     @Configure
     private List<Point> enemyExitGridPosList;
 
-
-    @XStreamOmitField
-    private transient Configuration configuration;
+    private Configuration configuration;
     private Level myLevel;
 
     public MapConfig(Level level) {

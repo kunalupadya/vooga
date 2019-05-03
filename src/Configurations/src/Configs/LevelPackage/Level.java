@@ -26,7 +26,6 @@ public class Level implements Configurable{
     private Wave[] myWaves = new Wave[0];
     @Configure
     private MapConfig myMap;
-
     @Configure
     private LevelBehavior[] levelBehaviors;
 

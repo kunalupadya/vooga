@@ -14,8 +14,7 @@ public class SpeedMultiplier extends WaveBehavior{
     private double speedAcceleration;
 
 
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
 
     public SpeedMultiplier(Wave wave) {
         super(wave);

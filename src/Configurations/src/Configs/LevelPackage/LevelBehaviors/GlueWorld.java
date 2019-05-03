@@ -12,8 +12,8 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import java.util.Arrays;
 
 public class GlueWorld extends LevelBehavior{
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+
+    private Configuration myConfiguration;
     private boolean ifChanged = false;
 
 

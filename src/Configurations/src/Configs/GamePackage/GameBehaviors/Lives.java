@@ -18,8 +18,7 @@ public class Lives extends GameBehavior{
     @Configure
     private int numEnemies;
 
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
 
     public Lives(Game game) {
         super(game);

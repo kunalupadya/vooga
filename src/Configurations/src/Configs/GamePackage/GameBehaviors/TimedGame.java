@@ -20,8 +20,7 @@ public class TimedGame extends GameBehavior{
     @Configure
     private int totalTimeInSec;
 
-    @XStreamOmitField
-    private transient Configuration myConfiguration;
+    private Configuration myConfiguration;
 
     private int timeLeft;
 
