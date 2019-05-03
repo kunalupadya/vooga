@@ -136,7 +136,7 @@ public class GameController {
         Button confirmButton = new Button("Confirm");
         var nameAndTfBar = new HBox(10);
         Enum[] allOptions = AIOptions.values();
-        MenuButton menuButton = new MenuButton();
+        MenuButton menuButton = new MenuButton("Options");
         for(int a=0 ; a<allOptions.length; a++){
             MenuItem menuItem = new MenuItem(allOptions[a].toString());
             menuItem.setOnAction(new EventHandler<ActionEvent>() {
@@ -147,6 +147,7 @@ public class GameController {
                     if (selectedTypeString.equals("Shortest Path AI, Ignore Path")) myEnumType = AIOptions.SHORTEST_IGNORE_PATH;
                     if (selectedTypeString.equals("Shortest Path, Avoid Weapons")) myEnumType = AIOptions.SHORTEST_PATH_AVOID_WEAPON;
                     if (selectedTypeString.equals("Shortest Path, Avoid Weapons, Ignore Path")) myEnumType = AIOptions.SHORTEST_IGNORE_PATH_AVOID_WEAPON;
+                    menuButton.setText(selectedTypeString);
                 }
             });
             menuButton.getItems().add(menuItem);
@@ -187,6 +188,10 @@ public class GameController {
         mySlider.setShowTickLabels(true);
 
         TextField myTextField = new TextField();
+
+        if (definedAttributesMap.keySet().contains(key)) {
+            myTextField.setText(definedAttributesMap.get(key).toString());
+        }
 
         Class clazz = myconfigurable.getClass();
         Field[] aaa = clazz.getDeclaredFields();
@@ -445,15 +450,27 @@ public class GameController {
                         }
                         //Special case : View because view is being used in multiple places
                     } else if (clazz.getSimpleName().equals("View")) {
-                        Constructor<?> cons = clazz.getConstructor(Configurable.class);
-                        var object = cons.newInstance(myConfigurable);
-                        createConfigurable((Configurable) object);
-                        myAttributesMap.put(key, object);
+                        if (definedAttributesMap.keySet().contains(key)) {
+                            createConfigurable((Configurable) definedAttributesMap.get(key));
+                            myAttributesMap.put(key, definedAttributesMap.get(key));
+                        }
+                        else {
+                            Constructor<?> cons = clazz.getConstructor(Configurable.class);
+                            var object = cons.newInstance(myConfigurable);
+                            createConfigurable((Configurable) object);
+                            myAttributesMap.put(key, object);
+                        }
                         //Speical case : Behavior is different since drag and drop is required
                     } else if(clazz.getSimpleName().toLowerCase().contains("behavior")){
                         //multiple behaviors allowed
-                        List<Object> emptyList = new ArrayList<>();
-                        configureBehavior(clazz, myConfigurable, myAttributesMap, key, emptyList,false);
+                        if (definedAttributesMap.keySet().contains(key)) {
+                            configureBehavior(clazz, myConfigurable, definedAttributesMap, key, (List<Object>) definedAttributesMap.get(key), false);
+                            myAttributesMap.put(key, definedAttributesMap.get(key));
+                        }
+                        else {
+                            List<Object> emptyList = new ArrayList<>();
+                            configureBehavior(clazz, myConfigurable, myAttributesMap, key, emptyList, false);
+                        }
                     }
                     else if(myConfigurable instanceof SpawnEnemiesWhenKilled){
                         EnemyConfig enemyConfig = new EnemyConfig((Wave) null);
@@ -467,10 +484,16 @@ public class GameController {
                     }
                     //rest should follow this
                     else {
-                        Constructor<?> cons = clazz.getConstructor(myConfigurable.getClass());
-                        var object = cons.newInstance(myConfigurable);
-                        createConfigurable((Configurable) object);
-                        myAttributesMap.put(key, object);
+                        if (definedAttributesMap.keySet().contains(key)) {
+                            createConfigurable((Configurable) definedAttributesMap.get(key));
+                            myAttributesMap.put(key, definedAttributesMap.get(key));
+                        }
+                        else {
+                            Constructor<?> cons = clazz.getConstructor(myConfigurable.getClass());
+                            var object = cons.newInstance(myConfigurable);
+                            createConfigurable((Configurable) object);
+                            myAttributesMap.put(key, object);
+                        }
                     }
                 } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
                     myAlertFactory.createAlert("Something went wrong! Please try again");
