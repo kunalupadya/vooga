@@ -67,6 +67,10 @@ public class ActiveLevel extends Level implements Updatable {
         }
     }
 
+    public List<MapFeaturable> getActiveEnemies() {
+        return activeEnemies;
+    }
+
     private Cell[][] createMyGrid(){
         Cell[][] tempGrid = new Cell[getMyMapConfig().getGridWidth()][getMyMapConfig().getGridHeight()];//cell[row][col]
         for(Terrain t: getMyMapConfig().getTerrain()) {

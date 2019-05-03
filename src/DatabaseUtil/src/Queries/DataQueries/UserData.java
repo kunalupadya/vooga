@@ -81,7 +81,7 @@ public class UserData extends DBUtil {
             ResultSet results = statement.executeQuery();
             ArrayList<Integer> IDList = new ArrayList<>();
             while(results.next()){
-                IDList.add(results.getInt("authorID"));
+                IDList.add(results.getInt("gameID"));
             }
             results.close();
             statement.close();

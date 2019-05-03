@@ -378,6 +378,7 @@ public class ConfigurableMap extends Application {
                     terrainTileList.add((TerrainTile) child);
                 }
                 MapConfig m = new MapConfig((Level) myLevel);
+                m.getConfiguration().getAttributes();
                 boolean hasPath =false;
                 for(TerrainTile t : terrainTileList){
                     if(t.getIsPath()){

@@ -12,7 +12,7 @@ import java.util.function.Function;
  */
 public enum AIOptions {
     SHORTEST_PATH(Cell::getShortestDistanceHeuristic, (cell, inte) ->cell.setShortestDistanceHeuristic(inte), false, false, "Shortest Path AI"),
-    SHORTEST_IGNORE_PATH(Cell::getShortestDistanceHeuristicIgnorePath, (cell, inte) -> cell.setShortestDistanceHeuristicIgnorePath(inte), true,false, "Shortest Path AI, Ignore Path "),
+    SHORTEST_IGNORE_PATH(Cell::getShortestDistanceHeuristicIgnorePath, (cell, inte) -> cell.setShortestDistanceHeuristicIgnorePath(inte), true,false, "Shortest Path AI, Ignore Path"),
     SHORTEST_PATH_AVOID_WEAPON(Cell::getShortestDistanceHeuristicAvoidWeapons, (cell, inte) -> cell.setShortestDistanceHeuristicAvoidWeapons(inte), false,true, "Shortest Path, Avoid Weapons"),
     SHORTEST_IGNORE_PATH_AVOID_WEAPON(Cell::getShortestDistanceHeuristicAvoidWeaponsIgnorePath, (cell, inte) -> cell.setShortestDistanceHeuristicAvoidWeaponsIgnorePath(inte), true,true, "Shortest Path, Avoid Weapons, Ignore Path");
 
