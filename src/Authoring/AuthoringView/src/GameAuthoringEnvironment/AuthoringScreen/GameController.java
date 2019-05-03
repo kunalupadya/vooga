@@ -135,7 +135,7 @@ public class GameController {
         Label DISPLAY_LABEL = new Label("Choose the Enemy AI options");
         Button confirmButton = new Button("Confirm");
         var nameAndTfBar = new HBox(10);
-        AIOptions[] allOptions = AIOptions.values();
+        Enum[] allOptions = AIOptions.values();
         MenuButton menuButton = new MenuButton();
         for(int a=0 ; a<allOptions.length; a++){
             MenuItem menuItem = new MenuItem(allOptions[a].toString());
