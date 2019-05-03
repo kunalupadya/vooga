@@ -18,6 +18,8 @@ public class SpawnEnemiesWhenKilled extends EnemyBehavior{
     public static final String DISPLAY_LABEL = "SpawnEnemiesWhenKilled";
     @Configure
     EnemyConfig spawnedEnemy;
+
+    private transient boolean isRun;
     private transient Configuration myConfiguration;
 
     public SpawnEnemiesWhenKilled(EnemyConfig enemyConfig){
@@ -35,11 +37,14 @@ public class SpawnEnemiesWhenKilled extends EnemyBehavior{
     }
 
     public void spawnOnDeath(ActiveEnemy parentEnemy){
-        ActiveLevel activeLevel = parentEnemy.getActiveLevel();
-        ActiveEnemy activeEnemy = new ActiveEnemy(spawnedEnemy,activeLevel);
-        MapFeature newMapFeature = new MapFeature(parentEnemy.getMapFeature().getGridXPos() ,parentEnemy.getMapFeature().getGridYPos(),parentEnemy.getMapFeature().getDirection(),spawnedEnemy.getView(), activeLevel.getPaneWidth(), activeLevel.getPaneHeight(), activeLevel.getGridWidth(), activeLevel.getGridHeight(), activeEnemy);
-        activeEnemy.setMyMapFeature(newMapFeature);
-        activeLevel.addToActiveEnemies(activeEnemy);
+        if (!isRun) {
+            ActiveLevel activeLevel = parentEnemy.getActiveLevel();
+            ActiveEnemy activeEnemy = new ActiveEnemy(spawnedEnemy, activeLevel);
+            MapFeature newMapFeature = new MapFeature(parentEnemy.getMapFeature().getGridXPos(), parentEnemy.getMapFeature().getGridYPos(), parentEnemy.getMapFeature().getDirection(), spawnedEnemy.getView(), activeLevel.getPaneWidth(), activeLevel.getPaneHeight(), activeLevel.getGridWidth(), activeLevel.getGridHeight(), activeEnemy);
+            activeEnemy.setMyMapFeature(newMapFeature);
+            activeLevel.addToActiveEnemies(activeEnemy);
+            isRun = true;
+        }
     }
 
 
