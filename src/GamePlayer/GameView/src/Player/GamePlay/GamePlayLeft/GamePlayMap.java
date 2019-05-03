@@ -3,6 +3,7 @@ package Player.GamePlay.GamePlayLeft;
 import BackendExternal.Logic;
 import Configs.GamePackage.GameStatus;
 import Configs.ImmutableImageView;
+import Player.GamePlay.ButtonInterface;
 import Player.GamePlay.EndLoopInterface;
 import Player.GamePlay.LeaderBoard;
 import Player.GamePlay.SelectionInterface;
@@ -28,18 +29,20 @@ public class GamePlayMap extends Pane{
     private Group mapRoot;
     private EndLoopInterface endGame;
     private SelectionInterface homeStage;
+    private ButtonInterface myReset;
     private GameStatus gameStatus;
     private GamePlaySettingsBar myData;
     private double width;
     private double height;
 
     GamePlayMap(double width, double height, Logic logic, EndLoopInterface endLoop,
-                SelectionInterface stage, GamePlaySettingsBar data) {
+                SelectionInterface stage, ButtonInterface resetTime, GamePlaySettingsBar data) {
         this.width = width;
         this.height = height;
         myData = data;
         homeStage = stage;
         endGame = endLoop;
+        myReset = resetTime;
         myLogic = logic;
         mapRoot=new Group();
         applyCss();
@@ -85,11 +88,15 @@ public class GamePlayMap extends Pane{
                 imageToAdd.stream().forEach(img -> getChildren().add(img.getAsNode()));
                 break;
             case LEVELOVER:
+                myReset.actionButton();
                 System.out.println("Level ended");
-                myData.updateLevel(myLogic.startNextLevel());
+                int level = myLogic.startNextLevel();
+                System.out.println(level);
+                myData.updateLevel(level);
                 terrainList.clear();
                 terrainList = myLogic.getLevelTerrain(width, height);
                 terrainList.stream().forEach(img -> getChildren().add(img.getAsNode()));
+                break;
         }
     }
 
