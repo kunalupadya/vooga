@@ -1,5 +1,7 @@
 package Configs.MapPackage.TerrainBehaviors;
 
+import ActiveConfigs.ActiveEnemy;
+import ActiveConfigs.Cell;
 import Configs.Behaviors.Behavior;
 import Configs.LevelPackage.Level;
 import Configs.MapPackage.Terrain;
@@ -20,6 +22,11 @@ public abstract class TerrainBehavior implements Behavior<Terrain> {
 
     public void setMyTerrain(Terrain myTerrain) {
         this.myTerrain = myTerrain;
+    }
+
+    protected List<ActiveEnemy>getEnemiesOnMyCell(){
+        Cell myCell = myTerrain.getMyGame().getActiveLevel().getGridCell(myTerrain.getGridXPos(), myTerrain.getGridYPos());
+        return myCell.getMyEnemies();
     }
 
     @Override

@@ -26,8 +26,8 @@ public abstract class Screen {
         moduleHeight = height;
         //module.setStyle("-fx-border-color: black;");
 
-        module.setMinSize(moduleWidth, moduleHeight);
-        module.setMaxSize(moduleWidth, moduleHeight);
+        module.setMinSize(ScreenSize.getWidth(), moduleHeight);
+        module.setMaxSize(ScreenSize.getWidth(), moduleHeight);
         //module.setId("module");
         content.prefHeightProperty().bind(module.heightProperty());
         content.prefWidthProperty().bind(module.widthProperty());

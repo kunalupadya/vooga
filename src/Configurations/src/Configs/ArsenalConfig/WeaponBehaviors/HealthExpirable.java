@@ -1,17 +1,28 @@
 package Configs.ArsenalConfig.WeaponBehaviors;
 
+import ActiveConfigs.ActiveWeapon;
+import Configs.Behaviors.Behavior;
+import Configs.Configurable;
 import Configs.Configuration;
 import Configs.ArsenalConfig.WeaponConfig;
+import Configs.DisplayState;
+import Configs.Updatable;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+import java.util.Arrays;
 import java.util.List;
-
-public class HealthExpirable extends WeaponBehavior{
+/**
+ * Behavior for weapons that causes the weapon to die after it has taken a certain amount of damage
+ *  * All methods inherited from superclass are commented there.
+ */
+public class HealthExpirable extends WeaponBehavior {
+    public static final String DISPLAY_LABEL = "Health-Expirable";
     @Configure
-    private String myLabel;
-    @Configure
-    protected int amountOfHealth;
+    private int amountOfHealth;
 
-    Configuration myConfiguration;
+    private Configuration myConfiguration;
+    @XStreamOmitField
+    private transient int damage;
 
     public HealthExpirable(WeaponConfig weaponConfig){
         super(weaponConfig);
@@ -19,17 +30,29 @@ public class HealthExpirable extends WeaponBehavior{
     }
 
     @Override
-    public void update(double ms) {
+    public void update(double ms, Updatable parent) {
+        if(damage>=amountOfHealth) {
+            ActiveWeapon activeWeapon = ((ActiveWeapon) parent);
+            activeWeapon.getActiveLevel().removeWeapon(activeWeapon);
+        }
+    }
 
+    public void damage(int damage) {
+        this.damage+=damage;
     }
 
     @Override
-    public String getLabel() {
-        return myLabel;
+    public String getName() {
+        return DISPLAY_LABEL;
     }
-
     @Override
     public Configuration getConfiguration() {
         return myConfiguration;
+    }
+    @Override
+    public Behavior copy() {
+        HealthExpirable ret = new HealthExpirable(getMyWeaponConfig());
+        ret.amountOfHealth = amountOfHealth;
+        return ret;
     }
 }

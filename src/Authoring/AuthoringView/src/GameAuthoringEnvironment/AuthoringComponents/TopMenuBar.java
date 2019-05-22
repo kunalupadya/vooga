@@ -1,61 +1,90 @@
 package GameAuthoringEnvironment.AuthoringComponents;
 
-import BackendExternalAPI.Model;
+import BackendExternalAPI.AuthoringBackend;
+import Configs.GamePackage.Game;
+import GameAuthoringEnvironment.AuthoringScreen.AlertFactory;
 import GameAuthoringEnvironment.AuthoringScreen.GameController;
 import GameAuthoringEnvironment.AuthoringScreen.GameOutline;
+import GameAuthoringEnvironment.CloseStage;
+import GameAuthoringEnvironment.ImportGame;
+import Player.GamePlayMain;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 public class TopMenuBar {
 
     private HBox TopMenuBar;
     private GameController gameController;
     private GameOutline myGameOutline;
+    private AuthoringBackend myAuthoringBackend;
+    private TopMenuBar myself;
 
     //TODO @Hyunjae : Set Style for these buttons
 
-    public TopMenuBar(GameOutline gameOutline){
+    public TopMenuBar(GameOutline gameOutline, AuthoringBackend authoringBackend){
+        myAuthoringBackend = authoringBackend;
         myGameOutline = gameOutline;
         TopMenuBar = new HBox();
-
+        TopMenuBar.setSpacing(5);
+        TopMenuBar.setPadding(new Insets(10,5,5,5));
+        TopMenuBar.setAlignment(Pos.CENTER);
         Button newGameButton = new Button("New Game");
+        myself = this;
         newGameButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
-                gameController = new GameController();
+                try {
+                    gameController = new GameController();
+                    gameController.createConfigurable(gameController.getMyGame());
+                } catch (NumberFormatException | NoSuchFieldException n) {
+                    handle(event);
+                    AlertFactory af = new AlertFactory();
+                    af.createAlert("Improper Field");
+                }
             }
         });
 
         Button saveButton = new Button("Save");
         saveButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
-                myGameOutline.makeTreeView(gameController.getMyGame());
-                Model model = new Model();
-                model.saveToXML(gameController.getMyGame());
+                if(gameController == null || gameController.getMyGame() == null){
+                    createAlert("Make a Game first");}
+                else{
+                myGameOutline.makeTreeView(gameController.getMyGame());}
+            }
+        });
+
+
+        Button exportButton = new Button("Export");
+        exportButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+                if(gameController == null){
+                    createAlert("Make a Game first");}
+                else{
+                myAuthoringBackend.saveToXML(gameController.getMyGame());}
             }
         });
 
         Button loadButton = new Button("Load");
         loadButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
+                ImportGame importGame = new ImportGame(myAuthoringBackend.getAuthoredGameLibrary(), myAuthoringBackend, myself);
+                importGame.start(new Stage());
+            }
+        });
 
-                //TODO Import XML using filechooser and call a game.d
-               /* FileChooser fileChooser = new FileChooser();
-
-                File selectedFile = fileChooser.showOpenDialog(myStage);
-                if (selectedFile != null) {
-                    //TODO Make Game based on this
-                    String filepath = selectedFile.toString();
-                    // TODO game should be created by reading in the xml
-            *//*Game importedGame = new Game();
-            importedGame = new Model(filepath);*//*
-
-                    if (!filepath.endsWith("XML")) {
-                        //TODO Alert
-                    }
-                }
-                makeGame(new Game());*/
+        Button runButton = new Button("Run");
+        runButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                GamePlayMain gamePlayMain = new GamePlayMain();
+                gamePlayMain.setGameFromAuthoring(gameController.getMyGame());
+//                gamePlayMain.setGameFromAuthoring(authoringBackend.loadFromXML());
+                gamePlayMain.start(new Stage());
             }
         });
 
@@ -70,12 +99,26 @@ public class TopMenuBar {
         Button refreshButton = new Button("Refresh");
         refreshButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
-                //TODO This button refresh the game outline
-                myGameOutline.makeTreeView(gameController.getMyGame());
+                if(gameController == null){
+                    createAlert("Make a Game First");
+                }else{
+                myGameOutline.makeTreeView(gameController.getMyGame());}
             }
         });
 
-        TopMenuBar.getChildren().addAll(newGameButton, saveButton, loadButton, refreshButton);
+        TopMenuBar.getChildren().addAll(newGameButton, saveButton, exportButton, loadButton, runButton, refreshButton);
+    }
+
+    public void loadGame(Game game){
+//        gameController = new GameController();
+//        gameController.setMyGame(game);
+        myGameOutline.makeTreeView(game);
+    }
+
+
+    private void createAlert(String message) {
+        AlertFactory alertFactory = new AlertFactory();
+        alertFactory.createAlert(message);
     }
 
     public HBox getTopMenuBar(){

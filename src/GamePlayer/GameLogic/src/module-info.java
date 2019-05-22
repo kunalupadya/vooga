@@ -8,6 +8,7 @@ module GameLogic {
     requires java.desktop;
     requires javafx.web;
     requires Configurations;
+    requires DatabaseUtil;
     requires xstream;
 
 }

@@ -28,13 +28,13 @@
         <Configs.LevelPackage.Level-array>
           <Configs.LevelPackage.Level>
             <myGame reference="../../../../../.."/>
-            <myLabel>Level1</myLabel>
+            <DISPLAY_LABEL>Level1</DISPLAY_LABEL>
             <myWaveConfigs/>
             <levelBehaviors/>
             <myConfiguration>
               <myAttributeTypes class="linked-hash-map">
                 <entry>
-                  <string>myLabel</string>
+                  <string>DISPLAY_LABEL</string>
                   <java-class>java.lang.String</java-class>
                 </entry>
                 <entry>
@@ -57,10 +57,10 @@
               <myAttributes>
                 <entry>
                   <string>myWaveConfigs</string>
-                  <Configs.Waves.WaveConfig-array reference="../../../../myWaveConfigs"/>
+                  <Configs.Waves.Wave-array reference="../../../../myWaveConfigs"/>
                 </entry>
                 <entry>
-                  <string>myLabel</string>
+                  <string>DISPLAY_LABEL</string>
                   <string>Level1</string>
                 </entry>
                 <entry>
@@ -75,13 +75,13 @@
           </Configs.LevelPackage.Level>
           <Configs.LevelPackage.Level>
             <myGame reference="../../../../../.."/>
-            <myLabel>level2</myLabel>
+            <DISPLAY_LABEL>level2</DISPLAY_LABEL>
             <myWaveConfigs/>
             <levelBehaviors/>
             <myConfiguration>
               <myAttributeTypes class="linked-hash-map">
                 <entry>
-                  <string>myLabel</string>
+                  <string>DISPLAY_LABEL</string>
                   <java-class>java.lang.String</java-class>
                 </entry>
                 <entry>
@@ -104,10 +104,10 @@
               <myAttributes>
                 <entry>
                   <string>myWaveConfigs</string>
-                  <Configs.Waves.WaveConfig-array reference="../../../../myWaveConfigs"/>
+                  <Configs.Waves.Wave-array reference="../../../../myWaveConfigs"/>
                 </entry>
                 <entry>
-                  <string>myLabel</string>
+                  <string>DISPLAY_LABEL</string>
                   <string>level2</string>
                 </entry>
                 <entry>

@@ -1,0 +1,50 @@
+<Configs.GamePackage.Game>
+  <myName>testing game</myName>
+  <myDescription>testing</myDescription>
+  <myThumbnail>thumbnail1.gif</myThumbnail>
+  <levelList/>
+  <myArsenal>
+    <myGame reference="../.."/>
+    <defaultWeapons>
+      <Configs.ArsenalConfig.WeaponConfig>
+        <myName>weapon</myName>
+        <behaviors>
+          <Configs.ArsenalConfig.WeaponBehaviors.AmmoExpirable>
+            <myWeaponConfig reference="../../.."/>
+            <ammoLimit>36</ammoLimit>
+          </Configs.ArsenalConfig.WeaponBehaviors.AmmoExpirable>
+          <Configs.ArsenalConfig.WeaponBehaviors.ShootableWeapon>
+            <myWeaponConfig reference="../../.."/>
+            <myShooter>
+              <myShootable reference="../.."/>
+              <myName>shooter</myName>
+              <rateOfFire>40.0</rateOfFire>
+              <projectileConfig>
+                <myShooter reference="../.."/>
+                <myConfiguration/>
+                <myName>projectile</myName>
+                <view>
+                  <imagePath>thumbnail2.gif</imagePath>
+                  <width>4</width>
+                  <height>4</height>
+                  <myConfigurable class="Configs.ProjectilePackage.ProjectileConfig" reference="../.."/>
+                </view>
+                <velocityInSeconds>40.0</velocityInSeconds>
+                <strength>40.0</strength>
+                <myBehaviors/>
+              </projectileConfig>
+              <shooterRange>40.0</shooterRange>
+            </myShooter>
+            <weaponConfig reference="../../.."/>
+          </Configs.ArsenalConfig.WeaponBehaviors.ShootableWeapon>
+        </behaviors>
+        <myArsenal reference="../../.."/>
+        <weaponId>0</weaponId>
+      </Configs.ArsenalConfig.WeaponConfig>
+    </defaultWeapons>
+    <unlockableWeapons/>
+    <unlockedWeapons/>
+    <newUnlockedWeapons/>
+  </myArsenal>
+  <myScore>0</myScore>
+</Configs.GamePackage.Game>

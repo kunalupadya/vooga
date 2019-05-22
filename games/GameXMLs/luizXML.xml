@@ -1,0 +1,18 @@
+<Configs.GamePackage.Game>
+  <myConfiguration/>
+  <myName>luiz</myName>
+  <myDescription>demo</myDescription>
+  <myThumbnail>demo</myThumbnail>
+  <levelList>
+    <Configs.LevelPackage.Level>
+      <myGame reference="../../.."/>
+      <myName>level1</myName>
+      <myWaves/>
+      <levelBehaviors/>
+      <myConfiguration/>
+    </Configs.LevelPackage.Level>
+  </levelList>
+  <currentLevelNumber>0</currentLevelNumber>
+  <gameOver>false</gameOver>
+  <currentLevelOver>false</currentLevelOver>
+</Configs.GamePackage.Game>

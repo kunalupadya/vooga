@@ -1,37 +1,54 @@
 package Configs.ProjectilePackage;
 
-import ActiveConfigs.Shooter;
+import Configs.ArsenalConfig.WeaponBehaviors.WeaponBehavior;
+import Configs.ShooterConfig.Shooter;
 import Configs.*;
-import Configs.Behaviors.Behavior;
 import Configs.ProjectilePackage.ProjectileBehaviors.ProjectileBehavior;
-import Configs.ShooterConfig.ShooterConfig;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
+/**
+ * Template for projectiles that will be fired by shooters as part of weapons in the authoring environment
+ */
 public class ProjectileConfig implements Configurable, Viewable {
-    private ShooterConfig myShooter;
+    private Shooter myShooter;
 
-    Configuration myConfiguration;
+    private Configuration myConfiguration;
+    public static final String DISPLAY_LABEL="Projectile";
     @Configure
-    private String myLabel;
+    private String myName;
     @Configure
     private View view;
+    @Slider(min = 15, max = 30)
     @Configure
     private double velocityInSeconds;
-
-    //TODO: after first sprint implement behaviors
+    @Slider(min = 50, max = 10000)
     @Configure
-    private ProjectileBehavior[] myBehaviors;
+    private double strength;
+    @Configure
+    private ProjectileBehavior[] myBehaviors = new ProjectileBehavior[0];
 
 
-    public ProjectileConfig(ShooterConfig shooter) {
+    public ProjectileConfig(Shooter shooter) {
         myShooter = shooter;
         myConfiguration = new Configuration(this);
     }
 
     public ProjectileConfig(ProjectileConfig projectileConfig){
-//        myBehaviors = projectileConfig.getMyBehaviors();
+        List<ProjectileBehavior> arrayList= Arrays.stream(projectileConfig.getMyBehaviors())
+                .map(behavior->(ProjectileBehavior) behavior.copy())
+                .collect(Collectors.toList());
+        myBehaviors = new ProjectileBehavior[arrayList.size()];
+        for (int i=0; i<arrayList.size(); i++){
+            myBehaviors[i] = arrayList.get(i);
+        }
         myShooter = projectileConfig.getMyShooter();
+        myName = projectileConfig.myName;
+        view = projectileConfig.view;
+        velocityInSeconds = projectileConfig.velocityInSeconds;
+        strength = projectileConfig.strength;
     }
 
     @Override
@@ -43,18 +60,23 @@ public class ProjectileConfig implements Configurable, Viewable {
         return velocityInSeconds;
     }
 
-    private ProjectileBehavior[] getMyBehaviors() {
+    protected ProjectileBehavior[] getMyBehaviors() {
         return myBehaviors;
     }
 
-    @Override
-    public String getLabel() {
-        return myLabel;
+    public double getStrength() {
+        return strength;
     }
 
-    public ShooterConfig getMyShooter() {
+    @Override
+    public String getName() {
+        return myName;
+    }
+
+    public Shooter getMyShooter() {
         return myShooter;
     }
+
 
     @Override
     public Configuration getConfiguration() {

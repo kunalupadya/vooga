@@ -24,7 +24,7 @@
             linear-gradient(from 0% 0% to 15% 50%, rgba(39, 255, 50, 0.9), rgba(255,255,255,0));
     -fx-background-radius: 20;
 }
-#fastFowardButton{
+#fastForwardButton{
     -fx-background-color:
             linear-gradient(#2931ff, #68b2e6),
             linear-gradient(#5694ff, #e1eaf2),
@@ -33,7 +33,6 @@
             linear-gradient(from 0% 0% to 15% 50%, rgba(27, 102, 255, 0.9), rgba(255,255,255,0));
     -fx-background-radius: 20;
 }
-
 
 #HUD{
     -fx-background-image: url("wood.jpg");

@@ -1,48 +1,92 @@
 package Configs.EnemyPackage;
 
 import Configs.*;
-import Configs.Behaviors.Behavior;
+import Configs.ArsenalConfig.WeaponBehaviors.WeaponBehavior;
+import Configs.EnemyPackage.EnemyBehaviors.AIOptions;
 import Configs.EnemyPackage.EnemyBehaviors.EnemyBehavior;
-import Configs.Waves.WaveConfig;
+import Configs.Waves.Wave;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * A template for enemy objects created by the authoring environment that will be passed to the game through serialization
+ */
 public class EnemyConfig implements Configurable, Viewable {
-    private WaveConfig myWaveConfig;
+    private Wave myWave;
+    public static final String DISPLAY_LABEL = "Enemy";
     @Configure
-    private String myLabel;
+    private String myName;
     @Configure
-    private EnemyBehavior[] myBehaviors;
+    private EnemyBehavior[] myBehaviors = new EnemyBehavior[0];
+    @Slider(min = 50, max = 10000)
     @Configure
-    private int unitSpeedPerSecond;
+    private int health;
+    @Slider(min=1,max=10)
+    @Configure
+    private double unitSpeedPerSecond;
+    @Configure
+    private int rewardForKilling;
     @Configure
     private View view;
+    @Configure
+    private AIOptions aiType;
 
     private Configuration myConfiguration;
 
-    public EnemyConfig(WaveConfig waveConfig) {
-        myWaveConfig = waveConfig;
+    public EnemyConfig(Wave wave) {
+        myWave = wave;
         myConfiguration = new Configuration(this);
     }
 
     public EnemyConfig(EnemyConfig enemyConfig){
-        myBehaviors = enemyConfig.getMyBehaviors();
-        myWaveConfig = enemyConfig.getMyWaveConfig();
+        if (enemyConfig == null){
+            return;
+        }
+        List<EnemyBehavior> arrayList;
+        if (enemyConfig.getMyBehaviors()!=null) {
+            arrayList = Arrays.stream(enemyConfig.getMyBehaviors())
+                    .map(behavior -> (EnemyBehavior) behavior.copy())
+                    .collect(Collectors.toList());
+        }
+        else {
+            arrayList = new ArrayList<>();
+        }
+        myBehaviors = new EnemyBehavior[arrayList.size()];
+        for (int i=0; i<arrayList.size(); i++){
+            myBehaviors[i] = arrayList.get(i);
+        }
+        myWave = enemyConfig.getMyWave();
         unitSpeedPerSecond = enemyConfig.getUnitSpeedPerSecond();
         view = enemyConfig.getView();
+        myName = enemyConfig.getName();
+        health = enemyConfig.health;
+        rewardForKilling = enemyConfig.rewardForKilling;
+        aiType = enemyConfig.aiType;
     }
 
-    public WaveConfig getMyWaveConfig() {
-        return myWaveConfig;
+    public Wave getMyWave() {
+        return myWave;
     }
 
     //    public void setMyBehaviors(List<Behavior<EnemyConfig>> behavior) {
 //        myBehaviors = behavior;
 //    }
 
+    /**
+     *
+     * @return this parameter
+     */
     public EnemyBehavior[] getMyBehaviors() {
         return myBehaviors;
     }
-
-    public int getUnitSpeedPerSecond() {
+    /**
+     *
+     * @return this parameter
+     */
+    public double getUnitSpeedPerSecond() {
         return unitSpeedPerSecond;
     }
 
@@ -50,10 +94,17 @@ public class EnemyConfig implements Configurable, Viewable {
     public View getView() {
         return view;
     }
+    /**
+     *
+     * @return this parameter
+     */
+    public int getHealth() {
+        return health;
+    }
 
     @Override
-    public String getLabel() {
-        return myLabel;
+    public String getName() {
+        return myName;
     }
 
     @Override
@@ -61,7 +112,44 @@ public class EnemyConfig implements Configurable, Viewable {
         return myConfiguration;
     }
 
-//    public WaveConfig getMyWaveConfig() {
-//        return myWaveConfig;
+//    public Wave getMyWave() {
+//        return myWave;
 //    }
+
+
+    protected int getRewardForKilling() {
+        return rewardForKilling;
+    }
+
+    /**
+     * updates the health when the enemy is given a powerup through a wave
+     * @param multiplier how much to multiply health by
+     */
+    public void multiplyHealth(double multiplier) {
+        this.health = (int) multiplier*health;
+    }
+
+    /**
+     * changes the reward for being killed (cash and score)
+     * @param multiplier
+     */
+    public void multiplyRewardForKilling(double multiplier) {
+        this.rewardForKilling = (int) multiplier * rewardForKilling;
+    }
+
+    /**
+     * modifies the speed for when waves want to do that
+     * @param multiplier
+     */
+    public void multiplyUnitSpeedPerSecond(double multiplier) {
+        this.unitSpeedPerSecond = (int) multiplier * unitSpeedPerSecond;
+    }
+
+    /**
+     *
+     * @return the type of AI that is implementd
+     */
+    public AIOptions getAiType() {
+        return aiType;
+    }
 }

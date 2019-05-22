@@ -1,22 +1,36 @@
 package ActiveConfigs;
 
-import Configs.EnemyPackage.EnemyConfig;
-import Configs.ArsenalConfig.WeaponConfig;
+import Configs.MapFeaturable;
 import Configs.MapPackage.Terrain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.IntSupplier;
 
-public class Cell {
+public class Cell implements Comparable{
     private int X;
     private int Y;
-    private ActiveWeapon myWeaponConfig;
+    private ActiveWeapon myWeapon;
     private Terrain myTerrain;
     private List<ActiveEnemy> myEnemies;
-    private int movementHeuristic;
+    private int shortestDistanceHeuristic;
+    private int shortestDistanceHeuristicIgnorePath;
+    private int shortestDistanceHeuristicAvoidWeapons;
+    private int shortestDistanceHeuristicAvoidWeaponsIgnorePath;
+    private boolean cellBlocked;
+    private int weaponCoverage;
 
-    public Cell(){
 
+//    public Cell(){
+//
+//    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (o instanceof Cell){
+            return this.getShortestDistanceHeuristic() - ((Cell) o).getShortestDistanceHeuristic();
+        }
+        return 0;
     }
 
     public Cell(int xpos, int ypos, Terrain t){
@@ -24,18 +38,30 @@ public class Cell {
         Y = ypos;
         myTerrain = t;
         myEnemies = new ArrayList<>();
-        myWeaponConfig = null;
-
+        myWeapon = null;
+        shortestDistanceHeuristic = Integer.MAX_VALUE;
+        shortestDistanceHeuristicAvoidWeapons = Integer.MAX_VALUE;
+        shortestDistanceHeuristicAvoidWeaponsIgnorePath = Integer.MAX_VALUE;
+        shortestDistanceHeuristicIgnorePath = Integer.MAX_VALUE;
     }
 
-    public boolean isValidWeaponPlacement() {
-        return myWeaponConfig==null&&( !(myWeaponConfig.isPathWeapon() ^ myTerrain.isPath()));
+    public boolean isValidWeaponPlacement(boolean isPathWeapon) {
+        if (!isPathWeapon&&myTerrain.isPath()){
+            return false;
+        }
+        return myWeapon==null;
     }
 
+    public int getWeaponCoverage() {
+        return weaponCoverage;
+    }
 
+    public void setWeaponCoverage(int weaponCoverage) {
+        this.weaponCoverage = weaponCoverage;
+    }
 
-    public ActiveWeapon getMyWeaponConfig() {
-        return myWeaponConfig;
+    public ActiveWeapon getMyWeapon() {
+        return myWeapon;
     }
 
     public int getX(){
@@ -44,16 +70,9 @@ public class Cell {
     public int getY(){
         return Y;
     }
-    public void setMyWeaponConfig(ActiveWeapon myWeaponConfig) {
-        this.myWeaponConfig = myWeaponConfig;
-    }
 
     public Terrain getMyTerrain() {
         return myTerrain;
-    }
-
-    public void setMyTerrain(Terrain myTerrain) {
-        this.myTerrain = myTerrain;
     }
 
     public List<ActiveEnemy> getMyEnemies() {
@@ -64,12 +83,55 @@ public class Cell {
         this.myEnemies = myEnemies;
     }
 
-    public void setMovementHeuristic(int movementHeuristic) {
-        this.movementHeuristic = movementHeuristic;
+    public void addEnemy(ActiveEnemy enemy) {
+        this.myEnemies.add(enemy);
     }
 
-    public int getMovementHeuristic() {
-        return movementHeuristic;
+    public void removeEnemy(ActiveEnemy enemy) {
+        this.myEnemies.remove(enemy);
+    }
+
+    public void  setShortestDistanceHeuristic(int movementHeuristic) {
+        this.shortestDistanceHeuristic = movementHeuristic;
+    }
+
+    public int getShortestDistanceHeuristic() {
+        return shortestDistanceHeuristic;
+    }
+
+    public int getShortestDistanceHeuristicAvoidWeapons() {
+        return shortestDistanceHeuristicAvoidWeapons;
+    }
+
+    public int getShortestDistanceHeuristicIgnorePath() {
+        return shortestDistanceHeuristicIgnorePath;
+    }
+
+    public void setShortestDistanceHeuristicAvoidWeapons(int shortestDistanceHeuristicAvoidWeapons) {
+        this.shortestDistanceHeuristicAvoidWeapons = shortestDistanceHeuristicAvoidWeapons;
+    }
+
+    public void setShortestDistanceHeuristicIgnorePath(int shortestDistanceHeuristicIgnorePath) {
+        this.shortestDistanceHeuristicIgnorePath = shortestDistanceHeuristicIgnorePath;
+    }
+
+
+
+    public void setWeapon(ActiveWeapon activeWeapon) {
+        this.myWeapon = activeWeapon;
+    }
+
+    public void removeWeapon() {
+        this.myWeapon = null;
+    }
+
+
+    public void setShortestDistanceHeuristicAvoidWeaponsIgnorePath(int shortestDistanceHeuristicAvoidWeaponsIgnorePath) {
+        this.shortestDistanceHeuristicAvoidWeaponsIgnorePath = shortestDistanceHeuristicAvoidWeaponsIgnorePath;
+    }
+
+    public int getShortestDistanceHeuristicAvoidWeaponsIgnorePath() {
+        return shortestDistanceHeuristicAvoidWeaponsIgnorePath;
     }
 }
 

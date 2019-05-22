@@ -28,9 +28,9 @@
         <Configs.LevelPackage.Level-array>
           <Configs.LevelPackage.Level>
             <myGame reference="../../../../../.."/>
-            <myLabel>wtf</myLabel>
+            <DISPLAY_LABEL>wtf</DISPLAY_LABEL>
             <myMap>
-              <myLabel>Map</myLabel>
+              <DISPLAY_LABEL>Map</DISPLAY_LABEL>
               <myTerrain>
                 <Configs.MapPackage.Terrain>
                   <view>
@@ -7247,7 +7247,7 @@
                     <int>400</int>
                   </entry>
                   <entry>
-                    <string>myLabel</string>
+                    <string>DISPLAY_LABEL</string>
                     <string>Map</string>
                   </entry>
                   <entry>
@@ -7287,7 +7287,7 @@
             <myConfiguration>
               <myAttributeTypes class="linked-hash-map">
                 <entry>
-                  <string>myLabel</string>
+                  <string>DISPLAY_LABEL</string>
                   <java-class>java.lang.String</java-class>
                 </entry>
                 <entry>
@@ -7309,7 +7309,7 @@
               </myAttributeTypes>
               <myAttributes>
                 <entry>
-                  <string>myLabel</string>
+                  <string>DISPLAY_LABEL</string>
                   <string>wtf</string>
                 </entry>
                 <entry>

@@ -6,7 +6,6 @@ import javafx.scene.image.ImageView;
 
 public class PlayButton extends Button {
     private String icon = "playButton1.png";
-
     private Image image = new Image(this.getClass().getClassLoader().getResourceAsStream(icon));
     private ImageView imageView = new ImageView(image);
     public PlayButton(double width, double height){
@@ -16,7 +15,6 @@ public class PlayButton extends Button {
         setPrefWidth(width/3);
         setPrefHeight(height);
         setId("playButton");
-        System.out.println(width);
         setPrefHeight(height);
 
     }

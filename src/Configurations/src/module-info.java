@@ -2,8 +2,8 @@ module Configurations {
     requires java.desktop;
     requires javafx.graphics;
     requires java.base;
-
     requires xstream;
+    requires DatabaseUtil;
 
     opens Configs to xstream;
 
@@ -14,7 +14,7 @@ module Configurations {
     exports Configs.EnemyPackage.EnemyBehaviors;
     exports Configs.EnemyPackage;
     exports Configs.GamePackage;
-//    exports Configs.GamePackage.GameBehaviors;
+    exports Configs.GamePackage.GameBehaviors;
     exports Configs.LevelPackage.LevelBehaviors;
     exports Configs.LevelPackage;
     exports Configs.MapPackage;
@@ -23,7 +23,9 @@ module Configurations {
     exports Configs.ProjectilePackage;
     exports Configs.Waves.WaveBehaviors;
     exports Configs.Waves;
+    exports Configs.ShooterConfig;
+    exports Configs.ShooterConfig.ShooterBehaviors;
     exports ActiveConfigs;
+    exports Configs.ArsenalConfig.WeaponWaveBehaviors;
 
-    exports Configs.GamePackage.GameBehaviors;
 }

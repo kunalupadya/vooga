@@ -9,13 +9,14 @@ public class FastFowardButton extends Button {
 
     private Image image = new Image(this.getClass().getClassLoader().getResourceAsStream(icon));
     private ImageView imageView = new ImageView(image);
+
     public FastFowardButton(double width, double height){
-        imageView.setFitWidth(width/2);
+        imageView.setFitWidth(height);
         imageView.setFitHeight(height);
         setGraphic(imageView);
-        setPrefWidth(width);
+        setPrefWidth(width/3);
         setPrefHeight(height);
-        setId("fastFowardButton");
-
+        setId("fastForwardButton");
+        setPrefHeight(height);
     }
 }

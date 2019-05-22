@@ -1,0 +1,64 @@
+<Configs.GamePackage.Game>
+  <myConfiguration/>
+  <myTitle>this is a bullshit</myTitle>
+  <myDescription>adfa</myDescription>
+  <myThumbnail>daf</myThumbnail>
+  <levelList>
+    <Configs.LevelPackage.Level>
+      <myGame reference="../../.."/>
+      <myLabel>level1</myLabel>
+      <myWaves>
+        <Configs.Waves.Wave>
+          <myLevel reference="../../.."/>
+          <myLabel>Wave</myLabel>
+          <name>wave1</name>
+          <timeToReleaseInMs>1000.0</timeToReleaseInMs>
+          <rateOfReleaseEnemiesPerMs>1000.0</rateOfReleaseEnemiesPerMs>
+          <enemies>
+            <Configs.EnemyPackage.EnemyConfig>
+              <myWave reference="../../.."/>
+              <name>enemy1</name>
+              <myBehaviors/>
+              <unitSpeedPerSecond>1000</unitSpeedPerSecond>
+              <myConfiguration/>
+            </Configs.EnemyPackage.EnemyConfig>
+            <Configs.EnemyPackage.EnemyConfig>
+              <myWave reference="../../.."/>
+              <name>enemy2</name>
+              <myBehaviors/>
+              <unitSpeedPerSecond>2000</unitSpeedPerSecond>
+              <myConfiguration/>
+            </Configs.EnemyPackage.EnemyConfig>
+          </enemies>
+          <myWaveBehaviors/>
+          <myConfiguration/>
+          <currentEnemyIndex>0</currentEnemyIndex>
+          <isFinished>false</isFinished>
+        </Configs.Waves.Wave>
+        <Configs.Waves.Wave>
+          <myLevel reference="../../.."/>
+          <myLabel>Wave</myLabel>
+          <timeToReleaseInMs>0.0</timeToReleaseInMs>
+          <rateOfReleaseEnemiesPerMs>0.0</rateOfReleaseEnemiesPerMs>
+          <myConfiguration/>
+          <currentEnemyIndex>0</currentEnemyIndex>
+          <isFinished>false</isFinished>
+        </Configs.Waves.Wave>
+        <Configs.Waves.Wave>
+          <myLevel reference="../../.."/>
+          <myLabel>Wave</myLabel>
+          <timeToReleaseInMs>0.0</timeToReleaseInMs>
+          <rateOfReleaseEnemiesPerMs>0.0</rateOfReleaseEnemiesPerMs>
+          <myConfiguration/>
+          <currentEnemyIndex>0</currentEnemyIndex>
+          <isFinished>false</isFinished>
+        </Configs.Waves.Wave>
+      </myWaves>
+      <levelBehaviors/>
+      <myConfiguration/>
+    </Configs.LevelPackage.Level>
+  </levelList>
+  <currentLevelNumber>0</currentLevelNumber>
+  <gameOver>false</gameOver>
+  <currentLevelOver>false</currentLevelOver>
+</Configs.GamePackage.Game>

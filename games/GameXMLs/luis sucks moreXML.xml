@@ -32,23 +32,23 @@
         <Configs.LevelPackage.Level-array>
           <Configs.LevelPackage.Level>
             <myGame reference="../../../../../.."/>
-            <myLabel>luis drop</myLabel>
+            <DISPLAY_LABEL>luis drop</DISPLAY_LABEL>
             <myWaveConfigs>
-              <Configs.Waves.WaveConfig>
+              <Configs.Waves.Wave>
                 <myLevel reference="../../.."/>
-                <myLabel>looiz</myLabel>
+                <DISPLAY_LABEL>looiz</DISPLAY_LABEL>
                 <timeToReleaseInMs>1000</timeToReleaseInMs>
                 <rateOfReleaseEnemiesPerMs>1</rateOfReleaseEnemiesPerMs>
                 <enemies>
                   <Configs.EnemyPackage.EnemyConfig>
-                    <myWaveConfig reference="../../.."/>
-                    <myLabel>urmom</myLabel>
+                    <myWave reference="../../.."/>
+                    <DISPLAY_LABEL>urmom</DISPLAY_LABEL>
                     <myBehaviors/>
                     <unitSpeedPerSecond>2</unitSpeedPerSecond>
                     <myConfiguration>
                       <myAttributeTypes class="linked-hash-map">
                         <entry>
-                          <string>myLabel</string>
+                          <string>DISPLAY_LABEL</string>
                           <java-class>java.lang.String</java-class>
                         </entry>
                         <entry>
@@ -70,7 +70,7 @@
                           <Configs.EnemyPackage.EnemyBehaviors.EnemyBehavior-array reference="../../../../myBehaviors"/>
                         </entry>
                         <entry>
-                          <string>myLabel</string>
+                          <string>DISPLAY_LABEL</string>
                           <string>urmom</string>
                         </entry>
                         <entry>
@@ -88,7 +88,7 @@
                 <myConfiguration>
                   <myAttributeTypes class="linked-hash-map">
                     <entry>
-                      <string>myLabel</string>
+                      <string>DISPLAY_LABEL</string>
                       <java-class>java.lang.String</java-class>
                     </entry>
                     <entry>
@@ -114,7 +114,7 @@
                       <long>1000</long>
                     </entry>
                     <entry>
-                      <string>myLabel</string>
+                      <string>DISPLAY_LABEL</string>
                       <string>looiz</string>
                     </entry>
                     <entry>
@@ -131,10 +131,10 @@
                     </entry>
                   </myAttributes>
                   <isComplete>true</isComplete>
-                  <myConfigurable class="Configs.Waves.WaveConfig" reference="../.."/>
-                  <myConfigurableClass>Configs.Waves.WaveConfig</myConfigurableClass>
+                  <myConfigurable class="Configs.Waves.Wave" reference="../.."/>
+                  <myConfigurableClass>Configs.Waves.Wave</myConfigurableClass>
                 </myConfiguration>
-              </Configs.Waves.WaveConfig>
+              </Configs.Waves.Wave>
             </myWaveConfigs>
             <myMap>
               <myTerrain>
@@ -7353,7 +7353,7 @@
                     <int>400</int>
                   </entry>
                   <entry>
-                    <string>myLabel</string>
+                    <string>DISPLAY_LABEL</string>
                     <null/>
                   </entry>
                   <entry>
@@ -7395,7 +7395,7 @@
             <myConfiguration>
               <myAttributeTypes class="linked-hash-map">
                 <entry>
-                  <string>myLabel</string>
+                  <string>DISPLAY_LABEL</string>
                   <java-class>java.lang.String</java-class>
                 </entry>
                 <entry>
@@ -7414,10 +7414,10 @@
               <myAttributes>
                 <entry>
                   <string>myWaveConfigs</string>
-                  <Configs.Waves.WaveConfig-array reference="../../../../myWaveConfigs"/>
+                  <Configs.Waves.Wave-array reference="../../../../myWaveConfigs"/>
                 </entry>
                 <entry>
-                  <string>myLabel</string>
+                  <string>DISPLAY_LABEL</string>
                   <string>luis drop</string>
                 </entry>
                 <entry>

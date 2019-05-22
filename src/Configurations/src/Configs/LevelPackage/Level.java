@@ -1,26 +1,34 @@
 package Configs.LevelPackage;
 
 import Configs.*;
-import Configs.ArsenalConfig.Arsenal;
+import Configs.ArsenalConfig.WeaponBehaviors.WeaponBehavior;
 import Configs.GamePackage.Game;
+import Configs.LevelPackage.LevelBehaviors.GlueWorld;
 import Configs.LevelPackage.LevelBehaviors.LevelBehavior;
+import Configs.LevelPackage.LevelBehaviors.Survival;
 import Configs.MapPackage.MapConfig;
-import Configs.Waves.WaveConfig;
+import Configs.Waves.Wave;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-import java.util.Map;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
+/**
+ * A template for the Level object that will be filled in by users using the Authoring Environment
+ */
 public class Level implements Configurable{
     private Game myGame;
-
+    public static final String DISPLAY_LABEL = "Level";
     @Configure
-    private String myLabel;
+    private String myName;
     @Configure
-    private WaveConfig[] myWaveConfigs;
+    private Wave[] myWaves = new Wave[0];
     @Configure
     private MapConfig myMap;
-
     @Configure
     private LevelBehavior[] levelBehaviors;
+
     private Configuration myConfiguration;
 
     public Level(Game game) {
@@ -29,21 +37,21 @@ public class Level implements Configurable{
     }
 
     public Level(Level level){
-        myWaveConfigs = level.getMyWaveConfigs();
+        myWaves = level.getMyWaves();
         myMap = level.getMyMapConfig();
         levelBehaviors = level.getLevelBehaviors();
+        List<LevelBehavior> arrayList= Arrays.stream(level.levelBehaviors)
+                .map(behavior->(LevelBehavior) behavior.copy())
+                .collect(Collectors.toList());
+        levelBehaviors = new LevelBehavior[arrayList.size()];
+        for (int i=0; i<arrayList.size(); i++){
+            levelBehaviors[i] = arrayList.get(i);
+        }
+        myName = level.myName;
+        myGame = level.myGame;
     }
 
-    public void setMyGame(Game myGame) {
-        this.myGame = myGame;
-    }
-
-    protected Game getMyGame() {
-        return myGame;
-    }
-
-
-    private LevelBehavior[] getLevelBehaviors() {
+    public LevelBehavior[] getLevelBehaviors() {
         return levelBehaviors;
     }
 
@@ -51,15 +59,14 @@ public class Level implements Configurable{
         return myMap;
     }
 
-    protected WaveConfig[] getMyWaveConfigs() {
-        return myWaveConfigs;
+    public Wave[] getMyWaves() {
+        return myWaves;
     }
 
     @Override
-    public String getLabel() {
-        return myLabel;
+    public String getName() {
+        return myName;
     }
-
     @Override
     public Configuration getConfiguration() {
         return myConfiguration;
@@ -67,6 +74,13 @@ public class Level implements Configurable{
 
     public Game getGame(){
         return myGame;
+    }
+    public void setMyGame(Game g){
+        myGame = g;
+    }
+
+    public boolean isSurvival() {
+        return Arrays.asList(levelBehaviors).stream().anyMatch(behavior -> behavior instanceof Survival);
     }
 
 

@@ -4,34 +4,32 @@ import Configs.Configurable;
 import Configs.Configuration;
 import Configs.LevelPackage.Level;
 import Configs.MapPackage.Terrain;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+import java.awt.*;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import static Configs.MapPackage.Terrain.TERRAIN_SIZE;
+
+/**
+ * Template for the map for eaach level that users will configure
+ */
 public class MapConfig implements Configurable {
-    //for the game player frontend to easily display terrain
+    public static final String DISPLAY_LABEL = "Map";
+    public static final int GRID_HEIGHT = 20;
+    public static final int GRID_WIDTH = 32;
     @Configure
-    private String myLabel;
+    private String myName;
     @Configure
     private List<Terrain> myTerrain;
     @Configure
-    private int enemyEnteringGridXPos;
-    @Configure
-    private int enemyEnteringGridYPos;
+    private List<Point> enemyEnteringGridPosList;
     @Configure
     private int enemyEnteringDirection;
     @Configure
-    private int enemyExitGridXPos;
-    @Configure
-    private int enemyExitGridYPos;
-    @Configure
-    private int gridHeight;
-    @Configure
-    private int gridWidth;
-//    @Configure
-//    protected double gridPixelWidth;
-//    @Configure
-//    protected double gridPixelHeight;
+    private List<Point> enemyExitGridPosList;
 
     private Configuration configuration;
     private Level myLevel;
@@ -57,53 +55,30 @@ public class MapConfig implements Configurable {
     }
 
     public int getEnemyEnteringDirection() {
-        return enemyEnteringDirection;
+        return enemyEnteringDirection*TERRAIN_SIZE;
     }
 
-    public int getEnemyEnteringGridXPos() {
-        return enemyEnteringGridXPos;
+    public List<Point> getEnemyEnteringGridPosList() {
+        return enemyEnteringGridPosList.stream().map(point -> new Point(point.x*TERRAIN_SIZE, point.y*TERRAIN_SIZE)).collect(Collectors.toList());
     }
 
-    public int getEnemyEnteringGridYPos() {
-        return enemyEnteringGridYPos;
+    public List<Point> getEnemyExitGridPosList() {
+        return enemyExitGridPosList.stream().map(point -> new Point(point.x*TERRAIN_SIZE, point.y*TERRAIN_SIZE)).collect(Collectors.toList());
     }
 
-    public int getEnemyExitGridXPos() {
-        return enemyExitGridXPos;
-    }
-
-    public int getEnemyExitGridYPos() {
-        return enemyExitGridYPos;
-    }
 
     public int getGridHeight() {
-
-        System.out.println("HEIGHT");
-        System.out.println(gridHeight);
-
-        return gridHeight;
+        return GRID_HEIGHT*TERRAIN_SIZE;
     }
 
     public int getGridWidth() {
-
-        System.out.println("WIDTH");
-        System.out.println(gridWidth);
-
-
-
-        return gridWidth;
+        return GRID_WIDTH*TERRAIN_SIZE;
     }
 
-    public void setTerrainList(List<Terrain> terrain) {
-        myTerrain = terrain;
-        for(Terrain t : terrain) {
-
-        }
-    }
 
     @Override
-    public String getLabel() {
-        return myLabel;
+    public String getName() {
+        return myName;
     }
 
 }

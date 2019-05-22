@@ -26,6 +26,15 @@ splash screen, build phase, and run phase for each level.
 
 ### Design DiveIn
 
+#### Configuration
+
+##### Config Hierarchy (Sachal & Kunal) (not activeconfigs) (6-8 min)
+
+configurable, behaviors, viewable, structure
+
+##### Active Configs & Active Level (Rishi & Christina) (3-5 min)
+update methods, lists held in active level
+
 #### Authoring (4-6 min)
 
 ##### High Level (Louis)
@@ -35,27 +44,21 @@ How components are arranged, how the reflection works, etc
 Process of configuring different things
 
 ##### Map (Hyunjae) (1-2 min)
+User can select 
 
 
-#### Configuration
+#### Authoring (4-6 min)
 
-##### Config Hierarchy (Sachal & Kunal) (not activeconfigs) (6-8 min)
+##### High Level (Louis)
 
-cascading updates, behaviors, streamlined behavior
+How components are arranged, how the reflection works, etc
 
-##### Active Configs & Active Level (Rishi & Christina) (3-5 min)
+Process of configuring different things
 
-
-#### Player (Bryant & Mark) (4-5 min)
-
-What it does once it has the Game object
-Mark run through the load and stuff
-Bryant will talk on containers and communication, getTerrain, getArsenal, game loop that calls, drag and drop functionality
-
-##### Fun Features ()
+##### Map (Hyunjae) (1-2 min)
+User can select 
 
 
-#### Interactions and APIs
 
 ##### Authoring + Configs to Data (Brian) (3-4 min)
 
@@ -73,6 +76,7 @@ Game Play Model has GameLibrary Class
     
 Saving is completely automated to prevent user error or tampering
 
+#### Interactions and APIs
 
 XStream Setup
 
@@ -95,6 +99,15 @@ Game Play
 Public methods of Game/Game Logic, API Calls
 
 
+
+#### Player (Bryant & Mark) (4-5 min)
+
+What it does once it has the Game object
+Mark run through the load and stuff
+Bryant will talk on containers and communication, getTerrain, getArsenal, game loop that calls, drag and drop functionality
+
+
+
 #### Looking forward (4-5 min)
 
 ##### Upcoming Use Cases and Extending our Current Functionality (Rishi)
@@ -102,7 +115,6 @@ Public methods of Game/Game Logic, API Calls
 ##### Utility Module (Sachal) (2-3 min)
 
 ##### Thoughts () 
-
 
 
 ### Demo () (5 min)

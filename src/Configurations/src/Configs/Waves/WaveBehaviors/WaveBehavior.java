@@ -1,26 +1,31 @@
 package Configs.Waves.WaveBehaviors;
 
+import ActiveConfigs.ActiveEnemy;
+import Configs.ArsenalConfig.WeaponBehaviors.HealthExpirable;
 import Configs.Behaviors.Behavior;
-import Configs.Waves.WaveConfig;
+import Configs.Waves.Wave;
 
 import java.util.List;
 
 //ideas for wave behavior - every enemy in a wave is stronger or colored differently, every
-public abstract class WaveBehavior implements Behavior<WaveConfig> {
-    WaveConfig myWaveConfig;
-    public static final List<Class> IMPLEMENTING_BEHAVIORS = List.of();
+public abstract class WaveBehavior implements Behavior<Wave> {
+    public static final String DISPLAY_LABEL = "Wave Behavior";
+    Wave myWave;
+    public static final List<Class> IMPLEMENTING_BEHAVIORS = List.of(Random.class, HealthMultiplier.class, RewardMultiplier.class, SpeedMultiplier.class);
 
-    public WaveBehavior(WaveConfig waveConfig){
-        myWaveConfig = waveConfig;
+    public WaveBehavior(Wave wave){
+        myWave = wave;
     }
 
-    public WaveConfig getMyWaveConfig() {
-        return myWaveConfig;
+    public Wave getMyWave() {
+        return myWave;
     }
 
-    public void setMyWaveConfig(WaveConfig myWaveConfig) {
-        this.myWaveConfig = myWaveConfig;
+    public void setMyWave(Wave myWave) {
+        this.myWave = myWave;
     }
+
+    public abstract void apply(ActiveEnemy enemy);
 
     @Override
     public List<Class> getBehaviorOptions() {

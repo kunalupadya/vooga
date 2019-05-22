@@ -1,0 +1,3 @@
+Over the course of the past week we made changes to our API, most of which were on the gameplay side.
+
+Instead of only having an update call, we realized that there were different stages to our game and added different calls from the API of the authoring backend for things like moving to the next level and pulling different compomnents of the game object out. On the authoring side, there isn't a lot of dependencies on other modules except the call to the data module to create the game object-- our authoring encapsulates the backend logic and is will designed such that only the gameplayer needs to access the logic, which it does through the series of cascaded updates as well as a few other updates we implemented during this lab. 

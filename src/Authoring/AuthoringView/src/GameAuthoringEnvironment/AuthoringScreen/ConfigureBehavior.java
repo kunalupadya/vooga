@@ -2,25 +2,32 @@ package GameAuthoringEnvironment.AuthoringScreen;
 
 import Configs.Behaviors.Behavior;
 import Configs.Configurable;
+import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
-public class ConfigureBehavior {
+public class ConfigureBehavior extends Application {
 
-    List<Class> myList;
+    List<Class> myBehaviorList;
     Map<String, Object> myMap;
     Stage popUpWindow;
     VBox layout;
@@ -34,33 +41,66 @@ public class ConfigureBehavior {
     private final BooleanProperty dragModeActiveProperty =
             new SimpleBooleanProperty(this, "dragModeActive", true);
     GameController myGameController;
-
-
-    public ConfigureBehavior(GameController gameController, Configurable configurable, Map<String, Object> attributesMap, List<Class> behaviorList) {
-        myGameController = gameController;
+    GameOutline myGameOutline;
+    String myKey;
+    Class myType;
+    List<Class> unmodifiableMyBehaviorList;
+    Object[] selectedBehavior;
+    List<Object> tempList;
+    boolean myBoolean;
+    private int PADDING = 20;
+    List<Object> myTempList;
+    /*public ConfigureBehavior(GameOutline gameOutline, Configurable configurable, Map<String, Object> attributesMap, List<Class> behaviorList) {
+        myGameOutline= gameOutline;
         myConfigurable = configurable;
         myList = behaviorList;
         myMap = attributesMap;
         setContent();
+    }*/
+
+    @Override
+    public void start(Stage stage){
+        popUpWindow = stage;
+        popUpWindow.setTitle("Behavior Editor");
+        Scene scene= new Scene(layout, 800, 800);
+        scene.getStylesheets().add("authoring_style.css");
+        layout.setAlignment(Pos.CENTER);
+        layout.setSpacing(PADDING);
+        popUpWindow.setScene(scene);
+        popUpWindow.show();
+    }
+
+    public ConfigureBehavior(GameController gameController, Configurable configurable, Map<String, Object> myAttributesMap, List<Class> behaviorList, String key, Class clazz, List<Object> mytempList, Boolean isArray) {
+        myType = clazz;
+        selectedBehavior = (Object[]) Array.newInstance(myType, 0);
+        tempList = new ArrayList<>(Arrays.asList(selectedBehavior));
+        myKey = key;
+        myGameController = gameController;
+        myConfigurable = configurable;
+        myBehaviorList = behaviorList;
+        unmodifiableMyBehaviorList = Collections.unmodifiableList(myBehaviorList);
+        myMap = myAttributesMap;
+        myBoolean = isArray;
+        myTempList = mytempList;
+        setContent();
     }
 
     private void setContent() {
-        popUpWindow = new Stage();
-        //popUpWindow.initModality(Modality.APPLICATION_MODAL);
-        popUpWindow.setTitle("Behavior Editor");
+
         layout = new VBox(10.00);
 
         Label sourceListLbl = new Label("Available Behaviors: ");
         Label targetListLbl = new Label("Selected Behaviors: ");
-        Label messageLbl = new Label("Drag and drop behaviors. Some behaviors require further configuration");
+        Label messageLbl;
+        if(myBoolean){
+            messageLbl = new Label("Drag and drop behaviors. Some behaviors require further configuration");}
+        else{
+            messageLbl = new Label("Drag and drop one Behavior. You can choose only one behavior");
+        }
 
         sourceView.setPrefSize(sourceViewWidth, sourceViewHeight);
         targetView.setPrefSize(sourceViewWidth, sourceViewHeight);
-
-
-        //TODO Change the listview so that only the simple name shows up
-        sourceView.getItems().addAll(myList);
-        System.out.println(sourceView.getItems().get(0).getClass() + "adjfhdalkfahdsjfk");
+        sourceView.getItems().addAll(unmodifiableMyBehaviorList);
         sourceView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         targetView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
@@ -68,34 +108,62 @@ public class ConfigureBehavior {
         targetView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
             @Override
-            public void handle(MouseEvent event) {
-                var selected = targetView.getSelectionModel().getSelectedItem();
-                    try {
-                        Class<?> cl = Class.forName(selected.getName());
-                        Constructor<?> cons = cl.getConstructor(myConfigurable.getClass());
-                        var object = cons.newInstance(myConfigurable);
-                        myGameController.createConfigurable((Configurable) object);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-        });;
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                    if (mouseEvent.getClickCount() == 2) {
+                        var selected = targetView.getSelectionModel().getSelectedItem();
+                        try {
+                            Class<?> cl = Class.forName(selected.getName());
+                            Constructor<?> cons = cl.getConstructor(myConfigurable.getClass());
+                            var object = cons.newInstance(myConfigurable);
+                            // For making outline
+                            if(!(myGameOutline == null)){
+                                myGameOutline.showTheScreen((Configurable) object);
+                            }else{
+                                myGameController.createConfigurable((Configurable) object);
+                                tempList.add(object);
+                            }
 
-        setCellFactory();
+                        } catch (Exception e) {
+                            AlertFactory af = new AlertFactory();
+                            af.createAlert("Configuration Not Completed Properly");
+                        }
+                    }
+                }}
+        });
+
+        setCellFactory(sourceView);
+        setCellFactory(targetView);
         // Create the GridPane
         GridPane pane = new GridPane();
         pane.setHgap(viewGap);
         pane.setVgap(viewGap);
 
+
+        Button removeButton = new Button("Remove Behavior");
+        removeButton.setOnMouseClicked((new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                int index = targetView.getSelectionModel().getSelectedIndex();
+                if(!(targetView.getItems().size() == tempList.size())){
+                    targetView.getItems().remove(index);
+                }
+                else{
+                targetView.getItems().remove(index);
+                tempList.remove(index);}
+            }
+        }));
         pane.addRow(0, messageLbl);
         pane.addRow(1, sourceListLbl, targetListLbl);
         pane.addRow(2, sourceView, targetView);
+        pane.addRow(3, removeButton);
 
-        //setDragAndDrop();
+        pane.setAlignment(Pos.CENTER);
         VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
         root.getChildren().addAll(pane);
 
-        Button setButton = new Button("This config completed");
+        Button setButton = new Button("Configuration Is Completed");
         setButton.setOnMouseClicked((new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -107,21 +175,31 @@ public class ConfigureBehavior {
                     alert.showAndWait();
                 }
                 else {
-                    //TODO Add THE TARGETVIEW LIST TO THE ATTRIBUTES BUT HOW?
-                    List<Class> selectedBehaviors = targetView.getItems();
 
-                    myConfigurable.getConfiguration().setAllAttributes(myMap);
+                    Object[] ob = (Object[]) Array.newInstance(myType, tempList.size());
+                    for(int a=0; a<tempList.size(); a++){
+                        ob[a] = tempList.get(a);
+                    }
+                    if(myBoolean == true){
+                        //TODO Refactor this is not the clean way
+                        myTempList.add(ob);
+                        myMap.put(myKey, ob);}
+                    else{
+                        if (ob.length == 0){
+                            AlertFactory alertFactory = new AlertFactory();
+                            alertFactory.createAlert("You have to choose and configure at least one behavior");
+                        }else{
+                        myMap.put(myKey,ob[0]);}
+                    }
                     popUpWindow.close();
                 }
             }
         }));
 
-        setDragAndDrop();
-        layout.getChildren().addAll(root, setButton);
-        Scene scene= new Scene(layout, 800, 800);
-        popUpWindow.setScene(scene);
-        popUpWindow.show();
+        setDragAndDrop(sourceView);
+        setDragAndDrop(targetView);
 
+        layout.getChildren().addAll(root, setButton);
     }
 
     public ListView<Class> getTargetView() {
@@ -133,42 +211,23 @@ public class ConfigureBehavior {
     }
 
     //TODO This can be refactord to a separate class
-    private void setDragAndDrop() {
+    private void setDragAndDrop(ListView listView) {
 
-        sourceView.setOnDragDetected(new EventHandler<MouseEvent>() {
+        listView.setOnDragDetected(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 dragDetected(event, sourceView);
             }
         });
 
-        sourceView.setOnDragOver(new EventHandler<DragEvent>() {
+        listView.setOnDragOver(new EventHandler<DragEvent>() {
             public void handle(DragEvent event) {
                 dragOver(event, sourceView);
             }
         });
 
-        sourceView.setOnDragDone(new EventHandler<DragEvent>() {
+        listView.setOnDragDone(new EventHandler<DragEvent>() {
             public void handle(DragEvent event) {
                 dragDone(event, targetView, sourceView);
-            }
-        });
-
-        // Add mouse event handlers for the target
-        targetView.setOnDragDetected(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                dragDetected(event, targetView);
-            }
-        });
-
-        targetView.setOnDragOver(new EventHandler<DragEvent>() {
-            public void handle(DragEvent event) {
-                dragOver(event, targetView);
-            }
-        });
-
-        targetView.setOnDragDone(new EventHandler<DragEvent>() {
-            public void handle(DragEvent event) {
-                dragDone(event,sourceView, targetView);
             }
         });
     }
@@ -215,7 +274,6 @@ public class ConfigureBehavior {
 
         // Transfer the data to the target
         Dragboard dragboard = event.getDragboard();
-        boolean dragCompleted = false;
 
         if (dragboard.hasContent(Behavior_LIST)) {
             ArrayList<Behavior> list = (ArrayList<Behavior>) dragboard.getContent(Behavior_LIST);
@@ -255,31 +313,14 @@ public class ConfigureBehavior {
     }
 
 
-    private void setCellFactory(){
-        sourceView.setCellFactory(list -> {
-            //TODO Set Images Accordingly
-            ListCell<Class> cell = new ListCell<>() {
-                @Override
-                public void updateItem(Class item, boolean empty) {
-                    super.updateItem(item, empty) ;
-                    if (empty) {
-                        setText(null);
-                        setGraphic(null);
-                    } else {
-                        setText(item.getSimpleName());
-                    }
-                }
-            };
-            //controlTreeCellMouseClick(cell);
-            return cell ;
-        });
+    private void setCellFactory(ListView listView) {
 
-        targetView.setCellFactory(list -> {
+        listView.setCellFactory(list -> {
             //TODO Set Images Accordingly
             ListCell<Class> cell = new ListCell<>() {
                 @Override
                 public void updateItem(Class item, boolean empty) {
-                    super.updateItem(item, empty) ;
+                    super.updateItem(item, empty);
                     if (empty) {
                         setText(null);
                         setGraphic(null);
@@ -289,8 +330,7 @@ public class ConfigureBehavior {
                 }
             };
             //controlTreeCellMouseClick(cell);
-            return cell ;
+            return cell;
         });
     }
-
 }

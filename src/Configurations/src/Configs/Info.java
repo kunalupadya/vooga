@@ -1,21 +1,14 @@
 package Configs;
+/**
+ * An interface that holds the key information for a Terrain object
+ */
+public interface Info {
 
-public class Info {
+    int getImage();
 
-    private String name;
-    private String image;
+    String getName();
 
-    public Info(String name, String image) {
-        this.name = name;
-        this.image = image;
-    }
+    double getWidth();
 
-    public String getImage(){
-        return image;
-    }
-
-    public String getName(){
-        return name;
-    }
-
+    double getHeight();
 }

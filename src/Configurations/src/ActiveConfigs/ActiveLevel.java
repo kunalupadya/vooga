@@ -1,229 +1,278 @@
 package ActiveConfigs;
 
 import Configs.*;
-import Configs.ArsenalConfig.WeaponConfig;
+import Configs.EnemyPackage.EnemyBehaviors.AIOptions;
 import Configs.EnemyPackage.EnemyConfig;
+import Configs.GamePackage.Game;
+import Configs.GamePackage.GameBehaviors.TowerAttack;
 import Configs.LevelPackage.Level;
+import Configs.LevelPackage.LevelBehaviors.Deflation;
 import Configs.MapPackage.Terrain;
 
+import java.awt.*;
+import java.io.CharArrayReader;
+import java.security.PublicKey;
 import java.util.*;
+import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static ActiveConfigs.MovementHeuristicGeneration.DISTANCE_HEURISTIC;
+import static Configs.MapPackage.Terrain.TERRAIN_SIZE;
+
 public class ActiveLevel extends Level implements Updatable {
-    public static final int DISTANCE_HEURISTIC = 1;
-    private Map<Integer,ActiveWeapon> activeWeapons;
-    private List<ActiveEnemy> activeEnemies;
-    private List<ActiveProjectile> activeProjectiles;
-    private ActiveWave activeWave;
+
+    private List<MapFeaturable> activeWeapons;
+    private List<MapFeaturable> activeEnemies;
+    private List<MapFeaturable> activeProjectiles;
+    private List<MapFeaturable> activeProjectilesToRemove;
+    private List<ImmutableImageView> imagesToBeRemoved;
     private Cell[][] myGrid;
-    private int myScore;
-    private int currentWave=0;
+    private double paneWidth;
+    private double paneHeight;
     private final int gridWidth;
     private final int gridHeight;
+    private WaveSpawner myWaveSpawner;
+    private List<ActiveWeapon> weaponsToDie = new ArrayList<>();
+    private List<ActiveEnemy> enemiesToDie = new ArrayList<>();
+    private List<ActiveProjectile> projectilesToDie = new ArrayList<>();
+    private List<Point> goalPositions = new ArrayList<>();
+    private int escapedEnemies;
+    private int myScore = 0;
 
-    public ActiveLevel(Level level){//, MapFeature mapFeature) {
+    public ActiveLevel(Level level, Game myGame){//, MapFeature mapFeature) {
         super(level);
         activeEnemies = new ArrayList<>();
         activeProjectiles = new ArrayList<>();
-        activeWeapons = new HashMap<>();
-        //TODO: fix active wave to be a wave spawner
-        //TODO: COMMENTED OUT BELOW FOR TESTING
-        generateCurrentActiveWave();
-//        setMyGame(game);
-//        myMapFeature = mapFeature;
+        activeWeapons = new ArrayList<>();
+        myWaveSpawner = new WaveSpawner(getMyWaves());
         myGrid = createMyGrid();
+        getMyMapConfig().getEnemyExitGridPosList().stream().forEach(obj->goalPositions.add(obj));
+//        goalPositions.add(new Point(getMyMapConfig().getEnemyExitGridXPos(),getMyMapConfig().getEnemyExitGridYPos()));
         gridHeight = getMyMapConfig().getGridHeight();
         gridWidth = getMyMapConfig().getGridWidth();
+        initializeMovementHeuristics();
+//        recalculateMovementHeuristic(AIOptions.SHORTEST_PATH);
+        this.paneHeight = myGame.getPaneHeight();
+        this.paneWidth = myGame.getPaneWidth();
+        imagesToBeRemoved = new ArrayList<>();
+        this.setMyGame(myGame);
+
+    }
+
+    private void initializeMovementHeuristics() {
+        for (AIOptions aiOption:AIOptions.values()) {
+            recalculateMovementHeuristic(aiOption);
+        }
+    }
+
+    public List<MapFeaturable> getActiveEnemies() {
+        return activeEnemies;
     }
 
     private Cell[][] createMyGrid(){
-        Cell[][] tempGrid = new Cell[getMyMapConfig().getGridHeight()][getMyMapConfig().getGridWidth()];
-        for(Terrain t : getMyMapConfig().getTerrain()){
-            tempGrid[t.getGridYPos()][t.getGridXPos()] = new Cell();
-            tempGrid[t.getGridYPos()][t.getGridXPos()].setMyTerrain(t);
+        Cell[][] tempGrid = new Cell[getMyMapConfig().getGridWidth()][getMyMapConfig().getGridHeight()];//cell[row][col]
+        for(Terrain t: getMyMapConfig().getTerrain()) {
+            for (int x = 0; x < TERRAIN_SIZE; x++) {
+                for (int y = 0; y < TERRAIN_SIZE; y++) {
+                    tempGrid[t.getGridXPos() + x][t.getGridYPos() + y] = new Cell(t.getGridXPos() + x, t.getGridYPos() + y, t);
+                }
+            }
         }
+
         return tempGrid;
     }
+
 
     public Cell[][] getMyGrid() {
         return myGrid;
     }
 
     public boolean noMoreEnemiesLeft() {
-        //TODO: check logic on seeing if theres no more waves
-
-        return activeEnemies.size()==0;
+        return myWaveSpawner.isNoMoreEnemies()&&activeEnemies.isEmpty();
     }
 
-
-
     public Cell getGridCell(int gridX, int gridY){
-        return myGrid[gridY][gridX];
+        return myGrid[gridX][gridY];
     }
 
     public int getGridWidth() {
         return gridWidth;
     }
 
+    public void setGoalPositions(List<Point> goalPositions) {
+        this.goalPositions = goalPositions;
+    }
+
+    public List<Point> getGoalPositions() {
+        return goalPositions;
+    }
+
     public int getGridHeight() {
         return gridHeight;
     }
+    public void killEnemy(ActiveEnemy activeEnemy){
+        enemiesToDie.add(activeEnemy);
+    }
+
+    public void killProjectile(ActiveProjectile activeProjectile){
+        projectilesToDie.add(activeProjectile);
+    }
+    //
+//    public void addToEnemiesKilled(Collection<ActiveEnemy> aes){
+//        enemiesToDie.addAll(aes);
+//    }
 
     @Override
-    public void update(double ms) {
-        //FIXME: ALL OF THESE METHODS SHOULD USE STREAM INSTEAD OF FOR LOOPS
-        updateWeapons(ms);
-        updateEnemies(ms);
-        updateProjectiles(ms);
-        updateActiveWave(ms);
-    }
-
-    private void updateEnemies(double ms){
-
-        for(ActiveEnemy enemy : activeEnemies){
-//            activeEnemies.add(enemy);
-//            enemy.getMapFeature().setGridPos(50,50,0);
-            enemy.update(ms);
+    public void update(double ms, Updatable parent) {
+        updateActive(ms, activeEnemies);
+//        System.out.println(activeProjectiles);
+        updateActive(ms, activeWeapons);
+        try {
+            updateActive(ms, activeProjectiles);
         }
-        if (activeWave.isFinished()) currentWave++;
-        //ArrayAttributeManager.updateList(activeWave, ms); ??
-    }
-
-    private void updateActiveWave(double ms){
-        if (activeWave.isFinished()) {
-            currentWave++;
-            generateCurrentActiveWave();
+        catch (ArrayIndexOutOfBoundsException e){
+            e.printStackTrace();
         }
-        activeWave.update(ms);
-    }
-
-    private void generateCurrentActiveWave(){
-
-        activeWave = new ActiveWave(getMyWaveConfigs()[currentWave], this);
-    }
-
-    private void updateProjectiles(double ms){
-        for (ActiveProjectile projectile: activeProjectiles){
-            projectile.update(ms);
-        }
-    }
-
-    private void updateWeapons(double ms){
-        for (int id: activeWeapons.keySet()){
-            activeWeapons.get(id).update(ms);
-        }
-    }
-
-
-    public boolean isValid(int x, int y, double weaponHeight, double weaponWidth){
-        //TODO
-        return false;
+        myWaveSpawner.update(ms, this);
 
     }
 
-    private ImmutableImageView evaluateViewToBeRemoved(MapFeaturable feature) {
-        if(feature instanceof ActiveWeapon) activeWeapons.remove(feature);
-        else if(feature instanceof ActiveProjectile) activeProjectiles.remove(feature);
-        else if (feature instanceof ActiveEnemy) activeEnemies.remove(feature);
-        return feature.getMapFeature().getImageView();
+    private void updateActive(double ms, List<MapFeaturable> activeList) {
+        List<MapFeaturable> activeToRemove = new ArrayList<>();
+        enemiesToDie.stream().forEach(e->e.killMe());
+        enemiesToDie.clear();
+        weaponsToDie.stream().forEach(w->w.killMe());
+        weaponsToDie.clear();
+        projectilesToDie.stream().forEach(p->p.killMe());
+        projectilesToDie.clear();
+        activeList.stream().forEach(active -> {
+            ((Updatable)active).update(ms, this);
+            if(active.getMapFeature().getDisplayState()==DisplayState.DIED) {
+                activeToRemove.add(active);
+//            if(active instanceof ActiveEnemy) escapedEnemies++;
+            }
+        });
+        activeToRemove.stream().forEach(active -> imagesToBeRemoved.add(active.getMapFeature().getImageView()));
+        activeList.removeAll(activeToRemove);
+    }
 
+    public int getEscapedEnemies() {
+        return escapedEnemies;
+    }
+
+    public int getNumActiveEnemies() {
+        return activeEnemies.size();
     }
 
     public List<ImmutableImageView> getViewsToBeRemoved() {
-        List<MapFeaturable> viewsToRemove =Stream.of(activeWeapons.values(), activeEnemies, activeProjectiles)
-                .flatMap(Collection::stream).collect(Collectors.toList());
-        return viewsToRemove.stream()
-                .filter(obj -> obj.getMapFeature().getDisplayState()==DisplayState.DIED)
-                .map(feature-> evaluateViewToBeRemoved(feature))
-                .collect(Collectors.toList());
-
+        List<ImmutableImageView> ret = new ArrayList<>(imagesToBeRemoved);
+        imagesToBeRemoved.clear();
+        return ret;
     }
 
     public List<ImmutableImageView> getViewsToBeAdded() {
-        List<MapFeaturable> viewsToAdd =Stream.of(activeWeapons.values(), activeEnemies, activeProjectiles)
+        List<MapFeaturable> viewsToAdd =Stream.of(activeWeapons, activeEnemies, activeProjectiles)
                 .flatMap(Collection::stream).collect(Collectors.toList());
-        return viewsToAdd.stream().filter(obj -> obj.getMapFeature().getDisplayState()==DisplayState.NEW).map(obj-> obj.getMapFeature().getImageView()).collect(Collectors.toList());
+//        Stream<MapFeaturable> filteredFeatures = viewsToAdd.stream().filter(obj -> obj.getMapFeature().getDisplayState()==DisplayState.NEW);
+//        List<ImmutableImageView> retList = filteredFeatures
+//                .map(obj-> obj.getMapFeature().getImageView())
+//                .collect(Collectors.toList())
+//                ;
+//        filteredFeatures.forEach(obj->obj.getMapFeature().setDisplayState(DisplayState.PRESENT));
+        List<ImmutableImageView> retList = new ArrayList<>();
+        for(MapFeaturable mapFeaturable: viewsToAdd){//TODO MAKE STREAM
+            if (mapFeaturable.getMapFeature().getDisplayState()== DisplayState.NEW){
+                retList.add(mapFeaturable.getMapFeature().getImageView());
+                mapFeaturable.getMapFeature().setDisplayState(DisplayState.PRESENT);
+            }
+        }
+        return retList;
     }
 
 
-    public ActiveWeapon getActiveWeapon(int id) {
-        return activeWeapons.get(id);
+
+
+
+    public void addToActiveEnemies(ActiveEnemy activeEnemy) {
+        activeEnemies.add(activeEnemy);
+
     }
 
-    public int getMyScore() {
-        return myScore;
-    }
-
-
-
-    //TODO  add EventHandler for isValid
-
-
-    public void addToActiveEnemies(EnemyConfig enemy, MapFeature mapFeature) {
-        activeEnemies.add(new ActiveEnemy(enemy, mapFeature,this));
-    }
-//
-//    public void removeFromActiveEnemies(ActiveEnemy activeEnemy){
-//        activeEnemies.remove(activeEnemy);
-//    }
 
     public void addToActiveProjectiles(ActiveProjectile activeProjectile) {
         activeProjectiles.add(activeProjectile);
     }
 
 //    public void removeFromActiveProjectiles(ActiveProjectile activeProjectile){
-//        activeProjectiles.remove(activeProjectile);
-//
+//        activeProjectilesToRemove.add(activeProjectile);
 //    }
 
-
-    private void recalculateMovementHeuristic(){
-        astar(myGrid[getMyMapConfig().getEnemyExitGridXPos()][getMyMapConfig().getEnemyExitGridYPos()]);
+    public void addToActiveWeapons(ActiveWeapon activeWeapon) {
+        activeWeapons.add(activeWeapon);
+        if (getGame().getGameType() instanceof TowerAttack){
+            MapFeature weaponMapFeature = activeWeapon.getMapFeature();
+            goalPositions.add(new Point(weaponMapFeature.getGridXPos(), weaponMapFeature.getGridYPos()));
+//            initializeMovementHeuristics();
+        }
+        updateWeaponMovementHeuristics();
     }
 
-    private void astar(Cell startCell){
-        startCell.setMovementHeuristic(0);
-        LinkedList<Cell> stack = new LinkedList<>();
-        stack.addLast(startCell);
-        while(!stack.isEmpty()){
-            Cell expandedCell = stack.removeFirst();
-            int[]xAdditions = new int[]{0,0,-1,1};
-            int[]yAdditions = new int[]{1,-1,0,0};
-            for (int i = 0; i < 3; i++) {
-                int x = expandedCell.getX() + xAdditions[i];
-                int y = expandedCell.getY() + yAdditions[i];
-                if(isCellValid(x,y)){
-                    if (myGrid[x][y].getMyTerrain().getIfPath()){
-                        myGrid[x][y].setMovementHeuristic(Integer.MAX_VALUE);
-                    }
-                    int newHeuristic = expandedCell.getMovementHeuristic() + DISTANCE_HEURISTIC;
-                    if (newHeuristic<myGrid[x][y].getMovementHeuristic()){
-                        myGrid[x][y].setMovementHeuristic(newHeuristic);
-                    }
-                }
+
+    private void updateWeaponMovementHeuristics() {
+        for(AIOptions aiOption: AIOptions.values()){
+            if (aiOption.isUpdateOnWeaponPlacement()){
+                recalculateMovementHeuristic(aiOption);
             }
         }
     }
 
-    private boolean isCellValid(int x, int y){
-        if (x<0|x>getMyMapConfig().getGridWidth()){
-            return false;
+    public void removeWeapon(ActiveWeapon activeWeapon){
+        weaponsToDie.add(activeWeapon);
+        if (getGame().getGameType() instanceof TowerAttack) {
+            Point check = new Point(activeWeapon.getMapFeature().getGridXPos(), activeWeapon.getMapFeature().getGridYPos());
+            Point toRemove = new Point(-100, -100);
+
+            for (Point p : goalPositions) {
+                if (p.equals(check)) {
+                    toRemove = p;
+                }
+            }
+            goalPositions.remove(toRemove);
         }
-        if (y<0|y>getMyMapConfig().getGridHeight()){
-            return false;
+        updateWeaponMovementHeuristics();
+    }
+
+    public void incrementEscapedEnemies() {
+        this.escapedEnemies++;
+    }
+
+    public double getPaneHeight() {
+        return paneHeight;
+    }
+
+    public double getPaneWidth() {
+        return paneWidth;
+    }
+
+    private void recalculateMovementHeuristic(AIOptions heuristicType){
+        MovementHeuristicGeneration generateMovementHeuristics = new MovementHeuristicGeneration(myGrid, goalPositions, getMyMapConfig().getEnemyEnteringGridPosList(), heuristicType);
+    }
+    public void addGameCash(double amt){
+        if (Arrays.asList(getLevelBehaviors()).stream().noneMatch(behavior -> behavior instanceof Deflation)) {
+            getGame().addToCash(amt);
         }
-        return true;
+    }
+    public void addGameScore(int amt){
+        getGame().addToScore(amt);
     }
 
 
-    public void addToActiveWeapons(ActiveWeapon activeWeapon) {
-        activeWeapons.put(activeWeapon.getWeaponId(), activeWeapon);
-        recalculateMovementHeuristic();
-
+    public boolean isCellValid(int x, int y){
+        if (x<0|x>=getMyMapConfig().getGridWidth()){
+            return false;
+        }
+        return !(y < 0 | y >= getMyMapConfig().getGridHeight());
     }
-
-//    public void removeFromActiveWeapons(ActiveWeapon activeWeapon){
-//        activeWeapons.remove(activeWeapon);
-//    }
 }

@@ -1,69 +1,86 @@
 package Configs.MapPackage;
 
+import ActiveConfigs.ActiveLevel;
 import Configs.*;
+import Configs.GamePackage.Game;
+import Configs.MapPackage.TerrainBehaviors.TerrainBehavior;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
 
-public class Terrain implements Configurable, Viewable{
+/**
+ * Template for the types of terrain objects that will be placed on the ground of the map-- can be configured by users using the authoring environment
+ */
+
+public class Terrain implements Configurable, Viewable, MapFeaturable{
+    public static final int TERRAIN_SIZE = 50;
+
+    public static final String DISPLAY_LABEL = "Terrain";
     @Configure
-    private String myLabel;
+    private String myName;
     @Configure
     private View view;
-
-    @Configure
-    private int gridBlockHeight;
-    @Configure
-    private int gridBlockWidth;
     @Configure
     private boolean isPath;
     @Configure
     private int gridYPos;
     @Configure
     private int gridXPos;
-
-
-
-
-//    @Configure
-//    private TerrainBehavior[] terrainBehaviors;
-
+    @Configure
+    private TerrainBehavior[] terrainBehaviors = new TerrainBehavior[0];
 
     private Configuration myConfiguration;
+    private MapConfig myMapConfig;
+    private Game myGame;
+    @XStreamOmitField
+    private MapFeature mapFeature;
 
 
-    public Terrain(MapConfig mapConfig, String fileName, int gridYPos, int gridXPos, int gridBlockHeight, int gridBlockWidth, boolean isPath){
-        view = new View(fileName,gridBlockHeight, gridBlockWidth);
-        this.gridBlockHeight = gridBlockHeight;
-        this.gridBlockWidth = gridBlockWidth;
+    public Terrain(MapConfig mapConfig, int imageId, int gridYPos, int gridXPos, boolean isPath){
+        view = new View(imageId,TERRAIN_SIZE,TERRAIN_SIZE);
         this.isPath = isPath;
         this.gridYPos = gridYPos;
         this.gridXPos = gridXPos;
         myConfiguration = new Configuration(this);
+        myMapConfig = mapConfig;
+        myGame = myMapConfig.getLevel().getGame();
+    }
+
+    @Override
+    public void setMyMapFeature(MapFeature mapFeature) {
+        this.mapFeature = mapFeature;
     }
 
     public int getGridXPos() {
-        return gridXPos;
+        return gridXPos*TERRAIN_SIZE;
     }
 
     public int getGridYPos() {
-        return gridYPos;
+        return gridYPos*TERRAIN_SIZE;
     }
-
-    public double getGridBlockHeight() {
-        return gridBlockHeight;
+    public Game getMyGame(){
+        return myGame;
     }
-
-    public double getGridBlockWidth() {
-        return gridBlockWidth;
-    }
-
     @Override
     public View getView() {
         return view;
     }
 
+    public ImmutableImageView getImageView(double screenWidth, double screenHeight, int gridWidth, int gridHeight) {
+        mapFeature = new MapFeature(getGridXPos(), getGridYPos(), 0.0, view, screenWidth, screenHeight, gridWidth, gridHeight, this);
+        return mapFeature.getImageView();
+    }
+
+    @Override
+    public MapFeature getMapFeature() {
+        return mapFeature;
+    }
+
+    @Override
+    public ActiveLevel getActiveLevel() {
+        return myMapConfig.getLevel().getGame().getActiveLevel();
+    }
 
     @Override
     public Configuration getConfiguration() {
@@ -74,25 +91,18 @@ public class Terrain implements Configurable, Viewable{
         return isPath;
     }
 
-    public double getHeight() {
-        return view.getHeight();
-    }
-
-    public double getWidth() {
-        return view.getWidth();
-    }
-
     public boolean isPath() {
         return isPath;
     }
 
-//    public TerrainBehavior[] getTerrainBehaviors() {
-//        return terrainBehaviors;
-//    }
+    public TerrainBehavior[] getTerrainBehaviors() {
+        return terrainBehaviors;
+    }
+
 
     @Override
-    public String getLabel() {
-        return myLabel;
+    public String getName() {
+        return myName;
     }
 
     //    @Override

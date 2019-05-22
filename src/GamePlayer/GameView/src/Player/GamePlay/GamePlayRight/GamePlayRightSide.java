@@ -1,36 +1,42 @@
 package Player.GamePlay.GamePlayRight;
 
 import BackendExternal.Logic;
-import Player.GamePlay.GamePlayLeft.ButtonPanel;
-import Player.GamePlay.GamePlayLeft.GamePlayArsenal;
-import Player.GamePlay.PlayInterface;
+import Player.GamePlay.ButtonInterface;
+import Player.GamePlay.GamePlayLeft.GamePlayMap;
+import Player.GamePlay.SelectionInterface;
+import javafx.scene.Group;
 import javafx.scene.layout.VBox;
-
-import java.io.FileNotFoundException;
+import javafx.scene.media.MediaPlayer;
 
 public class GamePlayRightSide extends VBox {
 
-    public static final double ARSENAL_RATIO = 0.75;
-    public static final double BUTTON_RATIO = 0.25;
+    private static final double ARSENAL_RATIO = 0.8;
+    private static final double BUTTON_RATIO = 0.2;
     private GamePlayArsenal myGameArsenal;
     private ButtonPanel myButtonPanel;
+    private MediaPlayer mediaPlayer;
 
 
-
-    public GamePlayRightSide(double width, double height, Logic logic, PlayInterface method, PlayInterface fastFoward){
+    public GamePlayRightSide(double width, double height, Logic logic, ButtonInterface play, ButtonInterface fastForward
+            , GamePlayMap myMap, Group root, SelectionInterface home, MediaPlayer mediaPlayer){
+        this.mediaPlayer = mediaPlayer;
         setPrefWidth(width);
         setPrefHeight(height);
-        try {
-            myGameArsenal = new GamePlayArsenal(width, height * ARSENAL_RATIO, logic);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        this.getChildren().addAll(myGameArsenal, createButtonPanel(width, height, method, fastFoward));
+        myGameArsenal = new GamePlayArsenal(width, height * ARSENAL_RATIO, logic, myMap, root);
+        this.getChildren().addAll(myGameArsenal, createButtonPanel(width, height, play, fastForward, home, logic));
     }
 
-    private VBox createButtonPanel(double width, double height, PlayInterface method, PlayInterface fastFoward){
-        myButtonPanel = new ButtonPanel(width, height * BUTTON_RATIO, method, fastFoward);
+
+    /**
+     * This method updates the arsenal upon each game loop to determine which weapons are still valid to be used.
+     */
+    public void update(){
+        myGameArsenal.recreateArsenal();
+    }
+
+    private VBox createButtonPanel(double width, double height, ButtonInterface play, ButtonInterface fastFoward,
+                                   SelectionInterface home, Logic logic){
+        myButtonPanel = new ButtonPanel(width, height * BUTTON_RATIO, play, fastFoward, home, mediaPlayer, logic);
         return myButtonPanel;
     }
-
 }
